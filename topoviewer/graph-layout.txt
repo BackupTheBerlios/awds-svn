@@ -1,0 +1,3 @@
+
+our snapshot of the touchgraph library was taken from:
+http://sourceforge.net/projects/touchgraph
