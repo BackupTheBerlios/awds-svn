@@ -1,0 +1,10 @@
+/.cvsignore/1.1/Fri Dec  1 23:01:00 2000//
+/immediateAck.Z/1.3/Wed Jan 30 01:56:17 2002/-kb/
+/immediateAckNewReno.Z/1.3/Wed Jan 30 01:56:17 2002/-kb/
+/immediateAckReno.Z/1.3/Wed Jan 30 01:56:17 2002/-kb/
+/immediateAckSack.Z/1.3/Wed Jan 30 01:56:17 2002/-kb/
+/noImmediateAck.Z/1.3/Wed Jan 30 01:56:18 2002/-kb/
+/noImmediateAckNewReno.Z/1.3/Wed Jan 30 01:56:17 2002/-kb/
+/noImmediateAckReno.Z/1.3/Wed Jan 30 01:56:17 2002/-kb/
+/noImmediateAckSack.Z/1.3/Wed Jan 30 01:56:18 2002/-kb/
+D
