@@ -4,7 +4,9 @@
 
 @aclocal_versions = ("1.9", "1.8", "1.7");
 @automake_versions = ("1.9", "1.8", "1.7");
-@autoconf_versions = ("2.59", "2.57", "2.5", "2.60a");
+
+@autoconf_versions = ("2.61", "2.60a", "2.59", "2.57", "2.5");
+
 
 $use_aclocal = 0;
 $use_automake = 0;
@@ -69,13 +71,17 @@ for $a (@autoconf) {
 
 if ($use_aclocal && $use_automake && $use_autoconf) {
 
-  print "Running aclocal ($use_aclocal)...\n";
+  $lt_call  = "libtoolize -c -f";
+  print "running $lt_call\n";
+  system($lt_call);
+
+  print "Running aclocal ...\n";
   system($use_aclocal);
 
-  print "Running automake ($use_automake)...\n";
-  system($use_automake, qw( --foreign -c -a));
+  print "Running automake ...\n";
+  system($use_automake, qw( --foreign -a));
 
-  print "Running autoconf ($use_autoconf)...\n";
+  print "Running autoconf ...\n";
   system($use_autoconf);
 
   print "Complete!\n";
