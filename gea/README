@@ -1,0 +1,15 @@
+
+GEA - an abstraction layer for developing network protocols
+
+The GEA libray provides an abstraction layer for network protocols.
+Functions , e.g. like sending packets, are provided and mapped to the
+underlying system. This is by default the POSIX-API. But other
+platforms can also provide an implementation. Currently such an
+implementation exists for the ns-2. This allow protocols developed
+with GEA to run on native POSIX platforms (like Linux or Unix). But
+the same implementation can be used in the ns-2 network simulator. By
+this the protocol implementation can be tested in large simulated
+networks.
+
+contact: Andre Herms <aherms@ivs.cs.uni-magdeburg.de>
+

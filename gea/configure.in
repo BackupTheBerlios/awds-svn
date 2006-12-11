@@ -1,0 +1,69 @@
+m4_include([version.m4])
+AC_INIT(libgea, MAJOR_VERSION_NUMBER.MINOR_VERSION_NUMBER)
+AM_INIT_AUTOMAKE
+
+MAJOR_VER=MAJOR_VERSION_NUMBER
+MINOR_VER=MINOR_VERSION_NUMBER
+AC_SUBST(MAJOR_VER)
+AC_SUBST(MINOR_VER)
+
+
+CPPFLAGS=' -Werror -Wall'
+CXXFLAGS='-g -ggdb3'
+CFLAGS='-g -ggdb3'
+
+AC_CONFIG_HEADERS([include/gea/config.h])
+ 
+AC_PROG_CPP
+AC_PROG_CXX
+
+dnl AC_PROG_RANLIB is obsolete
+
+
+dnl AC_DISABLE_STATIC
+
+dnl Enable building of the convenience library
+dnl and set LIBLTDL accordingly
+AC_LIBLTDL_CONVENIENCE
+dnl Substitute LTDLINCL and LIBLTDL in the Makefiles
+AC_SUBST(LTDLINCL)
+AC_SUBST(LIBLTDL)
+dnl Check for dlopen support
+AC_LIBTOOL_DLOPEN
+dnl enable build of windows dlls
+AC_LIBTOOL_WIN32_DLL
+dnl Configure libtool
+AC_PROG_LIBTOOL
+dnl Configure libltdl
+AC_CONFIG_SUBDIRS(libltdl)
+
+AC_ARG_ENABLE(debug, [  --disable-debug          turn off debugging options],
+if test "$enableval" = "no" ; then
+        CXXFLAGS='-O6'
+	CFLAGS='-O6'
+	   else
+        CXXFLAGS='-g -ggdb3 -O0'
+	CFLAGS='-g -ggdb3 -O0'
+fi)
+
+
+
+AC_CHECK_HEADERS([sys/select.h sys/ioctl.h sys/socket.h])
+AC_CHECK_HEADERS([net/if.h netinet/in.h arpa/inet.h])
+
+AC_CHECK_HEADERS([winsock2.h windows.h])
+AC_HAVE_LIBRARY(wsock32, NETWORK_LIBS=-lwsock32, NETWORK_LIBS="")
+AC_SUBST(NETWORK_LIBS) 
+
+AC_CONFIG_FILES([
+	Makefile 
+	gea.pc
+	src/Makefile
+	src/utils/Makefile
+	include/Makefile
+	include/gea/Makefile
+	include/gea/utils/Makefile
+	include/gea/posix/Makefile
+	test/Makefile
+])
+AC_OUTPUT

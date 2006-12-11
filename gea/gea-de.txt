@@ -1,0 +1,36 @@
+GEA-DE (Dependant Events) Erweiterung (Konzept)
+===============================================
+
+Hintergrund:
+------------
+
+Es gibt verschiedene Situationen, in denen ein Ereignis mehrere
+Ereignisketten auslöst, die dann später wieder synchronisiert werden
+müssen. Hierbei kann natürlich das Ende jeder Kette so implementiert
+werden, dann zusätzlich auf die Erfüllung finaler Bedingungen der
+anderen Kette geprüft wird, aber dies erscheint unzweckmässig und zu
+aufwendig.
+
+Lösungsstrategie
+----------------
+
+Als Lösung können ConditionFlags-Objekt verwendet werden. Sie
+kennzeichnen das Eintreten einer Bedingung. Sie werden aus einer
+Factory erzeugt und die Nutzer explizit per Referenzzählung
+betrachtet, d.h. ein Nutzer gibt explizit bekannt, dass er nicht
+länger auf die Bedingung angewiesen ist. 
+
+Wird ein Ereignis dem Scheduler übergeben, wird geprüft, ob alle
+Bedingungen erfüllt sind. Ist dem der Fall, dann werden die
+Referenzzähler um eins verringert, da die Bedingung von diesem
+Ereignis nicht länger benötigt wird. Gleichzeitig wird das Ereignis in
+die passenden Warteschlangen eingefügt. Sind noch unerfüllte
+Bedingungen anhängig, kommt das Ereignis auf Halde und die
+Bedingungsobjete werden mit Callbacks bestückt, die die Halde
+informieren, falls sich eine Bedingung erfüllt, um es dann ggf in die
+Warteschlange einzufügen. 
+
+Sind keine Ereignisse mehr in den Warteschlangen sondern nur noch auf
+Halde, kann das System beendet werden, da sich diese Situation nicht
+mehr verändern kann.
+

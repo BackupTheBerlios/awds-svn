@@ -1,0 +1,27 @@
+#ifndef _TIMER_H__
+#define _TIMER_H__
+
+#include <gea/Handle.h>
+
+namespace gea {
+
+    class Blocker : public Handle {
+		
+    public: 
+	
+	class ShadowBlocker * const shadowBlocker;
+	
+	Blocker();
+	virtual ~Blocker();
+	virtual int write(const char *buf, int size);
+	virtual int read (char *buf, int size);
+    };
+}
+
+#endif //TIMER_H__
+/* This stuff is for emacs
+ * Local variables:
+ * mode:c++
+ * c-basic-offset: 4
+ * End:
+ */

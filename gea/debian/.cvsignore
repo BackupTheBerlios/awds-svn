@@ -1,0 +1,7 @@
+tmp
+libgea-dev
+libgea
+libgea.postrm.debhelper
+files
+libgea.substvars
+libgea.postinst.debhelper

@@ -1,0 +1,12 @@
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: gea
+Description: Library for generic event handling.
+Version: @VERSION@
+Libs: -L${libdir} -lgea
+Cflags: -I${includedir}/gea -I${libdir}/gea/include
+

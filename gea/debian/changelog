@@ -1,0 +1,93 @@
+libgea (1.3) unstable; urgency=low
+
+  * added support for static library
+  * include static library in dev package
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Thu, 12 Oct 2006 14:51:45 +0200
+
+libgea (1.2) unstable; urgency=low
+
+  * fixed minor bugs 
+
+ -- Andre Herms <aherms@jeetze>  Fri, 24 Mar 2006 14:49:57 +0100
+
+libgea (1.1) unstable; urgency=low
+
+  * fixed bug in gea::UdpHandle 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Wed, 22 Mar 2006 14:10:28 +0100
+
+libgea (1.0) unstable; urgency=low
+
+  * remove Flowtracker
+  * assert that the funktion pointer in waitFor is non-zero
+  * give get/set access to the IP and port of a UDP address
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Wed, 22 Feb 2006 13:55:06 +0100
+
+libgea (0.26) unstable; urgency=low
+
+  * make really libgea-utils a shared library
+  * ...
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Mon, 27 Jun 2005 16:54:40 +0200
+
+libgea (0.25) unstable; urgency=low
+
+  * make libgea-utils a shared library
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Tue,  7 Jun 2005 19:03:24 +0200
+
+libgea (0.24) unstable; urgency=low
+
+  * mistake with developer packets 
+
+ -- Andre Herms <aherms@euk-lab81>  Tue,  7 Jun 2005 18:01:18 +0200
+
+libgea (0.23) unstable; urgency=low
+
+  * reordering build structure 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Tue,  7 Jun 2005 17:53:35 +0200
+
+libgea (0.22) unstable; urgency=low
+
+  * use of libdl
+  * on the way to windows
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Thu, 26 May 2005 18:04:30 +0200
+
+libgea (0.21) unstable; urgency=low
+
+  * fixed argv-parsing in gea_start
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Thu, 19 May 2005 17:11:26 +0200
+
+libgea (0.20) unstable; urgency=low
+
+  * added object repository
+  * added interactive mode
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Thu, 19 May 2005 14:24:53 +0200
+
+libgea (0.19) unstable; urgency=low
+
+  * made UdpHandle::getIP() a static member function
+
+ -- Andre Herms <aherms@jeetze>  Wed, 23 Mar 2005 10:34:47 +0100
+
+libgea (0.18) unstable; urgency=low
+
+  * added AnimLink class 
+
+ -- Andre Herms <aherms@jeetze>  Thu, 27 Jan 2005 22:46:33 +0100
+
+libgea (0.17) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Sun, 23 Jan 2005 15:13:59 +0100
+
+Local variables:
+mode: debian-changelog
+End:
