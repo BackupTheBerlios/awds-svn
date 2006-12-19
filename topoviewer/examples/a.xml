@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<graph>
+	<topology>
+		<metric pix="1"/>
+		<node id="1" name="1" x="369.6113580538372" y="-392.3643197721796" fixed="true"/>
+		<node id="2" name="2" x="385.8564059809619" y="-163.3091439997212" fixed="true"/>
+		<node id="3" name="3" x="548.6500050451442" y="-314.6500807804176" fixed="false"/>
+		<node id="4" name="4" x="646.0787183535783" y="-399.69700407322307" fixed="true"/>
+		<node id="5" name="5" x="653.8996967785196" y="-174.6806775487085" fixed="true"/>
+		<edge from="4" to="5">
+			<quality value="100%"/>
+		</edge>
+		<edge from="3" to="4">
+			<quality value="24%"/>
+		</edge>
+		<edge from="5" to="2">
+			<quality value="5%"/>
+		</edge>
+	</topology>
+</graph>

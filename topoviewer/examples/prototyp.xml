@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE graph SYSTEM "grammer.dtd">
+
+<graph>
+	<topology>
+		<node id="1"/>
+		<node id="2"/>
+		<node id="3"/>
+		<node id="4" fixed="true"/>
+		<node id="5" fixed="false"/>
+		<edge from="1" to="2">
+			<quality value="100%"/>
+		</edge>
+		<edge from="4" to="5">
+			<quality value="100%"/>
+		</edge>
+		<edge from="3" to="1">
+			<quality value="100%"/>
+		</edge>
+
+	</topology>
+	<topodiff>
+		<add_edge from="3" to="4">
+			<quality value="95%"/>
+		</add_edge>
+		<add_edge from="5" to="2">
+			<quality value="5%"/>
+		</add_edge>
+		<modify_edge from="3" to="4">
+			<quality value="24%"/>
+		</modify_edge>
+		<remove_edge from="1" to="2"/>
+		<remove_edge from="3" to="1"/>		
+	</topodiff>
+</graph>
