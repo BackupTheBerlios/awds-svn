@@ -1,5 +1,5 @@
 
-all:
+all: TopologyViewer.jar
 
 Xerces-J-bin.2.9.0.zip:
 	wget http://archive.apache.org/dist/xml/xerces-j/binaries/Xerces-J-bin.2.9.0.zip
@@ -61,8 +61,8 @@ org/w3c/dom/svg/SVGSVGElement.class: batik-1.6/lib/batik-ext.jar
 org/apache/batik/css/engine/CSSContext.class: batik-1.6/lib/batik-css.jar
 	jar xf $^
 
-compile-stamp: src/graphlayout/*.java src/graphlayout/interaction/*.java
-	javac $^
+compile-stamp: src/graphlayout/*.java src/graphlayout/*/*.java
+	javac -d . src/graphlayout/*.java src/graphlayout/*/*.java
 	touch $@ 
 
 .PHONY: clean mrproper
@@ -73,8 +73,4 @@ clean:
 
 mrproper: clean
 	rm -rf batik*.zip  Xerces*.zip xerces-2_9_0/
-
-
-
-
 

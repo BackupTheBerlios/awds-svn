@@ -1,2 +1,7 @@
 *.zip
 org
+compile-stamp
+batik-1.6
+xerces-2_9_0
+graphlayout
+META-INF
