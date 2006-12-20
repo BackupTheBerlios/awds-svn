@@ -81,16 +81,27 @@ public class InputParser extends DefaultHandler implements Runnable{
 	    for(int i = 0; i < attributes.getLength(); i++){
 		attrib = attributes.getQName(i).toLowerCase();
 		if(attrib.equals("id")){
-		    Node node = new Node(attributes.getValue(i), attributes.getValue(i));
-		    if( (ntag.equals("node")) || (ntag.equals("add_node"))
-			||(ntag.equals("modify_node") ) ){
+		    
+		    boolean newNode = ntag.equals("node") || ntag.equals("add_node");
+		    Node node;
+		    String id = attributes.getValue(i);
+		    if (newNode)
+			node = new Node(id, id);
+		    else 
+			node = tg_panel.findNode(id);
+
+		    if( newNode || ntag.equals("modify_node") ){
 			try{
-			    tg_panel.addNode(node);
+			    
+			    if (newNode) tg_panel.addNode(node);
+
 			} catch(TGException tge){
+			
 			    System.out.println("TouchGraph-Exception in method <InputParser.startElement>");
 			    System.out.print("\"");
 			    tge.printStackTrace();
 			    System.out.println("\"");
+
 			} //of try-catch
 			double x = Double.MIN_VALUE, y = Double.MIN_VALUE; //position of node
 			while((++i) < attributes.getLength()){
