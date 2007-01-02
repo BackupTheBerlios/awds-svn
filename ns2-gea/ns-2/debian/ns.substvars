@@ -1,0 +1,1 @@
+shlibs:Depends=libc6 (>= 2.3.6-6), libgcc1 (>= 1:4.1.1-12), libpcap0.8 (>= 0.9.3-1), libstdc++6 (>= 4.1.1-12), tcl8.4 (>= 8.4.5)

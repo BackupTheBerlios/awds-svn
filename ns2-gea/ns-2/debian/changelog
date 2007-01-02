@@ -1,0 +1,75 @@
+ns (2.29-2) unstable; urgency=low
+
+  * added missing GEA feature 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Mon, 27 Feb 2006 13:19:49 +0100
+
+ns (2.29-1) unstable; urgency=low
+
+  * updated to version 2.29 from CVS
+  * added new features of GEA
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Fri, 24 Feb 2006 13:36:40 +0100
+
+ns (2.28-5) unstable; urgency=low
+
+  * new version compiled with GCC 4.0.1
+  * fixed some bugs preventing compilation 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Fri,  5 Aug 2005 10:19:35 +0200
+
+ns (2.28-4) unstable; urgency=low
+
+  * added support for GEA's object repository 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Thu, 19 May 2005 14:51:21 +0200
+
+ns (2.28-3) unstable; urgency=low
+
+  * made UdpHandle::getIP a static member
+  * AnimLinks from a node to itself are a noop now
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Wed, 23 Mar 2005 12:57:35 +0100
+
+ns (2.28-2) unstable; urgency=low
+
+  * removed debug output of DumbAgent 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Thu, 10 Feb 2005 17:30:13 +0100
+
+ns (2.28-1) unstable; urgency=low
+
+  * new version of ns2 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Tue,  8 Feb 2005 10:16:48 +0100
+
+ns (2.27-5) unstable; urgency=low
+
+  * fixed missformated time in nam output for Node::color
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Fri,  4 Feb 2005 09:37:31 +0100
+
+ns (2.27-4) unstable; urgency=low
+
+  * added AnimLink implementation 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Thu, 27 Jan 2005 22:53:00 +0100
+
+ns (2.27-3) unstable; urgency=low
+  
+  * added gea-interface 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Wed, 26 Jan 2005 10:34:35 +0100
+
+ns (2.27-2) unstable; urgency=low
+
+  * removed dependency for libgea. 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Wed, 26 Jan 2005 00:02:20 +0100
+
+ns (2.27-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Tue,  4 Jan 2005 15:50:27 +0100
+

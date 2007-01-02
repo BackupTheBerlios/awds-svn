@@ -1,0 +1,15 @@
+Source: ns2-gea
+Section: unknown
+Priority: optional
+Maintainer: Andre Herms <aherms@ivs.cs.uni-magdeburg.de>
+Build-Depends: debhelper (>= 4.0.0), tclcl-dev, mitotcl-dev, tcl8.4-dev, tk8.4-dev, libgea-dev (>= 0.19)
+Standards-Version: 3.6.1
+
+Package: ns2-gea
+Architecture: any
+Depends: tcl8.4, tk8.4, mitotcl, tclcl, ${shlibs:Depends}, ${misc:Depends}
+Description: The network simulator NS-2 with the GEA extension
+ This package contains the binary of the popular network simulator NS-2.
+ It was enriched with the GEA extension that allow to run protocols 
+ developed with GEA to be used inside the simulator. 
+
