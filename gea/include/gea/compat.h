@@ -5,11 +5,12 @@
 #include <sys/types.h>
 
 #ifdef WIN32
-typedef int    recvfrom_lastarg_t;
+  typedef int    recvfrom_lastarg_t;
 #else
-typedef size_t recvfrom_lastarg_t;
-#endif
 
+# include <sys/socket.h>
+  typedef socklen_t recvfrom_lastarg_t;
+#endif
 
 
 bool initSocketLayer();
