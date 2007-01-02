@@ -15,11 +15,14 @@ namespace gea {
 	static const char * IP_ANY;
 	static const char * IP_BROADCAST;
 	
-	
+	/** create address from string representation of ip address and port number */
 	UdpAddress(int port, const char * ip_addr = IP_ANY);
+	
+	/** create address from nummeric IP address and port number*/ 
 	UdpAddress(u_int32_t ip, u_int16_t port);
-
-	    UdpAddress(const UdpAddress& a);
+	
+	/** copy contructor */
+	UdpAddress(const UdpAddress& a);
 	UdpAddress& operator=(const UdpAddress& a);
 	
 	u_int32_t getIP() const;

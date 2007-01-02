@@ -20,7 +20,7 @@ using namespace gea;
 
 typedef int (*gea_main_t)(int argc, const char * const *argv);
 
-
+int conf_fd = 0;
 
 
 int run_gea_main(int argc, char **argv) {
@@ -127,18 +127,20 @@ void new_input(Handle *h, AbsTime t, void *data) {
 	line = newline;
     }
  
-    if (!eof)
+    if (eof)
+	close(conf_fd);
+    else
 	gea::geaAPI().waitFor(h, t + Duration(1.), new_input, 0);
     
 }
 
-int conf_fd = 0;
+
 
 
 void interactive() {
     
     UnixFdHandle unixfd(conf_fd, ShadowHandle::Read);
-			
+    
     gea::geaAPI().waitFor(&unixfd, AbsTime::now() + Duration(1.), new_input, 0);
     
     gea::geaAPI().shadow->run();
@@ -167,7 +169,8 @@ int main(int argc, char **argv) {
 	    return 1;
 	}
 	interactive();
-	close(conf_fd);
+	//close(conf_fd);
+	lt_dlexit();
 	return 0;
 	
     } else    if(!(argc > 1)) {

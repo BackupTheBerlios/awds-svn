@@ -125,6 +125,18 @@ public:
     
 };
 
+// ---------------------------------------- 
+// helper macros:
+// ---------------------------------------- 
+
+#define REP_INSERT_OBJ(type, name, val) do {	\
+	type __value = val;			\
+	ObjRepository::instance().insertObj(#name, #type, (void *)__value); \
+    } while(0)
+
+#define REP_MAP_OBJ(type, name) type name = (type)ObjRepository::instance().getObj(#name)
+
+
 
 
 #endif //OBJREPOSITORY_H__

@@ -16,6 +16,7 @@
 #include <cerrno>
 #include <cassert>
 
+#include <gea/ObjRepository.h>
 #include <gea/DependHandle.h>
 #include <gea/UdpHandle.h>
 #include <gea/posix/ShadowHandle.h>
@@ -31,10 +32,14 @@ using namespace std;
 
 using namespace gea;
 
+ 
+static std::ostream* __x_defaultOstream = &std::cout;
+
+
 gea::EventHandler::EventHandler() :
     shadow(new ShadowEventHandler() )
 {
-    
+    REP_INSERT_OBJ(std::ostream**, GEA_defaultOstream, &__x_defaultOstream);
 }
 
 gea::EventHandler::~EventHandler() {
@@ -323,8 +328,10 @@ void ShadowEventHandler::run() {
 
 std::ostream& EventHandler::dbg(unsigned level) const {
     
+    REP_MAP_OBJ(std::ostream**, GEA_defaultOstream);
+    
     if (level >= this->shadow->dbgLevel )
-	return std::cout;
+	return **GEA_defaultOstream; 
     else
 	return this->shadow->nullOut;
     

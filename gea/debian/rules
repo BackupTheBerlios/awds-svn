@@ -59,17 +59,17 @@ clean:
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp 
-
+	rm -f depcomp missing configure Makefile Makefile.in */Makefile */Makefile.in config.cache config.status
+	rm -rf config.sub config.guess */.deps */.libs config.log libltdl/config.log libltdl/config.status
+	rm -rf */*.la */*.lo
 	# Add here commands to clean up after the build process.
-	-$(MAKE) distclean
+	-[ -r Makefile ] && $(MAKE) distclean || true
 ifneq "$(wildcard /usr/share/misc/config.sub)" ""
 	cp -f /usr/share/misc/config.sub config.sub
 endif
 ifneq "$(wildcard /usr/share/misc/config.guess)" ""
 	cp -f /usr/share/misc/config.guess config.guess
 endif
-
-
 	dh_clean 
 
 install: build

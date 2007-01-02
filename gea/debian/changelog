@@ -1,3 +1,10 @@
+libgea (1.4) unstable; urgency=low
+
+  * added helper macros for object repository access
+  * ostream returned by GEA.dbg() can now be altered via the ostream** GEA_defaultOstream
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Fri, 22 Dec 2006 20:55:21 +0100
+
 libgea (1.3) unstable; urgency=low
 
   * added support for static library
@@ -9,7 +16,7 @@ libgea (1.2) unstable; urgency=low
 
   * fixed minor bugs 
 
- -- Andre Herms <aherms@jeetze>  Fri, 24 Mar 2006 14:49:57 +0100
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Fri, 24 Mar 2006 14:49:57 +0100
 
 libgea (1.1) unstable; urgency=low
 
@@ -42,7 +49,7 @@ libgea (0.24) unstable; urgency=low
 
   * mistake with developer packets 
 
- -- Andre Herms <aherms@euk-lab81>  Tue,  7 Jun 2005 18:01:18 +0200
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Tue,  7 Jun 2005 18:01:18 +0200
 
 libgea (0.23) unstable; urgency=low
 
@@ -74,13 +81,13 @@ libgea (0.19) unstable; urgency=low
 
   * made UdpHandle::getIP() a static member function
 
- -- Andre Herms <aherms@jeetze>  Wed, 23 Mar 2005 10:34:47 +0100
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Wed, 23 Mar 2005 10:34:47 +0100
 
 libgea (0.18) unstable; urgency=low
 
   * added AnimLink class 
 
- -- Andre Herms <aherms@jeetze>  Thu, 27 Jan 2005 22:46:33 +0100
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Thu, 27 Jan 2005 22:46:33 +0100
 
 libgea (0.17) unstable; urgency=low
 

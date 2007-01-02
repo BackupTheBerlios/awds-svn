@@ -5,7 +5,7 @@ Build-Depends: debhelper (>= 4.0.0)
 Standards-Version: 3.6.1
 
 Package: libgea-dev
-Section: libdev
+Section: libdevel
 Architecture: any
 Depends: libgea (= ${Source-Version})
 Description: GEA - an abstraction layer for developing network protocols
