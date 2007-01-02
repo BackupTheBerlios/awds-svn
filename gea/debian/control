@@ -1,8 +1,8 @@
 Source: libgea
 Priority: optional
 Maintainer: Andre Herms <aherms@ivs.cs.uni-magdeburg.de>
-Build-Depends: debhelper (>= 4.0.0)
-Standards-Version: 3.6.1
+Build-Depends: debhelper (>= 4.0.0), autoconf (>= 2.3), automaken, libtool, c++-compiler
+Standards-Version: 3.7.2
 
 Package: libgea-dev
 Section: libdevel

@@ -1,3 +1,15 @@
+libgea (1.6) unstable; urgency=low
+
+  * fixed build dependencies 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Tue,  2 Jan 2007 16:05:19 +0100
+
+libgea (1.5) unstable; urgency=low
+
+  * fix the missing libgea-posix.so
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Tue,  2 Jan 2007 14:59:00 +0100
+
 libgea (1.4) unstable; urgency=low
 
   * added helper macros for object repository access
