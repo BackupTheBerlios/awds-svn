@@ -1,7 +1,7 @@
 
 /*
  * Copyright (C) 2000 by the University of Southern California
- * $Id: mip-reg.cc,v 1.10 2005/08/25 18:58:08 johnh Exp $
+ * $Id: mip-reg.cc,v 1.13 2007/01/01 17:38:41 mweigle Exp $
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License,
@@ -43,7 +43,7 @@
  *
  */
 
-// $Header: /cvsroot/nsnam/ns-2/mobile/mip-reg.cc,v 1.10 2005/08/25 18:58:08 johnh Exp $
+// $Header: /cvsroot/nsnam/ns-2/mobile/mip-reg.cc,v 1.13 2007/01/01 17:38:41 mweigle Exp $
 
 /*
  * Copyright (c) Sun Microsystems, Inc. 1998 All rights reserved.
@@ -81,6 +81,11 @@
 #include <random.h>
 #include <address.h>
 #include <mobilenode.h>
+#if defined (SOLARIS_MIN_MAX)
+#include <config.h>     /* for MIN/MAX (if Solaris) */
+#else
+#include <sys/param.h>  /* for MIN/MAX */
+#endif
 
 #define AGENT_ADS_SIZE		48
 #define REG_REQUEST_SIZE	52

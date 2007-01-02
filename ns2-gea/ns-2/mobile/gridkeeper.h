@@ -10,11 +10,8 @@
 #ifndef __gridkeeper_h__
 #define __gridkeeper_h__
 
-
 #include "mobilenode.h"
 
-#define MIN(a,b) (((a)>(b))?(b):(a))
-#define MAX(a,b) (((a)<(b))?(b):(a))
 #define aligngrid(a,b) (((a)==(b))?((b)-1):((a)))
 
 

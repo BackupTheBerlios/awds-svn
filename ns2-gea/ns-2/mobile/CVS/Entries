@@ -6,11 +6,7 @@
 /dumb-agent.h/1.2/Thu Aug 25 18:58:08 2005//
 /energy-model.cc/1.6/Mon Jun 13 17:50:41 2005//
 /energy-model.h/1.13/Tue Jun 14 19:43:48 2005//
-/god.cc/1.19/Fri Dec 10 22:07:13 2004//
 /god.h/1.7/Tue Feb 21 15:20:19 2006//
-/gridkeeper.cc/1.8/Wed Jul 27 01:13:44 2005//
-/gridkeeper.h/1.4/Fri Dec 10 22:07:13 2004//
-/mip-reg.cc/1.10/Thu Aug 25 18:58:08 2005//
 /mip.cc/1.7/Fri Sep  1 03:04:06 2000//
 /mip.h/1.8/Thu Aug 25 18:58:08 2005//
 /modulation.cc/1.4/Mon Jan 11 22:15:16 1999//
@@ -27,4 +23,8 @@
 /topography.h/1.4/Tue Dec 23 17:36:34 2003//
 /tworayground.cc/1.7/Thu Feb  3 20:15:00 2005//
 /tworayground.h/1.5/Thu Feb  3 20:15:00 2005//
+/god.cc/1.20/Tue Jan  2 10:45:32 2007//
+/gridkeeper.cc/1.9/Tue Jan  2 10:45:32 2007//
+/gridkeeper.h/1.6/Tue Jan  2 10:45:32 2007//
+/mip-reg.cc/1.13/Tue Jan  2 10:45:32 2007//
 D

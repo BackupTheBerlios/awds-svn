@@ -7,4 +7,16 @@
 /sources.tcl/1.1/Thu Apr 12 20:08:32 2001//
 /topology.tcl/1.2/Sun Apr 29 21:22:24 2001//
 /traffic.tcl/1.1/Thu Apr 12 20:08:32 2001//
-D
+D/PIdent////
+D/allTCP////
+D/allUDP////
+D/mix////
+D/multi////
+D/pktsVsBytes////
+D/response////
+D/singleVsMulti////
+D/testFRp////
+D/testFRp_tcp////
+D/tfrc////
+D/varying////
+D/web////

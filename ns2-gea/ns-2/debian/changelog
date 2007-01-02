@@ -1,3 +1,9 @@
+ns2-gea (2.30-1) unstable; urgency=low
+
+  * renamed to ns2-gea
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Tue,  2 Jan 2007 11:59:55 +0100
+
 ns (2.29-2) unstable; urgency=low
 
   * added missing GEA feature 
