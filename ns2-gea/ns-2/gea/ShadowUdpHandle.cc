@@ -1,8 +1,8 @@
 #include <apps/udp.h>
 
-#include <gea/ShadowUdpHandle.h>
-#include <gea/ShadowEventHandler.h>
-#include <gea/ShadowHandle.h>
+#include "ShadowUdpHandle.h"
+#include "ShadowEventHandler.h"
+#include "ShadowHandle.h"
 #include <gea/API.h>
 
 #include <sys/socket.h>

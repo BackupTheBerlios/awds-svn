@@ -64,7 +64,9 @@ UdpAgent::UdpAgent() : Agent(PT_UDP), seqno_(-1)
 	bind("packetSize_", &size_);
 }
 
-UdpAgent::UdpAgent(packet_t type) : Agent(type)
+UdpAgent::UdpAgent(packet_t type) : 
+	Agent(type),
+	iph(0)
 {
 	bind("packetSize_", &size_);
 }
@@ -99,7 +101,7 @@ void UdpAgent::sendmsg(int nbytes, AppData* data, const char* flags)
 		rh->flags() = 0;
 		rh->seqno() = ++seqno_;
 		hdr_cmn::access(p)->timestamp() = 
-		    (u_int32_t)(SAMPLERATE*local_time);
+			(u_int32_t)(SAMPLERATE*local_time);
 		// add "beginning of talkspurt" labels (tcl/ex/test-rcvr.tcl)
 		if (flags && (0 ==strcmp(flags, "NEW_BURST")))
 			rh->flags() |= RTP_M;
@@ -128,7 +130,9 @@ void UdpAgent::recv(Packet* pkt, Handler*)
 	if (app_ ) {
 		// If an application is attached, pass the data to the app
 		hdr_cmn* h = hdr_cmn::access(pkt);
+		this->iph = hdr_ip::access(pkt);
 		app_->process_data(h->size(), pkt->userdata());
+		this->iph = 0; // reset it as it's invalid now.
 	} else if (pkt->userdata() && pkt->userdata()->type() == PACKET_DATA) {
 		// otherwise if it's just PacketData, pass it to Tcl
 		//

@@ -47,6 +47,9 @@
 #endif //HAVE_STL
 #include "node.h"
 
+#include <gea/GeaPlugin.h>
+
+
 static class LinkHeadClass : public TclClass {
 public:
 	LinkHeadClass() : TclClass("Connector/LinkHead") {}
@@ -139,6 +142,17 @@ int
 Node::command(int argc, const char*const* argv)
 {
 	Tcl& tcl = Tcl::instance();
+
+	
+	/* check if gea_start is requested .... */
+	if ( (argc > 2) && ( strcmp(argv[1], "gea_start") == 0) ) {
+			int ret = gea::gea_start(this, argc - 1, &(argv[1]));
+		if (ret == 0) 
+			return TCL_OK;
+		else 
+			return TCL_ERROR;
+	}
+	
 	if (argc == 2) {
 #ifdef HAVE_STL
 		// Mods for Nix-Vector Routing
@@ -216,6 +230,9 @@ Node::command(int argc, const char*const* argv)
 			return TCL_OK;
 		}
 	}
+
+
+	
 	return ParentNode::command(argc,argv);
 }
 

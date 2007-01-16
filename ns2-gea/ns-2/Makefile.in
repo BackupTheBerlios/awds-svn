@@ -55,7 +55,7 @@ PERL	= @PERL@
 CCOPT	= @V_CCOPT@ 
 STATIC	= @V_STATIC@
 #LDFLAGS	= $(STATIC)
-LDFLAGS	= @LDFLAGS@
+LDFLAGS	= @LDFLAGS@ -Wl,--export-dynamic
 LDOUT	= -o $(BLANK)
 
 DEFINE	= -DTCP_DELAY_BIND_ALL -DNO_TK @V_DEFINE@ @V_DEFINES@ @DEFS@ -DNS_DIFFUSION -DSMAC_NO_SYNC -DCPP_NAMESPACE=@CPP_NAMESPACE@ -DUSE_SINGLE_ADDRESS_SPACE -Drng_test
@@ -150,10 +150,28 @@ NS_TCL_LIB_STL = tcl/lib/ns-diffusion.tcl \
 	tcl/packmime/packmime.tcl
 
 
+GEA_OBJS = gea/gea.o \
+        gea/Handle.o \
+        gea/EventHandler.o \
+        gea/ShadowEventHandler.o \
+        gea/ShadowBlocker.o \
+        gea/Blocker.o \
+        gea/UdpHandle.o \
+        gea/ShadowUdpHandle.o \
+        gea/GeaPlugin.o \
+        gea/DependHandle.o \
+        gea/ShadowDepend.o \
+        gea/Time.o \
+        gea/NodeColor.o \
+        gea/ObjRepository.o \
+        gea/AnimLink.o
+
+
 # WIN32: uncomment the following line to include specific make for VC++
 # !include <conf/makefile.win>
 
 OBJ_CC = \
+	$(GEA_OBJS) \
 	tools/random.o tools/rng.o tools/ranvar.o common/misc.o common/timer-handler.o \
 	common/scheduler.o common/object.o common/packet.o \
 	common/ip.o routing/route.o common/connector.o common/ttl.o \
