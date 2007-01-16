@@ -208,6 +208,8 @@ protected:
         void    random_destination();
         int	set_destination(double x, double y, double speed);
 	  
+	//LartMod 17/05/2006
+	bool	isAp_;
 private:
 	inline int initialized() {
 		return (T_ && log_target_ &&

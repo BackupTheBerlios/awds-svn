@@ -253,6 +253,9 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 		  (mh->dh_fc.fc_subtype == MAC_Subtype_RTS) ? "RTS"  :
 		  (mh->dh_fc.fc_subtype == MAC_Subtype_CTS) ? "CTS"  :
 		  (mh->dh_fc.fc_subtype == MAC_Subtype_ACK) ? "ACK"  :
+		  (mh->dh_fc.fc_type == MAC_Type_Management && mh->dh_fc.fc_subtype == MAC_Subtype_BEACON) ? "BCN" : //ModLart 05/24/06 12:49
+		  (mh->dh_fc.fc_type == MAC_Type_Management && mh->dh_fc.fc_subtype == MAC_Subtype_ASSOCREQ) ? "ARQ" : //ModLart 05/30/06 10:51
+		  (mh->dh_fc.fc_type == MAC_Type_Management && mh->dh_fc.fc_subtype == MAC_Subtype_ASSOCRES) ? "ARS" : //ModLart 05/30/06 10:51
 		  //<zheng: add for 802.15.4>
 		  (mh->dh_fc.fc_subtype == MAC_Subtype_Beacon) ? "BCN"  :		//Beacon
 		  (mh->dh_fc.fc_subtype == MAC_Subtype_Command_AssoReq) ? "CM1"  :	//CMD: Association request

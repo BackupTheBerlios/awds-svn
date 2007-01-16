@@ -85,7 +85,10 @@ enum MacState {
 	MAC_RTS		= 0x0200,
 	MAC_CTS		= 0x0400,
 	MAC_ACK		= 0x0800,
-	MAC_COLL	= 0x1000
+	MAC_COLL	= 0x1000,
+	MAC_BEACON	= 0x2000, //ModLart 05/29/06 11:11
+	MAC_ARQ		= 0x4000, //ModLart 05/30/06 10:40
+	MAC_ARS		= 0x8000  //ModLart 05/30/06 10:40
 };
 
 enum MacFrameType {

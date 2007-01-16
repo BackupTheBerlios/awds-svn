@@ -69,6 +69,17 @@ protected:
 	double		rtime;	// remaining time
 };
 
+//ModLart 05/23/06 15:30
+class BeaconTimer : public MacTimer {
+public:
+	BeaconTimer(Mac802_11 *m) : MacTimer(m), beacon_int(0.1){}
+
+	void	handle(Event *e);
+	void	start(double time);
+
+private:
+	double	beacon_int;
+};
 
 class BackoffTimer : public MacTimer {
 public:

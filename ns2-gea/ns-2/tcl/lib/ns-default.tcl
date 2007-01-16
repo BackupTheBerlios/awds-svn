@@ -556,7 +556,7 @@ Node/MobileNode set bandwidth_			0	;# not used
 Node/MobileNode set delay_				0	;# not used
 Node/MobileNode set REGAGENT_PORT 0
 Node/MobileNode set DECAP_PORT 1
-
+Node/MobileNode set isAp			0	;# //ModLart 05/19/06 17:35
 
 # Default settings for Hierarchical topology
 #
@@ -577,6 +577,8 @@ AllocAddrBits set MAXADDRSIZE_ 32                ;# leaving the signed bit
 Simulator set node_factory_ Node
 Simulator set nsv1flag 0
 Simulator set mobile_ip_ 0			 ;# flag for mobileIP
+#//ModLart 05/19/06 12:00
+Simulator set is_Ap_ 0				 ;# flag for Access Point definition
 
 #this was commented out - ratul
 #Simulator set EnableHierRt_ 0   ;# is hierarchical routing on?  (to turn it on, call set-hieraddress)
@@ -733,8 +735,8 @@ Propagation/Shadowing set seed_ 0
 
 # Turning on/off sleep-wakeup cycles for SMAC
 Mac/SMAC set syncFlag_ 0
-
-
+#//ModLart 05/19/06 11:58
+ Mac/802_11 set isAp_		0		;# flag for Access Point definition
 
 # variables of the link state module is moved to ns-rtProtoLS.tcl
 

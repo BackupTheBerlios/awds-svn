@@ -130,6 +130,9 @@ MobileNode::MobileNode(void) :
 	next_ = 0;
 	radius_ = 0;
 
+	//LartMod 17/05/2006
+	isAp_ = false;
+	
 	position_update_interval_ = MN_POSITION_UPDATE_INTERVAL;
 	position_update_time_ = 0.0;
 	

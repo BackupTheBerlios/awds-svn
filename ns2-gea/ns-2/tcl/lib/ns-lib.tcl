@@ -337,6 +337,8 @@ Simulator instproc dumper obj {
 #                  -eotTrace OFF
 #                  -diffusionFilter "GradientFilter/OnePhasePullFilter/GeoRoutingFilter/RmstFilter/SourceRouteFilter/LogFilter/TagFilter"
 
+#//ModLart 05/19/06 11:44
+Simulator instproc isAp  {val} {$self set isAp_  $val }
 
 Simulator instproc addressType  {val} { $self set addressType_  $val }
 Simulator instproc adhocRouting  {val} { $self set routingAgent_  $val }
@@ -443,7 +445,8 @@ Simulator instproc node-config args {
 
         $self instvar addressType_  routingAgent_ propType_  macTrace_ \
 	    routerTrace_ agentTrace_ movementTrace_ channelType_ channel_ \
-	    chan topoInstance_ propInstance_ mobileIP_ \
+	    #//ModLart 05/19/06 11:46
+	    chan topoInstance_ propInstance_ mobileIP_ isAp_ \
 	    rxPower_ txPower_ idlePower_ sleepPower_ transitionPower_ \
 	    transitionTime_ satNodeType_ eotTrace_
 
@@ -510,6 +513,16 @@ Simulator instproc node-config args {
 		if { [info exists mobileIP_] } {
 			Simulator set mobile_ip_ 0
 		}
+	}
+	#//ModLart 05/19/06 11:46
+	if { [info exists isAp_] && $isAp_ == "ON"} {
+		if { $isAp_ == "ON" } {
+			$self set isAp_ 1
+		} else {
+			$self set isAp_ 0
+		}
+	} else {
+		$self set isAp_ 0
 	}
 }
 
@@ -587,16 +600,16 @@ Simulator instproc imep-support {} {
 }
 
 # XXX This should be moved into the node initialization procedure instead 
-# of standing here in ns-lib.tcl.
+# of standing here in ns-lib.tcl. //ModLart 05/19/06 12:05
 Simulator instproc create-wireless-node args {
         $self instvar routingAgent_ wiredRouting_ propInstance_ llType_ \
 	    macType_ ifqType_ ifqlen_ phyType_ chan antType_ \
 	    energyModel_ initialEnergy_ txPower_ rxPower_ \
 	    idlePower_ sleepPower_ transitionPower_ transitionTime_ \
-	    topoInstance_ level1_ level2_ inerrProc_ outerrProc_ FECProc_
+	    topoInstance_ level1_ level2_ inerrProc_ outerrProc_ FECProc_ isAp_
 
 	Simulator set IMEPFlag_ OFF
-
+	
         # create node instance
         set node [eval $self create-node-instance $args]
         
@@ -665,10 +678,15 @@ Simulator instproc create-wireless-node args {
 
 	
 
-	# Add main node interface
+	# //ModLart 05/19/06 13:02
 	$node add-interface $chan $propInstance_ $llType_ $macType_ \
 	    $ifqType_ $ifqlen_ $phyType_ $antType_ $topoInstance_ \
-			$inerrProc_ $outerrProc_ $FECProc_
+			$inerrProc_ $outerrProc_ $FECProc_ $isAp_
+
+	# Add main node interface //ModLart 05/19/06 12:04
+#	$node add-interface $chan $propInstance_ $llType_ $macType_ \
+	    $ifqType_ $ifqlen_ $phyType_ $antType_ $topoInstance_ \
+			$inerrProc_ $outerrProc_ $FECProc_ $isAp_
 	# Attach agent
 	if {$routingAgent_ != "DSR"} {
 		$node attach $ragent [Node set rtagent_port_]

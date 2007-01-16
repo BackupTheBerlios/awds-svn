@@ -307,4 +307,33 @@ BackoffTimer::resume(double difs)
        	s.schedule(this, &intr, rtime + difs_wait);
 }
 
+//ModLart 05/23/06 15:55
+/* ======================================================================
+   Beacon Timer
+   ====================================================================== */
+void
+BeaconTimer::handle(Event *){
+//	Scheduler& s = Scheduler::instance();
+	busy_ = 0;
+	paused_ = 0;
+	stime = 0.0;
+	rtime = 0.0;
 
+//	fprintf(stdout, "inir.uid_ %d\n", intr.uid_);
+	mac->beaconHandler();
+}
+
+void
+BeaconTimer::start(double time){
+	Scheduler &s = Scheduler::instance();
+	assert(busy_ == 0);
+
+	busy_ = 1;
+	paused_ = 0;
+	stime = s.clock();
+	rtime = beacon_int;
+	assert(rtime >= 0.0);
+
+
+	s.schedule(this, &intr, rtime);
+}

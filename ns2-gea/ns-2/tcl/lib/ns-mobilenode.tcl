@@ -356,8 +356,8 @@ Node/MobileNode instproc add-target-rtagent { agent port } {
 #
 # The following setups up link layer, mac layer, network interface
 # and physical layer structures for the mobile node.
-#
-Node/MobileNode instproc add-interface { channel pmodel lltype mactype qtype qlen iftype anttype topo inerrproc outerrproc fecproc } {
+#//ModLart 05/19/06 12:09
+Node/MobileNode instproc add-interface { channel pmodel lltype mactype qtype qlen iftype anttype topo inerrproc outerrproc fecproc isAp } {
 	$self instvar arptable_ nifs_ netif_ mac_ ifq_ ll_ imep_ inerr_ outerr_ fec_
 	
 	set ns [Simulator instance]
@@ -472,6 +472,15 @@ Node/MobileNode instproc add-interface { channel pmodel lltype mactype qtype qle
 	$mac netif $netif
 	$mac up-target $ll
 
+	#//ModLart 05/23/06 11:48
+#	if {$isAp == "ON"} {
+#		set isAp_ 1
+#	} else {
+#		set isAp_ 0
+#	}
+	puts "isAp $isAp"	
+	$mac setAp $isAp
+
 	if {$outerr == "" && $fec == ""} {
 		$mac down-target $netif
 	} elseif {$outerr != "" && $fec == ""} {
@@ -518,6 +527,10 @@ Node/MobileNode instproc add-interface { channel pmodel lltype mactype qtype qle
 	$netif propagation $pmodel	;# Propagation Model
 	$netif node $self		;# Bind node <---> interface
 	$netif antenna $ant_($t)
+
+#	//LartMod 18/05/2006
+#	$netif update-mac
+
 	#
 	# Physical Channel
 	#

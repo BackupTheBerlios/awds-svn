@@ -146,6 +146,12 @@ WirelessPhy::command(int argc, const char*const* argv)
 				update_energy_time_ = NOW;
 			}
 			return TCL_OK;
+		//LartMod 18/05/2006
+		} else if(strcasecmp(argv[1], "update-mac") == 0){
+		//	node_->isAp();
+			fprintf(stdout,"Updating Mac-Layer... maybe...\n");
+			return TCL_OK;
+		//
 		} else if (strcasecmp(argv[1], "NodeOff") == 0) {
 			node_off();
 

@@ -70,6 +70,19 @@ class EventTrace;
 #define MAC_Subtype_ACK		0x0D
 #define MAC_Subtype_Data	0x00
 
+//ModLart 05/19/06 18:01
+#define MAC_Subtype_BEACON	0x08
+#define MAC_Subtype_AUTH	0x0B
+#define MAC_Subtype_ASSOCREQ	0x00
+#define MAC_Subtype_ASSOCRES	0x01
+#define MAC_Subtype_REASSOCREQ	0x02
+#define MAC_Subtype_REASSOCRES	0x03
+
+//ModLart 05/31/06 11:48
+enum MacState_80211 {
+	MAC_DISASSOC	= 0x0000,
+	MAC_ASSOC	= 0x0001
+};
 
 struct frame_control {
 	u_char		fc_subtype		: 4;
@@ -107,6 +120,40 @@ struct ack_frame {
 	u_char			af_ra[ETHER_ADDR_LEN];
 	u_char			af_fcs[ETHER_FCS_LEN];
 };
+
+//ModLart 05/23/06 12:19
+struct bea_frame {
+	struct frame_control	bf_fc;
+	u_int16_t		bf_duration;
+	u_char                  bf_ra[ETHER_ADDR_LEN];
+        u_char                  bf_ta[ETHER_ADDR_LEN];
+        u_char                  bf_3a[ETHER_ADDR_LEN];
+	u_int16_t		bf_scontrol;
+	u_char			bf_body[0]; 
+};
+
+//ModLart 05/25/06 11:13
+struct assocreq_frame {
+	struct frame_control	af_fc;
+	u_int16_t		af_duration;
+	u_char                  af_ra[ETHER_ADDR_LEN];
+        u_char                  af_ta[ETHER_ADDR_LEN];
+        u_char                  af_3a[ETHER_ADDR_LEN];
+	u_int16_t		af_scontrol;
+	u_char			af_body[0]; 
+};
+
+//ModLart 05/25/06 11:20
+struct assocres_frame {
+	struct frame_control	af_fc;
+	u_int16_t		af_duration;
+	u_char                  af_ra[ETHER_ADDR_LEN];
+        u_char                  af_ta[ETHER_ADDR_LEN];
+        u_char                  af_3a[ETHER_ADDR_LEN];
+	u_int16_t		af_scontrol;
+	u_char			af_body[0]; 
+};
+
 
 // XXX This header does not have its header access function because it shares
 // the same header space with hdr_mac.
@@ -169,6 +216,15 @@ public:
 	inline u_int32_t getACKlen() {
 		return(getPLCPhdrLen() + sizeof(struct ack_frame));
 	}
+	//ModLart 05/24/06 10:54
+	inline u_int32_t getBEAlen() {
+		return(getPLCPhdrLen() + sizeof(struct bea_frame));
+	}
+	//ModLart 05/30/06 12:15
+	inline u_int32_t getASSOClen() {
+		return(getPLCPhdrLen() + sizeof(struct assocreq_frame));
+	}
+
 
  private:
 
@@ -206,6 +262,7 @@ public:
 	u_int32_t	FailedCount;	
 	u_int32_t	RTSFailureCount;
 	u_int32_t	ACKFailureCount;
+	u_int32_t	ASSOCFailureCount; //ModLart 05/30/06 15:10
  public:
        inline u_int32_t getRTSThreshold() { return(RTSThreshold);}
        inline u_int32_t getShortRetryLimit() { return(ShortRetryLimit);}
@@ -230,7 +287,8 @@ public:
 class Mac802_11 : public Mac {
 	friend class DeferTimer;
 
-
+	//ModLart 05/23/06 15:56
+	friend class BeaconTimer;
 	friend class BackoffTimer;
 	friend class IFTimer;
 	friend class NavTimer;
@@ -256,6 +314,8 @@ protected:
 	void	recvHandler(void);
 	void	sendHandler(void);
 	void	txHandler(void);
+//ModLart 05/23/06 15:56
+	void	beaconHandler(void);
 
 private:
 	int		command(int argc, const char*const* argv);
@@ -273,6 +333,11 @@ private:
 	int		check_pktCTRL();
 	int		check_pktRTS();
 	int		check_pktTx();
+	//ModLart 05/23/06 16:51
+	int		check_pktBEACON();
+	//ModLart 05/30/06 11:04
+	int		check_pktASSOCREQ();
+	int		check_pktASSOCRES();
 
 	/*
 	 * Packet Transmission Functions.
@@ -282,6 +347,13 @@ private:
 	void	sendCTS(int dst, double duration);
 	void	sendACK(int dst);
 	void	sendDATA(Packet *p);
+	//ModLart 05/23/06 16:50
+	void	sendBEACON(void);
+	//ModLart 05/30/06 11:31
+	void	sendASSOCREQ(int dst);
+	void	sendASSOCRES(int dst, double duration);
+	void	RetransmitASSOCREQ();
+
 	void	RetransmitRTS();
 	void	RetransmitDATA();
 
@@ -292,6 +364,11 @@ private:
 	void	recvCTS(Packet *p);
 	void	recvACK(Packet *p);
 	void	recvDATA(Packet *p);
+	//ModLart 05/24/06 12:32
+	void	recvBEACON(Packet *p);
+	//ModLart 05/30/06 11:32
+	void	recvASSOCREQ(Packet *p);
+	void	recvASSOCRES(Packet *p);
 
 	void		capture(Packet *p);
 	void		collision(Packet *p);
@@ -326,6 +403,9 @@ private:
 	inline void setRxState(MacState newState);
 	inline void setTxState(MacState newState);
 
+	inline void setMacState80211(MacState_80211 newState);//ModLart 05/31/06 12:16
+	inline void associatingAp(int new_bss_id);//ModLart 05/31/06 12:16
+	inline void disassociatingAp(void);//ModLart 05/31/06 12:16
 
 	inline void inc_cw() {
 		cw_ = (cw_ << 1) + 1;
@@ -361,7 +441,8 @@ protected:
         */
        int     bss_id_;
        enum    {IBSS_ID=MAC_BROADCAST};
-
+//ModLart 05/19/06 11:06
+	int	isAp_;
 
 private:
 	double		basicRate_;
@@ -378,6 +459,8 @@ private:
 	DeferTimer	mhDefer_;	// defer timer
 	BackoffTimer	mhBackoff_;	// backoff timer
 
+	//ModLart 05/23/06 16:08
+	BeaconTimer	mhBeacon_;	// beacon send timer
 	/* ============================================================
 	   Internal MAC State
 	   ============================================================ */
@@ -385,12 +468,21 @@ private:
 
 	MacState	rx_state_;	// incoming state (MAC_RECV or MAC_IDLE)
 	MacState	tx_state_;	// outgoint state
+	MacState_80211	mac_state_;	// ModLart 05/31/06 11:47 finite state machine 
 	int		tx_active_;	// transmitter is ACTIVE
 
 	Packet          *eotPacket_;    // copy for eot callback
 
 	Packet		*pktRTS_;	// outgoing RTS packet
 	Packet		*pktCTRL_;	// outgoing non-RTS packet
+	//ModLart 05/23/06 16:48
+	Packet		*pktBEACON_;	// outgoing BEACON packet
+	//ModLart 05/30/06 11:33
+	Packet		*pktMGNT_;	// outgoing Managnment packet
+	Packet		*pktARQ_;	// outgoing Managnment packet
+	Packet		*pktARS_;	// outgoing Managnment packet
+
+	double		lastBeaconPtRx;	//ModLart 06/01/06 17:56
 
 	u_int32_t	cw_;		// Contention Window
 	u_int32_t	ssrc_;		// STA Short Retry Count
@@ -400,8 +492,6 @@ private:
 
 	NsObject*	logtarget_;
 	NsObject*       EOTtarget_;     // given a copy of packet at TX end
-
-
 
 
 	/* ============================================================
