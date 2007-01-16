@@ -92,6 +92,10 @@ public:
 	virtual void write_nam_trace(const char *s);
 	void trace(TracedVar* var);
 	//void namdump();
+        // start of RealChannelPropagation ------------------
+        void write_annotation(const char *s);
+        // end of RealChannelPropagation --------------------
+
 };
 
 class DequeTrace : public Trace {
@@ -99,7 +103,6 @@ public:
 	DequeTrace(int type) : Trace(type) {}
 	~DequeTrace();
 	void recv(Packet* p, Handler*);
-
 };
 
 

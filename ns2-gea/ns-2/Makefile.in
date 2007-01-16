@@ -252,6 +252,7 @@ OBJ_CC = \
 	mobile/propagation.o mobile/tworayground.o \
 	mobile/antenna.o mobile/omni-antenna.o \
 	mobile/shadowing.o mobile/shadowing-vis.o mobile/dumb-agent.o \
+	mobile/prop_ricean.o \
 	common/bi-connector.o common/node.o \
 	common/mobilenode.o \
 	mac/arp.o mobile/god.o mobile/dem.o \

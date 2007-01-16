@@ -179,6 +179,16 @@ void Trace::annotate(const char* s)
 	pt_->namdump();
 }
 
+// start of RealChannelPropagation -----------------------------
+void Trace::write_annotation(const char*s)
+{
+       sprintf(pt_->buffer(),"%s",s);
+       pt_->dump();
+       callback();
+
+       //annotate(s);
+}
+// end of RealChannelPropagation -------------------------------
 
 char* srm_names[] = {
         SRM_NAMES
