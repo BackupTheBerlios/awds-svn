@@ -2,3 +2,4 @@
 *.dsc
 *.tar.gz
 *.changes
+*.upload
