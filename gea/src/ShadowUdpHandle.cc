@@ -42,8 +42,9 @@ ShadowUdpAddress::ShadowUdpAddress(int port, const char * ip_addr) :
     }
     else{
 	//	this->addr.sin_addr.s_addr = inet_addr(ip_addr);
- 	int res = inet_aton(ip_addr, &(this->addr.sin_addr) );
-	assert ((res != 0));
+	// 	int res = inet_aton(ip_addr, &(this->addr.sin_addr) );
+	this->addr.sin_addr.s_addr = inet_addr(ip_addr);
+	//	assert ((res != 0));
 
 	if ((addr.sin_addr.s_addr & 0xff000000)==0xff000000) this->broadcast = true;
     }

@@ -2,10 +2,10 @@
 
 # search for usable auto* toolset
 
-@aclocal_versions = ("1.9", "1.8", "1.7");
-@automake_versions = ("1.9", "1.8", "1.7");
+@aclocal_versions = ("1.9", "1.8", "1.7",  "1.10", "1.11", "1.12");
+@automake_versions = ("1.9", "1.8", "1.7", "1.10", "1.11", "1.12");
 
-@autoconf_versions = ("2.61", "2.60a", "2.59", "2.57", "2.5");
+@autoconf_versions = ("2.61", "2.60a", "2.59", "2.57", "2.5". "2.62", "2.7");
 
 
 $use_aclocal = 0;

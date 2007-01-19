@@ -1,0 +1,19 @@
+
+This Debian package is maintained by André Herms <aherms@ivs.cs.uni-magdeburg.de>.
+
+The AWDS topology viewer is based on the touchgraph library by Alexander Shapiro <alex@touchgraph.com>.
+
+Code contributions:
+
+Touchgraph library:
+
+Copyright (c) 2001-2002 Alexander Shapiro. All rights reserved.
+
+AWDS viewer:
+
+Christian Fackroth
+André Herms
+
+Please also read the touchgraph Apache license in 
+/usr/share/doc/awds-topoviewer/TG-APACHE-LICENSE.txt
+

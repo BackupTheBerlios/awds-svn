@@ -1,0 +1,30 @@
+awds-topoviewer (0.5) unstable; urgency=low
+
+  * fixed awds-topoviewer.sh
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Thu, 11 Jan 2007 17:13:19 +0100
+
+awds-topoviewer (0.4) unstable; urgency=low
+
+  * dummy for correct generation of changes 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Sun,  7 Jan 2007 17:06:56 +0100
+
+awds-topoviewer (0.3) unstable; urgency=low
+
+  * change platform to all 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Sun,  7 Jan 2007 17:03:42 +0100
+
+awds-topoviewer (0.2) unstable; urgency=low
+
+  * minor modifications 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Sun,  7 Jan 2007 15:30:15 +0100
+
+awds-topoviewer (0.1) unstable; urgency=low
+
+  * initial release
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Wed,  3 Jan 2007 13:32:34 +0100
+

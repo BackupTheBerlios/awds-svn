@@ -46,6 +46,8 @@ if test "$enableval" = "no" ; then
 	CFLAGS='-g -ggdb3 -O0'
 fi)
 
+AC_CHECK_TYPE(u_int32_t, unsigned)
+AC_CHECK_TYPE(u_int16_t, [unsigned short])
 
 
 AC_CHECK_HEADERS([sys/select.h sys/ioctl.h sys/socket.h])
