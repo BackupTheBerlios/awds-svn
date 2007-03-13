@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en">
+  <head>
+    <title>AWDS - Documentation</title>
+<link rel="stylesheet" type="text/css" href="awds.css" title="AWDS Style">
+  </head>
+
+  <body>
+    <h1>AWDS - How does it work?</h1>
+    
+    <p>
+  In this section we describe the principle of the AWDS routing. 
+It provides a wireless mesh routing for ad hoc networks. First, some definitions.
+
+    </p> 
+    
+    <h2>Ad Hoc Mode</h2>
+    <p> 
+
+The Wireless LAN (WLAN) standard IEEE-802.11 defines two modes of operation for a wireless client: 
+ad-hoc and infrastructure mode. The infrastructure mode is the normally used one. Here, all clients are
+connected to one Access Point (AP). The AP is connected to a backbone network. Normally, the services like
+DNS, DHCP, and Internet gateway are provides by a server in this backbone network. An extension of this are
+WLAN routers that include a DSL modem. In this mode the wireless link is used as the last hop from the 
+Internet to the client. 
+    </p>
+    
+<p> 
+The ad hoc mode is intended for situations, where no communication infrastructure is in range. Imagine 
+two persons sitting in a train that want to exchange some documents. They have no Access Point in range and 
+therefore cannot connect their laptops. The Ad hoc mode allows them to link devices directly. IP addresses must by 
+assigned manually (or by some magic auto-configuration). They also have to use these bare IP addresses because there is 
+no name service. And, of course, there is no Internet access. However, at least they can communicate and 
+share their documents. 
+</p>
+    
+<h2>Mesh Routing</h2>
+
+<p>
+The ad hoc mode can be used when no infrastructure is available. However, under normal conditions, only devices
+can communicate with each other when they are in direct communication range. The only way to overcome this limitation
+is to make stations forward packets to a destination not in range. The decision, which packet are forwarded 
+by which station is the task of the routing. In an arbitrary network with many wireless devices, multiple ways to 
+a destination will exist. As this topology is meshed, it is called a mesh routing. Normally, the routing rules are
+complex and cannot be created manually. A routing protocol is used instead, like the one provided by AWDS. 
+</p>
+
+<h2>Link State Routing </h2>
+
+    <p> 
+AWDS uses a so called Link State Routing. In short, it can be described the following way:<br />
+Every station periodically transmits broadcast packets (HELLO packets) that are received by neighbours in 
+communication range. The packets contain the source address and, thereby, after a while all stations know 
+their neighbours, that can be used for routing. This list of neighbours is periodically flooded through the network. 
+Flooding means, that it is broadcasted once and all stations that receive the packet, also broadcast the packet once. 
+This way the packet is received by every station in the network. The information is the Link State which consists of
+all links in the network. After a while every station knows about all links. It has the complete view of the 
+topology. 
+</p>
+
+    <p>
+The topology is the basis for the routing decisions. If a node has to forward a packet, it uses a shortest path
+algorithm to find a suitable next hop that is closer to the destination. Routing metrics can be applied that
+can weight the links. Furthermore, special mechanisms are included that avoid certain problems that are specific for 
+wireless networks, like weak or unidirectional links. 
+</p>
+
+<p>
+The Link State routing provides two primitives that are used in the following: A unicast routing that allows to 
+send a packet to a specific station, and a network wide broadcast by via flooding. 
+</p>
+
+<h2>Virtual Ethernet Connector </h2>
+
+    <p>
+The link state routing allows the routing daemon on all devices in the network to communicate with each other. 
+However, we want to use a web browser or FTP client. Therefore, the AWDS routing creates a virtual Ethernet device
+with the <a href="http://vtun.sf.net">VTUN device driver</a> that is included in the Linux kernel. It looks like 
+a typical Ethernet device. Packets written to it are received by the routing daemon and the daemon can 
+write packets to it that are received by the kernel's network stack. 
+
+</p>
+
+<p>
+The AWDS daemon tunnels packets from one virtual Ethernet device to another one with its routing primitives. 
+Broadcast or multicast packets are flooded (identified by the broadcast bit in the destination MAC address). Packets
+to a specific destination are send via unicast if the destination is known. Otherwise, they are also flooded. 
+A MAC address is known when it is found in the MAC table of the routing. This works like the MAC table of
+an ordinary Ethernet switch - when a packet is received from an AWDS instance, the source MAC of the contained packet 
+is associated with the wireless device. The typical behaviour of the network stack, like broadcasting ARP request, 
+helps that the MAC table is filled immediately. 
+
+</p>
+
+<p>
+From the users point of view the routing looks like a switched Ethernet. The network device can be used 
+for every protocol, that can also be used with a standard Ethernet. The virtual device can also be bridged with 
+other Ethernet devices, and thereby become integrated in an existing infrastructure. DHCP can be used for address
+assignment, multicast protocols like UPnP or multicast DNS can be used for service discovery. IPv6 and IPX work as
+well. 
+<p/>
+    <hr />
+      
+    <!-- Created: Sun Jan 28 14:33:07 CET 2007 -->
+    <!-- hhmts start -->
+Last modified: Mon Jan 29 09:15:49 CET 2007
+<!-- hhmts end -->
+  </body>
+</html>

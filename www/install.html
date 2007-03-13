@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en">
+  <head>
+    <title>AWDS - Installation</title>
+    <link rel="stylesheet" type="text/css" href="awds.css" title="AWDS Style">
+  </head>
+<body>
+
+<h1>AWDS - Installation</h1>
+
+<h2>Installation for Debian Linux</h2>
+<p>
+We provide Debian packages. 
+</p>
+
+<p>Add the following lines to /etc/apt/sources.list<br />
+<tt>
+deb http://aland.cs.uni-magdeburg.de/debian/ unstable main<br/>
+deb-src http://aland.cs.uni-magdeburg.de/debian/ unstable main
+</tt>
+<br />
+and run as root<br />
+<tt>
+# apt-get update<br />
+# apt-get install awds<br />
+</tt>
+
+That's all. 
+</p>
+
+
+<h2>Installation from scratch</h2>
+
+<h3>Installing GEA</h3>
+<p>
+AWDS requires the GEA library. 
+</p>
+
+
+
+<table summary="Quick installation of GEA" border="0" cellspacing="4" cellpadding="4">
+<tr><td>Dowload GEA</td><td></td></tr>
+<tr><td>unpack GEA</td><td  class="cmdline"><tt>tar xzf libgea-*.tar.gz</tt></td></tr>
+<tr><td>run configure script</td>
+<td class="cmdline"><tt>cd gea-*<br />./configure</tt></td></tr>
+<tr><td>compile GEA</td><td  class="cmdline">make</td></tr>
+<tr><td>become root</td><td class="cmdline">su<br />... enter password<br />or <br />sudo su</td></tr>
+<tr><td>install GEA</td><td class="cmdline">make install</td></tr>
+</table>
+<p> This will install GEA in the path /usr/local. Alternative destinations
+can be defined with the configure script: ./configure --prefix=/path-to-destination.
+If you do so, please notice that you also have to use a different path for the AWDS 
+configuration. 
+</p>
+
+<h3>Installing AWDS</h3>
+<table summary="Quick installation of GEA" border="0" cellspacing="4" cellpadding="4">
+<tr><td>Download AWDS</td><td></td></tr>
+<tr><td>unpack AWDS</td><td class="cmdline"><tt>tar xzf awds-*.tar.gz</tt></td></tr>
+<tr><td>run configure script</td>
+<td class="cmdline"><tt>cd awds-*</tt><br />
+<tt>./configure --with-gea=/usr/local/ --sysconfdir=/etc</tt>
+</td>
+</tr>
+<tr><td>compile AWDS</td><td class="cmdline"><tt>make</tt></td></tr>
+<tr><td>become root</td><td class="cmdline"><tt>su<br />... enter password</tt><br />or <br /><tt>sudo su</tt></td></tr>
+<tr><td>install AWDS</td><td class="cmdline">make install</td></tr>
+
+</table>
+<p>
+After this step, AWDS should be installed. The routing daemon is started with
+start_awds. You have to be root as it requires special privileges. When the routing is correctly running, 
+it will create a virtual network interface <tt>awds0</tt>. You should check if it was created with ifconfig.  
+</p>
+<p>After the basic installation you should continue with the <a href="configuration.html" >configuration</a>.</p>
+</body>
+</html>
+
+

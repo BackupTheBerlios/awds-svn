@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en">
+  <head>
+    <title>AWDS in a Nutshell</title>
+<link rel="stylesheet" type="text/css" href="awds.css" title="AWDS Style">
+  </head>
+
+
+<body>
+<h1>AWDS - Ad-hoc Wireless Distribution Service.</h1>
+    <blockquote>very short: <i>AWDS  implements a layer 2 routing protocol for wireless mesh networks.</i></blockquote>
+
+<p>
+A wireless network consists of a set of computers that are
+equipped with a wireless network interface. We assume that this
+interface conforms with the Wireless LAN Standard (IEEE-802.11). For
+covering larger area like office buildings, public areas, etc.,
+normally the infrastructure mode of the Wireless LAN standard is
+used. Here, many Access Points are connected to a wired backbone which
+leads to the rest of the network. The last hop, from the Access Point
+to the end user, is a wireless link.
+</p><p>
+However, in some cases the infrastructure mode cannot be applied. This
+is normally the case, when no wired backbone is available and cannot
+be deployed. Reasons can be that the network spans public areas
+(like community networks) or the building does not allow to install a
+wired network. One solution are mesh networks. 
+</p><p>
+In a wireless mesh network, all devices are interconnected by a
+wireless link. There no wired backbone network. However, for a
+connection to the Internet, at least on node must have a wired
+connection. All nodes have the same role and act as forwarder for
+packets. In theory, no Access Points are required, but some fixed
+devices can exist that form the permanent part of the network. 
+</p><p>
+For building a wireless mesh network two approaches exist. The first
+one is the use of a wireless mesh or MANET routing protocol. One of
+the most popular is the <a href="">Optimized Link State Routing</a> - OLSR, e.g.
+implemented in the software available at <a href="http://www.olsr.org">www.olsr.org</a>. It is
+used in many community networks, like the German <a href="http://www.freifunk.net">Freifunk Project</a>.
+ The networks have a very high number of nodes
+(above 400) and run stable for several years. The protocol is implemented as a
+routing daemon that operates on top of layer 3 (IP layer). Packets are
+routed based on their IP destination address, similar to the Internet.
+However, this also means that other protocols cannot be used, i.e. DHCP, IPX, or
+IPv6.  The topology of the network is monitored and routes are
+determined dynamically. Failed nodes are detected and not used for
+routing. Changes in the connectivity are compensated. Therefore, it
+can be considered as self-configuring and self-healing. 
+</p><p>
+Another approach is the Wireless Distribution Service (WDS). It allows
+Access Points to act as repeater. The WDS is part of the IEEE-802.11
+standard, but not supported by all manufactures. Furthermore, some
+part of WDS are not specified in detail, which means that different
+products are not always compatible with each other. The routing is done in Layer
+2. The Ethernet like payload is routed while containing arbitrary protocols
+like IP, IPv6, DHCP, etc. This solves problems like address
+assignment and limitations to the use of IP. The routes are normally configured by manually entering
+the neighbors MAC addresses in every Access Point. Thus, the routing
+is static and features like self-configuration and self-healing are
+not present. 
+</p><p>
+AWDS is a new approach which tries to combine the flexibility of layer
+2 routing with the self-x capabilities of OLSR. It is implemented as a
+Unix/Linux daemon and operates completely in user space. For
+addressing, the unique MAC addresses of the wireless network card is used,
+which means that no addresses must be configured. The routing is based
+on Link State Routing, similar to OLSR. For communicating with 
+applications, the AWDS daemon creates a virtual Ethernet
+interface (awds0). All packets inserted here are received by the AWDS daemon
+and can be forwarded to other stations. The destination AWDS instance
+unpacks the Ethernet frames and deliverers them via  its awds0
+device. Thus, from the users point of view all virtual Ethernet
+devices are interconnected like a Ethernet-based LAN. Bridging can be
+used for integrating this wireless network in an existing
+infrastructure. On top of it, the typical protocols and software is
+used, like DHCP for address assignment, NetBios for discovering
+Windows/Samba shares, HTTP/TCP/IP for browsing the Internet, etc. 
+</p><p>
+In addition to the routing functionality, further features are present
+that help to use and maintain the network and to develop extensions. 
+</p><p>
+AWDS uses the Ad-Hoc mode of the wireless cards, which only provides
+WEP encryption. As WEP is known to be insecure, AWDS implements additional,
+stronger encryption based on AES/CCM. 
+</p><p>
+A common problem in wireless mesh networks is the diagnosis of
+connectivity problems. The [topology viewer] helps by showing a real-time
+visualization of the wireless topology. It's based on Java/Swing and
+XML for data exchange with the routing daemon. 
+</p><p>
+For further analysis of network problems an interactive shell is
+used. The typical network debugging tools -- ping and traceroute --
+are available. These operate in the AWDS layer, which means that they
+can be used without prior assignment of IP addresses. The shell is
+extensible and various modules add commands, e.g. for monitoring the
+debug output. 
+</p><p>
+The development of wireless mesh protocols is another challenge that
+must be solved. Testing of the software would require a test bed of
+several nodes, which is expensive and difficult to maintain.
+Therefore, many protocols are developed based on simulation. The
+network simulators <a href="http://nsnam.sf.net">NS-2</a> or [Opnet] are mostly chosen for this task.
+However, implementations developed this way can only be used in the
+simulator and only few of them are ever implemented for real use. We
+solved this problem by using libGEA. It provides an abstraction layer
+between the routing and the underlying runtime environment. The
+underlying runtime environment can  either be a Unix-like operation
+system or the network simulator NS-2. This way, the same implementation is
+used for simulation and real use. It allows developers to try new approaches or 
+fix bugs without deploying the software in a large mesh network. The simulator can be used 
+by all that are interested in development of such networks. 
+</p>
+
+</body>
+
+</html>
+

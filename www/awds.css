@@ -1,0 +1,173 @@
+
+
+tt.cmdline {
+    background-color : #000000;
+    color : #EEEEEE;
+  }
+
+
+td.cmdline {
+    background-color : #000000;
+    color : #EEEEEE;
+  }
+
+
+body {
+    background-color : white;
+    color : black;
+    font-family : sans-serif;
+    margin-left : 3%;
+    margin-right : 3%;
+  }
+
+
+div.nav {
+    clear : right;
+    float : left;
+    padding-right : 10px;
+  }
+
+
+div.news {
+    margin-left : 16em;
+    margin-right : 4em;
+    padding-left : 10px;
+    vertical-align : top;
+  }
+
+
+div.news h4 {
+    background-color : #888888;
+    border-top-color : #888888;
+    border-top-style : solid;
+    border-top-width : 4px;
+    color : #FFFFFF;
+    margin-bottom : 0px;
+    padding-left : 1em;
+    padding-top : 4px;
+  }
+
+
+div.news p {
+    background-color : #FFFFFF;
+    border-bottom-style : solid;
+    border-bottom-width : 4px;
+    border-left-style : solid;
+    border-left-width : 4px;
+    border-right-style : solid;
+    border-right-width : 4px;
+    border-top-style : solid;
+    border-top-width : 4px;
+    border-color:#888888;
+    margin-top : 0px;
+ padding:1ex;
+  }
+
+
+h1,h2 {
+    border-bottom-style : dotted;
+    border-left-style : dotted;
+    border-right-style : dotted;
+    border-top-style : dotted;
+  }
+
+
+h1 {
+    background-color : #eeeeff;
+    border-bottom-color : #9090b0;
+    border-left-color : #9090b0;
+    border-right-color : #9090b0;
+    border-top-color : #9090b0;
+    padding-bottom : 0.2em;
+    padding-left : 0.4em;
+    padding-right : 0.2em;
+    padding-top : 0.2em;
+  }
+
+
+h2 {
+    font-size: 1.5em;
+    padding: 0.1em;
+    padding-left: 0.4em;
+    margin-top: 1.5em;
+    margin-bottom: 0em;
+    border-color: #909090;
+    background: #eeeeee;
+  }
+
+
+a {
+    text-decoration: none;
+    border-bottom: 1px dotted;
+  }
+
+
+ul {
+    margin-top: 0.2em;
+    margin-bottom: 1.5em;
+    list-style: square;
+  }
+
+
+a:link {
+    color: #0070b0;
+  }
+
+
+a:hover {
+    color: #003858;
+  }
+
+
+a:active {
+    color: #00253a;
+  }
+
+
+Worka:visited {
+    color: #0000ff;
+  }
+
+
+a:visited:hover {
+    color: #000080;
+  }
+
+
+a:visited:active {
+    color: #000055;
+  }
+
+
+a.title {
+    color: black;
+  }
+
+
+a.title:visited {
+    color: black;
+  }
+
+
+.img {
+    border: 0px;
+  }
+
+
+.image {
+    text-align: center;
+  }
+
+
+.update {
+    color: #ff0000;
+    font-weight: bold;
+  }
+
+
+.copy {
+    color: #707070;
+    font-size: 0.9em;
+    text-align: right;
+  }
+

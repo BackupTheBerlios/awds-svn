@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en">
+  <head>
+    <title>AWDS - Module Description</title>
+    <link rel="stylesheet" type="text/css" href="awds.css" title="AWDS Style" />
+  </head>
+
+  <body>
+    <h1>AWDS - Module Description</h1>
+    
+  
+
+    <ul>
+      <li>
+       <a href="#rawbasic.so">rawbasic.so</a>
+      </li>
+      <li>
+       <a href="#udpbasic.so">udpbasic.so</a>
+      </li>
+
+      <li>
+       <a href="#awdsrouting.so">awdsrouting.so</a>
+      </li>
+      
+      <li>
+       <a href="#tapiface.so">tapiface.so</a>
+      </li>
+      <li><a href="#shell.so">shell.so</a></li>
+            
+    </ul>
+
+  
+
+    <h2>rawbasic.so</h2>
+    <dl>
+      <dt>requires:</dt><dd>nothing</dd>
+      <dt>provides:</dt><dd>basic</dd>
+    </dl>
+    <p>
+This module provides primitives for sending and receiving packets. These are used by the routing. 
+It uses raw Ethernet packets with the type 8333. The MAC address of the the wireless device is used
+as the identifier of the AWDS instance. 
+</p>
+
+    <p>
+usage: <br />
+<code>rawbasic.so <em>dev</em></code><br />
+with <em>dev</em> being the device name of the wireless interface.
+
+        </p>
+
+    <h2>udpbasic.so</h2>
+
+    <dl>
+      <dt>requires:</dt><dd>nothing</dd>
+      <dt>provides:</dt><dd>basic</dd>
+    </dl>
+    <p>
+This module provides primitives for sending and receiving packets. These are used by the routing. 
+It is intended for users with restricted permissions and for setups in the NS-2. Normally,
+the rawbasic module is used, instead.
+
+</p>
+    <h2>awdsrouting.so</h2>
+    <dl><dt>requires:</dt><dd>basic</dd>
+      <dt>provides:</dt><dd>routing</dd><dd>topology</dd>
+    </dl>
+
+    <p>
+This module implements the AWDS link state routing. 
+</p>
+    <h2>tapiface.so</h2>
+    <dl><dt>requires:</dt><dd>routing</dd>
+      <dt>provides:</dt><dd>nothing</dd>
+    </dl>
+    <p>
+The tapifcae module creates a virtual network interface <tt>awds0</tt>. It is virtually connected to all
+such devices in the network. The device emulates an Ethernet interface, an thus all kinds of protocols that
+work with Ethernet can be used. This includes IP, IPv6, DHCP, etc. 
+
+
+</p>
+    <h2>shell.so</h2>
+    <dl><dt>requires:</dt><dd>nothing</dd>
+      <dt>provides:</dt><dd>shell</dd>
+    </dl>
+    <p>
+   This module provides the AWDS debugging shell. It accepts TCP connections from 
+localhost at port 8444. Typically, you will type:<br />
+<code>nc locahost 8444</code><br />
+to connect. This requires netcat to be installed. 
+</p>
+    
+    <h2>aesccm.so</h2>
+    <dl><dt>requires:</dt><dd>routing</dd>
+      <dt>provides:</dt><dd>nothing</dd>
+    </dl>
+    <p> 
+   The AES-CCM module provides basic encryption and authentication service. It uses a pre-shared key, which is used 
+for encrypting Ethernet payload. 
+usage:<br />
+<code>aesccm.so -k <em>keyfile</em></code>
+
+  </p>
+    
+  </body>
+</html>
