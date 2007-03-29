@@ -63,6 +63,13 @@ div.news p {
  padding:1ex;
   }
 
+div.about h4 {
+    background-color : #8080a9;
+    border-top-color : #8080a9;
+}
+div.about p {
+    border-color:#8080a9;
+}
 
 h1,h2 {
     border-bottom-style : dotted;
