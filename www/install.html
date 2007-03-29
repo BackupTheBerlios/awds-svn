@@ -30,7 +30,7 @@ That's all.
 </p>
 
 
-<h2>Installation from scratch</h2>
+<h2>Installation from sources</h2>
 
 <h3>Installing GEA</h3>
 <p>
@@ -73,7 +73,12 @@ After this step, AWDS should be installed. The routing daemon is started with
 start_awds. You have to be root as it requires special privileges. When the routing is correctly running, 
 it will create a virtual network interface <tt>awds0</tt>. You should check if it was created with ifconfig.  
 </p>
-<p>After the basic installation you should continue with the <a href="configuration.html" >configuration</a>.</p>
+
+<h2>Configuration</h2>
+<p>
+AWDS is configured with the configuration file <tt>/etc/awds.conf</tt>. It contains various options 
+for customizing the behaviour of the routing daemon.
+</p>
 <hr/>
 <div class="copy">$Id$</div>
 </body>
