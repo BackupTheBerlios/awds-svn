@@ -4,6 +4,7 @@
 #include "ShadowEventHandler.h"
 #include "ShadowHandle.h"
 #include <gea/API.h>
+#include <common/node.h>
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -23,11 +24,11 @@ gea::ShadowUdpAddress::ShadowUdpAddress(int port, const char *_ip) :
     if (inet_aton(_ip, &tmp)) {
 	this->ip = ntohl(tmp.s_addr);
     } else {
-	this->ip = ::IP_BROADCAST;
+	this->ip = IP_BROADCAST;
     }
 
     if (!strcmp(_ip, gea::UdpAddress::IP_BROADCAST))
-	this->ip = ::IP_BROADCAST;
+	this->ip = IP_BROADCAST;
 }
 
 
@@ -60,7 +61,6 @@ int gea::ShadowUdpHandle::send(int size, const char *data) {
     assert(pd != 0);
     memcpy(reinterpret_cast<char *>(pd->data()),
 	   data, size);
-    
     this->agent->sendmsg(size, pd);
     
     return 0;
@@ -144,7 +144,7 @@ int gea::ShadowUdpHandle::setDest(gea::UdpAddress dest_addr) {
 }
 
 int gea::ShadowUdpHandle::write(const char *buf, int size) {
-    
+    //    std::cout << __PRETTY_FUNCTION__ << std::endl;
     if (this->handle->status != gea::Handle::Ready)
 	return -1;
 
@@ -158,7 +158,7 @@ gea::UdpAddress gea::ShadowUdpHandle::getSrc() const {
 }
 	
 void gea::ShadowUdpHandle::process_data(int size, ::AppData* data) { 
-    
+    //    std::cout << __PRETTY_FUNCTION__ << std::endl;
     // save the source information
     ::UdpAgent *udp = dynamic_cast<UdpAgent *>(this->agent);
     int ip = Address::instance().get_nodeaddr(udp->iph->saddr());
@@ -175,12 +175,14 @@ void gea::ShadowUdpHandle::process_data(int size, ::AppData* data) {
     case gea::Handle::Error: /* still in error state!
 				That's NOT GOOD
 			     */
+	    std::cout << "error" << std::endl;
 	break;
     case gea::Handle::Blocked :
 	/* good state 
 	   We received some data while waiting for.
 	*/
 	{
+	    //	    std::cout << "blocked" << std::endl;
 	    /*cancel the timeout */
 	    this->timeout_timer.cancel();
 	    
@@ -210,6 +212,7 @@ void gea::ShadowUdpHandle::process_data(int size, ::AppData* data) {
 	   (1) throw it away
 	   (2) buffer it for later reading.
 	*/
+	//	    std::cout << "timeout" << std::endl;
 	break;
     case gea::Handle::Ready:
 	/* In ready state while receiving data 
@@ -217,6 +220,7 @@ void gea::ShadowUdpHandle::process_data(int size, ::AppData* data) {
 	   We previously received data and nobody cared for it.
 	   That's also not good.
 	*/
+	//	    std::cout << "ready" << std::endl;
 	break;
     case gea::Handle::Undefined: /* fall through ! */
     default:

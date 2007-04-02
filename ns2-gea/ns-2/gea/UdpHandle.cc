@@ -154,7 +154,9 @@ gea::UdpAddress gea::UdpHandle::getSrc() const {
 	
 
 unsigned long gea::UdpHandle::getIP() {
-
-    return (unsigned long)GEA.shadow->currentNode->nodeid();
+    // <begin> jenz::inria
+    //    return (unsigned long)GEA.shadow->currentNode->nodeid();
+    return (unsigned long) GEA.shadow->getCurrentNodeID();
+    // <end> jenz::inria
 }
 

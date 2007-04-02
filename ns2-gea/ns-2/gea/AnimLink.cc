@@ -14,7 +14,10 @@
 
 static void inOutLink(bool in, int dest, const char *color = 0) {
   
-  int         namid   = GEA.shadow->currentNode->nodeid();
+  // <begin> jenz::inria
+  //  int         namid   = GEA.shadow->currentNode->nodeid();
+  int namid = GEA.shadow->getCurrentNodeID();
+  // <end> jenz::inria
   
   if (namid == dest) // no links to ourself
     return;
@@ -22,7 +25,6 @@ static void inOutLink(bool in, int dest, const char *color = 0) {
   double      time    = Scheduler::instance().clock();
   const char *simName = Simulator::instance().name();
   Tcl&        tcl     = Tcl::instance();
-  
   
   tcl.evalf( "%s puts-nam-config \"l -t %f -s %d "
 	     "-S %s "/* in or out*/

@@ -12,12 +12,27 @@
 #include <gea/DependHandle.h>
 #include <gea/ShadowDepend.h>
 
+#include <iostream>
+
 using namespace std;
 
 
 /* ---- the shadow object -------- */
 
-::Node * gea::ShadowEventHandler::currentNode = 0;
+// <begin> jenz::inria
+// ::Node * gea::ShadowEventHandler::currentNode = 0;
+::TclObject *gea::ShadowEventHandler::currentNode = 0;
+// <end> jenz::inria
+
+// <begin> jenz::inria
+int gea::ShadowEventHandler::getCurrentNodeID() {
+    Tcl&        tcl     = Tcl::instance();
+    char buf[100];
+    sprintf(buf,"%s id",currentNode->name());
+    tcl.evalc(buf);
+    return atoi(tcl.result());
+}
+// <end> jenz::inria
 
 class NullBuf : public std::basic_streambuf<char> {
 public:

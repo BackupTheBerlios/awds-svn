@@ -70,6 +70,7 @@ INCLUDES = \
 	-I./diffusion3/lib/nr -I./diffusion3/ns \
 	-I./diffusion3/filter_core -I./asim/ -I./qs \
 	-I./diffserv -I./satellite \
+	-I./simple-interface/ -I./node-common/ -I./80211/ \
 	-I./wpan
 
 
@@ -326,6 +327,62 @@ OBJ_CC = \
 	wpan/p802_15_4nam.o wpan/p802_15_4phy.o \
 	wpan/p802_15_4sscs.o wpan/p802_15_4timer.o \
 	wpan/p802_15_4trace.o wpan/p802_15_4transac.o \
+        node-common/node-constructor.o \
+        node-common/net-node.o \
+        node-common/net-interface.o \
+        node-common/simple-broadcast-channel.o \
+        node-common/free-space-broadcast-channel.o \
+        node-common/tcl-net-node.o \
+        node-common/tcl-broadcast-channel.o \
+        node-common/tcl-net-interface.o \
+        node-common/ll-arp.o \
+        node-common/hdr-marp.o \
+        simple-interface/simple-net-interface.o \
+        simple-interface/tcl-simple-net-interface.o \
+	80211/tcl-tspec.o \
+	80211/tcl-tspec-request.o \
+	80211/tcl-net-interface-80211.o \
+	80211/ssid.o \
+	80211/net-interface-80211.o \
+	80211/free-space-propagation.o \
+	80211/tworay_propagation.o \
+	80211/phy-80211.o \
+	80211/phy-ber.o \
+	80211/phy-snrt.o \
+	80211/phy-et.o \
+	80211/mac-low.o \
+	80211/mac-rx-middle.o \
+	80211/mac-tx-middle.o \
+	80211/dca-txop.o \
+	80211/edca-txop.o \
+	80211/hcca-txop.o \
+	80211/base-transmission-mode.o \
+	80211/bpsk-mode.o \
+	80211/cck-mode.o \
+	80211/qam-mode.o \
+	80211/rng-uniform.o \
+	80211/dcf.o \
+	80211/mac-queue-80211e.o \
+	80211/hdr-mac-80211.o \
+	80211/mac-station.o \
+	80211/mac-stations.o \
+	80211/cr-mac-stations.o \
+	80211/arf-mac-stations.o \
+	80211/aarf-mac-stations.o \
+	80211/mac-handler.o \
+	80211/mac-high.o \
+	80211/mac-high-adhoc.o \
+	80211/mac-parameters.o \
+	80211/mac-dcf-parameters.o \
+	80211/mac-high-ap.o \
+	80211/mac-high-nqap.o \
+	80211/mac-high-qap.o \
+	80211/qap-scheduler.o \
+	80211/mac-high-sta.o \
+	80211/mac-high-qsta.o \
+	80211/mac-high-nqsta.o \
+	80211/tspec.o \
+	80211/tspec-request.o \
 	@V_STLOBJ@
 
 

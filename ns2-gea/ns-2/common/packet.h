@@ -170,7 +170,9 @@ enum packet_t {
 	// Bell Labs Traffic Trace Type (PackMime OL)
 	PT_BLTRACE, 
 
-	// insert new packet types here
+	PT_MAC80211,
+	PT_MARP,
+// insert new packet types here
 	PT_NTYPE // This MUST be the LAST one
 };
 
@@ -268,6 +270,9 @@ public:
 
 		// Bell Labs (PackMime OL)
 		name_[PT_BLTRACE]="BellLabsTrace";
+
+		name_[PT_MAC80211]="Mac80211";
+		name_[PT_MARP] = "Marp";
 		
 		name_[PT_NTYPE]= "undefined";
 	}
@@ -616,7 +621,6 @@ inline void Packet::free(Packet* p)
 
 inline Packet* Packet::copy() const
 {
-	
 	Packet* p = alloc();
 	memcpy(p->bits(), bits_, hdrlen_);
 	if (data_) 

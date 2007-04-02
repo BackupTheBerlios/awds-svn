@@ -1,7 +1,9 @@
 #ifndef _SHADOWEVENTHANDLER_H__
 #define _SHADOWEVENTHANDLER_H__
 
-#include <common/node.h>
+// <begin> jenz::inria
+//#include <common/node.h>
+// <end> jenz::inria
 #include <common/scheduler.h>
 
 #include <vector>
@@ -19,7 +21,11 @@ namespace gea {
 	unsigned dbgLevel;
 	std::ostream nullOut;
 
-	static Node *currentNode;
+	// <begin> jenz::inria
+	//	static Node *currentNode;
+	static TclObject *currentNode;
+	static int getCurrentNodeID();
+	// <end> jenz::inria
     private:
 	
 	struct EventDescr {

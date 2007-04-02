@@ -2,7 +2,9 @@
 #include <gea/API.h>
 #include <gea/GeaPlugin.h>
 #include <gea/ShadowEventHandler.h>
-#include <common/node.h>
+// <begin> jenz::inria
+// #include <common/node.h>
+// <end> jenz::inria
 #include <iostream>
 #include <dlfcn.h>
 //#include <gea/FTdlclose.h>
@@ -10,7 +12,10 @@
 
 typedef int (*gea_main_t)(int argc, const char * const *argv);
 
-int gea::gea_start(::Node *node, int argc, const char * const * argv) {
+// <begin> jenz::inria
+//int gea::gea_start(::Node *node, int argc, const char * const * argv) {
+int gea::gea_start(::TclObject *node, int argc,const char * const * argv) {
+// <end> jenz::inria
 
     //    std::cerr << "Starting plugin: $filename" << endl;
 

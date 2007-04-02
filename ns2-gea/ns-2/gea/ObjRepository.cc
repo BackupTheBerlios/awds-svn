@@ -7,7 +7,10 @@ using namespace std;
 ObjRepository * ObjRepository::inst = 0;
 
 long ObjRepository::whichNode() const {
-    return GEA.shadow->currentNode->nodeid();
+    // <begin> jenz::inria
+    //    return GEA.shadow->currentNode->nodeid();
+    return GEA.shadow->getCurrentNodeID();
+    // <end> jenz::inria
 }
     
 

@@ -1,11 +1,17 @@
 #ifndef _GEAPLUGIN_H__
 #define _GEAPLUGIN_H__
 
-class Node;
+// <begin> jenz::inria
+// class Node;
+class TclObject;
+// <end> jenz::inria
 
 namespace gea {
 
-    int gea_start(class ::Node *node, int argc, const char * const * argv);
+    // <begin> jenz::inria
+    //    int gea_start(class ::Node *node, int argc, const char * const * argv);
+    int gea_start(class ::TclObject *node,int argc,const char * const * argv);
+    // <end> jenz::inria
 }
 
 

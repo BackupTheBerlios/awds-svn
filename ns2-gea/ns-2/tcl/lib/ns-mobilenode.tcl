@@ -478,7 +478,7 @@ Node/MobileNode instproc add-interface { channel pmodel lltype mactype qtype qle
 #	} else {
 #		set isAp_ 0
 #	}
-	puts "isAp $isAp"	
+#	puts "isAp $isAp"	
 	$mac setAp $isAp
 
 	if {$outerr == "" && $fec == ""} {

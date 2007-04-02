@@ -33,8 +33,11 @@ std::ostream& gea::EventHandler::dbg(unsigned level) const {
 	
 	std::cout << "[";
 	std::cout.width(4);
-	std::cout << shadow->currentNode->nodeid()
-		  << "] ";
+	// <begin> jenz::inria
+	//	std::cout << shadow->currentNode->nodeid()	    
+	//		  << "] ";
+	std:: cout << shadow->getCurrentNodeID() << "] ";
+	// <end> jenz::inria
 	std::cout.width(0);
 	return std::cout;
     }

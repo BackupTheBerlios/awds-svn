@@ -4,7 +4,9 @@
 #include <gea/ShadowEventHandler.h>
 #include <gea/Time.h>
 #include <apps/app.h>
-#include <common/node.h>
+// <begin> jenz::inria
+// #include <common/node.h>
+// <end> jenz::inria
 
 namespace gea {
 
@@ -30,8 +32,10 @@ namespace gea {
 	void *data;
 	
     public:
-	
-	class ::Node * 	const node;
+	// <begin> jenz::inria
+	//	class ::Node * 	const node;
+	class ::TclObject * const node;
+	// <end> jenz::inria
 	
 	enum Status {
 	    Undefined,

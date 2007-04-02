@@ -170,6 +170,8 @@ foreach prot {
 	Encap 	# common/encap.cc
         IPinIP 	# IP encapsulation 
 	HDLC 	# High Level Data Link Control
+        Mac80211
+	Marp
 } {
 	add-packet-header $prot
 }

@@ -270,7 +270,7 @@ Mac802_11::command(int argc, const char*const* argv)
 			if(isAp_){
 				mhBeacon_.start(0.0);
 			}
-			fprintf(stdout, "Setting like Ap %d \n", isAp_);
+//			fprintf(stdout, "Setting like Ap %d \n", isAp_);
 			return TCL_OK;
 		}
 	}
