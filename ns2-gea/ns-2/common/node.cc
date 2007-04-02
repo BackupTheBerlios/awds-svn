@@ -230,9 +230,6 @@ Node::command(int argc, const char*const* argv)
 			return TCL_OK;
 		}
 	}
-
-
-	
 	return ParentNode::command(argc,argv);
 }
 
