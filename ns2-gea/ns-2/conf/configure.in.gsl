@@ -1,0 +1,29 @@
+dnl autoconf rules to find gsl
+
+AC_ARG_WITH(gsl,	--with-gsl=path	specify a pathname for gsl, d=$withval, d="")
+
+GSL_VERS=1.4
+
+GSL_H_PLACES="\
+		../gsl-$GSL_VERS \
+		../gsl \
+                /usr/local/include \
+                /usr/include"
+GSL_H_PLACES_D="$d \
+ 		$d/include"
+GSL_LIB_PLACES="\
+		../gsl-$GSL_VERS \
+		../gsl \
+                /usr/local/lib \
+                /usr/lib"
+GSL_LIB_PLACES_D="\
+        $d \
+        $d/lib \
+        $d/bin"  
+
+NS_BEGIN_PACKAGE(gsl)
+NS_CHECK_HEADER_PATH(gsl/gsl_version.h,$GSL_H_PLACES,$d,$GSL_H_PLACES_D,V_INCLUDE_GSL,gsl)
+NS_CHECK_LIB_PATH(gsl,$GSL_LIB_PLACES,$d,$GSL_LIB_PLACES_D,V_LIB_GSL,gsl)
+NS_CHECK_LIB_PATH(gslcblas,$GSL_LIB_PLACES,$d,$GSL_LIB_PLACES_D,V_LIB_GSL,gsl)
+NS_END_PACKAGE(gsl,yes)
+
