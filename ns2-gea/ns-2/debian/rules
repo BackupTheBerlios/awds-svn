@@ -24,7 +24,8 @@ else
 	CFLAGS += -O3
 endif
 
-config.status: configure
+
+config.status: configure Makefile.in
 	dh_testdir
 	# Add here commands to configure the package.
 	CFLAGS="$(CFLAGS)" ./configure --with-tcl-ver=8.4 \
