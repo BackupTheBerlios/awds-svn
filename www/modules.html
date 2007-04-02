@@ -1,3 +1,4 @@
+
 <?xml version="1.0"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en">
@@ -12,27 +13,19 @@
   
 
     <ul>
-      <li>
-       <a href="#rawbasic.so">rawbasic.so</a>
-      </li>
-      <li>
-       <a href="#udpbasic.so">udpbasic.so</a>
-      </li>
-
-      <li>
-       <a href="#awdsrouting.so">awdsrouting.so</a>
-      </li>
-      
-      <li>
-       <a href="#tapiface.so">tapiface.so</a>
-      </li>
+      <li> <a href="#rawbasic.so">rawbasic.so</a> </li>
+      <li> <a href="#udpbasic.so">udpbasic.so</a> </li>
+      <li> <a href="#awdsrouting.so">awdsrouting.so</a> </li>
+      <li> <a href="#tapiface.so">tapiface.so</a> </li>
       <li><a href="#shell.so">shell.so</a></li>
-            
+      <li><a href="#aesccm.so">aesccm.so</a></li>
+      <li><a href="#daemon.so">daemon.so</a></li>
+      
     </ul>
 
   
 
-    <h2>rawbasic.so</h2>
+    <h2 id="rawbasic.so">rawbasic.so</h2>
     <dl>
       <dt>requires:</dt><dd>nothing</dd>
       <dt>provides:</dt><dd>basic</dd>
@@ -50,7 +43,7 @@ with <em>dev</em> being the device name of the wireless interface.
 
         </p>
 
-    <h2>udpbasic.so</h2>
+    <h2 id="udpbasic.so">udpbasic.so</h2>
 
     <dl>
       <dt>requires:</dt><dd>nothing</dd>
@@ -62,7 +55,7 @@ It is intended for users with restricted permissions and for setups in the NS-2.
 the rawbasic module is used, instead.
 
 </p>
-    <h2>awdsrouting.so</h2>
+    <h2 id="awdsrouting.so">awdsrouting.so</h2>
     <dl><dt>requires:</dt><dd>basic</dd>
       <dt>provides:</dt><dd>routing</dd><dd>topology</dd>
     </dl>
@@ -70,7 +63,7 @@ the rawbasic module is used, instead.
     <p>
 This module implements the AWDS link state routing. 
 </p>
-    <h2>tapiface.so</h2>
+    <h2 id="tapiface.so">tapiface.so</h2>
     <dl><dt>requires:</dt><dd>routing</dd>
       <dt>provides:</dt><dd>nothing</dd>
     </dl>
@@ -81,7 +74,7 @@ work with Ethernet can be used. This includes IP, IPv6, DHCP, etc.
 
 
 </p>
-    <h2>shell.so</h2>
+    <h2 id="shell.so">shell.so</h2>
     <dl><dt>requires:</dt><dd>nothing</dd>
       <dt>provides:</dt><dd>shell</dd>
     </dl>
@@ -92,7 +85,7 @@ localhost at port 8444. Typically, you will type:<br />
 to connect. This requires netcat to be installed. 
 </p>
     
-    <h2>aesccm.so</h2>
+    <h2 id="aesccm.so">aesccm.so</h2>
     <dl><dt>requires:</dt><dd>routing</dd>
       <dt>provides:</dt><dd>nothing</dd>
     </dl>
@@ -103,7 +96,40 @@ usage:<br />
 <code>aesccm.so -k <em>keyfile</em></code>
 
   </p>
-    
+
+    <h2 id="daemon.so">daemon.so</h2>
+    <dl><dt>requires:</dt><dd>routing</dd>
+      <dt>provides:</dt><dd>nothing</dd>
+    </dl>
+    <p> 
+The daemon.so module allows to run AWDS as unix daemon.
+usage:<br />
+<code>daemon.so [-N|--nodaemon] [-k|--kill] [-r|--is-running] --pidfile <am>pidfile</em></code><br /> 
+</p>
+<p>
+The pidfile is used to store the pid of the daemon process. The module ensures that 
+the AWDS daemon is started only once. If it find a running instance, the daemon module
+terminates the process with an error code 2. If backgrounded, the debug output is redirected into
+an internal buffer. An additinal shell command (debug) is provided for printing and monitoring 
+this buffer. 
+  </p>
+    <h3>Options</h3>
+    <dl>
+      <!-- one of (dd dt) -->
+      <dt>-N|--nodaemon</dt>
+      <dd>Do not background the process. The debug output is redirected to stdout.</dd>
+      <dt>-k|--kill</dt>
+      <dd>Kill the AWDS instance, which was previously started. The PID of the process is taken
+from the pidfile.
+</dd>
+      <dt>-r|--is-running</dt>
+      <dd>Only check if an instance of AWDS is running. The result is signaled by the exit code.</dd>
+    </dl>
+
+<p>
+
+</p>
+ 
 <hr/>
 <div class="copy">$Id$</div>
   </body>
