@@ -12,17 +12,16 @@ namespace gea {
     public:
 	
 	class ShadowEventHandler * const shadow;
-	
-	EventHandler();
-	
 	typedef void (*Event)(Handle *h, AbsTime t, void *data);
-		
-	void waitFor(Handle *h, AbsTime timeout, Event e, void *data);
-	
-	std::ostream& dbg(unsigned level = 0x0000FFFF) const;
-	
-	virtual ~EventHandler();
 
+	gea::AbsTime lastEventTime; 
+
+	EventHandler();
+	virtual ~EventHandler();
+	
+	virtual void waitFor(Handle *h, gea::AbsTime timeout, Event e, void *data);
+	virtual std::ostream& dbg(unsigned level = 0x0000FFFF) const;
+	
     };
     
 }

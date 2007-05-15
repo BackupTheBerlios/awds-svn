@@ -14,10 +14,11 @@ namespace gea {
     
     class ShadowEventHandler {
     protected:
-
+	gea::AbsTime& lastEventTime;
 	
     public:
-    
+	
+	
 	struct EventDescr {
 	    class Handle *h;
 	    void *data;
@@ -47,7 +48,9 @@ namespace gea {
 	unsigned dbgLevel;
 	std::ostream nullOut;
 	
-	ShadowEventHandler();
+	
+	
+	ShadowEventHandler(gea::AbsTime& lastEventTime);
 	~ShadowEventHandler();
 
 	void waitFor(Handle *h, AbsTime timeout,

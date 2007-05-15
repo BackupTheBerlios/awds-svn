@@ -37,7 +37,7 @@ static std::ostream* __x_defaultOstream = &std::cout;
 
 
 gea::EventHandler::EventHandler() :
-    shadow(new ShadowEventHandler() )
+    shadow(new ShadowEventHandler(this->lastEventTime) )
 {
     REP_INSERT_OBJ(std::ostream**, GEA_defaultOstream, &__x_defaultOstream);
 }
@@ -136,8 +136,12 @@ typedef vector<EventCall> EventCallList;
 
 /** operator for calling the events in the list */
 struct callECList {
+    gea::AbsTime& lastTime;
+    
+    callECList(gea::AbsTime& lt) : lastTime(lt) {}
+    
     void operator ()(EventCall& ec) const {
-	
+	lastTime = ec.t;
 	ec.e(ec.h, ec.t, ec.d );
 	
     }
@@ -288,6 +292,8 @@ void ShadowEventHandler::run() {
 	   
 	    eventList.begin()->second.h->status = Handle::Timeout;
 	    
+	    this->lastEventTime = eventList.begin()->first; // store event time for later use
+	    
 	    eventList.begin()->second.e(eventList.begin()->second.h,
 					eventList.begin()->first,
 					eventList.begin()->second.data);
@@ -299,11 +305,11 @@ void ShadowEventHandler::run() {
 	    /* handle all io events */
 	    EventCallList elist;
 	    remove_if(eventList, activeFdHandlePred(set, elist));
-	    for_each(elist.begin(), elist.end(), callECList() );
+	    for_each(elist.begin(), elist.end(), callECList(this->lastEventTime) );
 	}
 
 
-	/* handle all dependen events */
+	/* handle all dependend events */
 	
 	EventCallList elist;
 	assert(elist.size() == 0);
@@ -312,7 +318,7 @@ void ShadowEventHandler::run() {
 	    
 	    assert(elist.size() > 0);
 	    
-	    for_each(elist.begin(), elist.end(), callECList() );
+	    for_each(elist.begin(), elist.end(), callECList(this->lastEventTime) );
 	    for_each(elist.begin(), elist.end(), resetDepTrigger() );
 	    
 	    elist.clear();

@@ -12,16 +12,17 @@ public:
 
 
 
-gea::ShadowEventHandler::ShadowEventHandler() :
-     nullOut(new NullBuf())
+gea::ShadowEventHandler::ShadowEventHandler(gea::AbsTime& lastEventTime) :
+    lastEventTime(lastEventTime),
+    nullOut(new NullBuf())
 {
-
+    
     char *dbg_lvl_string = getenv("GEA_DBG");
     this->dbgLevel = bool(dbg_lvl_string) ? atoi(dbg_lvl_string) : 0xFFFF;
 }
 
 gea::ShadowEventHandler::~ShadowEventHandler() {
-
+    
 }
 
 

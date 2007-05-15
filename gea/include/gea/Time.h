@@ -18,7 +18,7 @@ namespace gea {
 	StoreType v;
 	static const StoreType offset = 0x10000000LL; 
 	static const unsigned size = sizeof(StoreType);    
-
+	
 	FixNum(StoreType v) : v(v) {}
 
 #define bool_op(x) bool operator x (const FixNum& f) const {return this->v x f.v;}
@@ -62,6 +62,10 @@ namespace gea {
 	
     public:
     
+	Duration() : 
+	    FixNum(0) 
+	{}
+
 	Duration(const Duration& d) :
 	    FixNum(d.v) {}
 	
@@ -69,6 +73,10 @@ namespace gea {
 	    FixNum( static_cast<StoreType>( t * this->offset + .5 ) )
 	{}
 	
+	Duration(long a, long b) : 
+	    FixNum( static_cast<StoreType>(a) * this->offset /  static_cast<StoreType>(b) ) 
+	{}
+
 	operator double() const{
 	    return double(this->v) / double(this->offset);
 	}

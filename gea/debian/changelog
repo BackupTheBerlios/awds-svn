@@ -1,3 +1,17 @@
+libgea (1.11) unstable; urgency=low
+
+  * added GEA.lastEventTime element
+  * GEA member functions became virtual
+  * added default constructor for gea::Duration
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Fri, 04 May 2007 15:49:14 +0200
+
+libgea (1.10) unstable; urgency=low
+
+  * internal version increase
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Tue, 20 Mar 2007 13:49:09 +0100
+
 libgea (1.9) unstable; urgency=low
 
   * add dependency on libltdl3-dev
