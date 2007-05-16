@@ -19,8 +19,11 @@ namespace gea {
 	static const StoreType offset = 0x10000000LL; 
 	static const unsigned size = sizeof(StoreType);    
 	
-	FixNum(StoreType v) : v(v) {}
-
+	FixNum() {}
+	explicit FixNum(StoreType v) : v(v) {}
+	FixNum(const FixNum& fn) { this->v = fn.v; }
+	FixNum& operator =(const FixNum& other) {this->v = other.v; return *this; }
+	
 #define bool_op(x) bool operator x (const FixNum& f) const {return this->v x f.v;}
     
 	bool_op(==);
@@ -35,7 +38,7 @@ namespace gea {
 
     class AbsTime : public FixNum {
 
-
+	
     public:
 
 	static inline AbsTime t0() {
@@ -48,11 +51,15 @@ namespace gea {
 	
     public:
 	
-	AbsTime() : FixNum(gea::AbsTime::now().v) {}
+	AbsTime() : FixNum() {}
 	
 	AbsTime(StoreType v) :
 	    FixNum(v) {}
-    
+	
+	AbsTime(const AbsTime& other) : FixNum(other) {}
+	
+	AbsTime& operator =(const AbsTime& other) { FixNum::operator =(other); return *this; }
+	
     }; // end class AbsTime
 
     /**
