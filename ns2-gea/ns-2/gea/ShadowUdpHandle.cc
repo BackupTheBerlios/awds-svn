@@ -202,7 +202,7 @@ void gea::ShadowUdpHandle::process_data(int size, ::AppData* data) {
 	    GEA.shadow->currentNode = this->handle->shadowHandle->node;
 	    GEA.lastEventTime = gea::AbsTime::t0() + gea::Duration(t);
 	    e(this->handle, GEA.lastEventTime ,data);
-	    GEA.shadow->doPendingEvents();
+	    GEA.shadow->doPendingEvents(GEA.lastEventTime);
 	}
 	break;
     case gea::Handle::Timeout:
@@ -255,10 +255,10 @@ void gea::ShadowUdpHandle::do_timeout() {
     this->handle->status = gea::Handle::Timeout;
     
     GEA.shadow->currentNode = this->handle->shadowHandle->node;  
-    GEA.lastEventTime = this->timeout
+    GEA.lastEventTime = this->timeout;
     event(this->handle, GEA.lastEventTime, data);
   
-    GEA.shadow->doPendingEvents();
+    GEA.shadow->doPendingEvents(GEA.lastEventTime);
 }
 
 

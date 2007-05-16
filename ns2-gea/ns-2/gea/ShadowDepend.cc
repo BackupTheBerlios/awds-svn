@@ -3,6 +3,7 @@
 #include <gea/Handle.h>
 #include <gea/ShadowDepend.h>
 #include <gea/DependHandle.h>
+#include <gea/API.h>
 
 using namespace gea;
 using namespace std;

@@ -62,7 +62,7 @@ namespace gea {
 	/* void run(); -- not needed -- */
 	virtual ~ShadowEventHandler();
 
-	void doPendingEvents();
+	void doPendingEvents(gea::AbsTime t_now);
 	void addPendingEvent(gea::DependHandle *h,
 			     gea::EventHandler::Event e,
 			     gea::AbsTime t,

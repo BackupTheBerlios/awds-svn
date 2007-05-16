@@ -5,6 +5,7 @@
 
 #include <gea/UdpHandle.h>
 #include <gea/ShadowUdpHandle.h>
+#include <gea/API.h>
 
 #include <gea/ShadowHandle.h>
 #include <gea/ShadowEventHandler.h>
@@ -94,7 +95,7 @@ void gea::ShadowEventHandler::handle(::Event* event) {
     this->currentNode = e->h->shadowHandle->node;
     GEA.lastEventTime = e->timeout;
     e->event(e->h, e->timeout, e->data);
-    this->doPendingEvents();
+    this->doPendingEvents(e->timeout);
     delete event;
 }
 
