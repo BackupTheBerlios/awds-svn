@@ -83,7 +83,7 @@ void gea::ShadowEventHandler::waitFor(gea::Handle *h,
 	    udp->status = gea::Handle::Ready;
 	    
 	    event(udp, AbsTime::now(), data);
-	    this->doPendingEvents();
+	    this->doPendingEvents(timeout);
 	}
 	
     }
@@ -92,12 +92,13 @@ void gea::ShadowEventHandler::waitFor(gea::Handle *h,
 void gea::ShadowEventHandler::handle(::Event* event) {
     GeaNsEvent *e = static_cast<GeaNsEvent *>(event);
     this->currentNode = e->h->shadowHandle->node;
+    GEA.lastEventTime = e->timeout;
     e->event(e->h, e->timeout, e->data);
     this->doPendingEvents();
     delete event;
 }
 
-void gea::ShadowEventHandler::doPendingEvents() {
+void gea::ShadowEventHandler::doPendingEvents(gea::AbsTime t_now) {
     
     while ( ! this->pendingList.empty() ) {
 		
@@ -112,10 +113,11 @@ void gea::ShadowEventHandler::doPendingEvents() {
 	    DependHandle *dh = dynamic_cast<DependHandle*>( (*i)->h );
 	    
 	    assert( dh->shadowDepend->status() == TIMER_PENDING );
-	    	    
+	    
 	    dh->shadowDepend->cancel(); // remove event from ns-2 scheduler
+	    GEA.lastEventTime = t_now;
 	    (*i)->e( (*i)->h,
-		     (*i)->t,
+		     t_now,
 		     (*i)->data);
 	    delete (*i);
 	}

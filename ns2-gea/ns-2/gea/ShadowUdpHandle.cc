@@ -179,7 +179,7 @@ void gea::ShadowUdpHandle::process_data(int size, ::AppData* data) {
 	break;
     case gea::Handle::Blocked :
 	/* good state 
-	   We received some data while waiting for.
+	   We received some data while waiting for it.
 	*/
 	{
 	    //	    std::cout << "blocked" << std::endl;
@@ -200,7 +200,8 @@ void gea::ShadowUdpHandle::process_data(int size, ::AppData* data) {
 	    double t = Scheduler::instance().clock();
 
 	    GEA.shadow->currentNode = this->handle->shadowHandle->node;
-	    e(this->handle, gea::AbsTime::t0() + gea::Duration(t) ,data);
+	    GEA.lastEventTime = gea::AbsTime::t0() + gea::Duration(t);
+	    e(this->handle, GEA.lastEventTime ,data);
 	    GEA.shadow->doPendingEvents();
 	}
 	break;
@@ -254,8 +255,8 @@ void gea::ShadowUdpHandle::do_timeout() {
     this->handle->status = gea::Handle::Timeout;
     
     GEA.shadow->currentNode = this->handle->shadowHandle->node;  
-    
-    event(this->handle, this->timeout, data);
+    GEA.lastEventTime = this->timeout
+    event(this->handle, GEA.lastEventTime, data);
   
     GEA.shadow->doPendingEvents();
 }

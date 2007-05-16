@@ -22,7 +22,8 @@ ShadowDepend::~ShadowDepend() {
 void ShadowDepend::expire(::Event *) {
   
     this->parent->status = gea::Handle::Timeout;
-    this->e(this->parent, AbsTime::now(), this->data);
+    GEA.lastEventTime = AbsTime::now();
+    this->e(this->parent, GEA.lastEventTime, this->data);
     
 }
 
