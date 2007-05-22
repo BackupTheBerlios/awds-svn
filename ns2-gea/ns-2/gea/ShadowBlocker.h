@@ -3,21 +3,21 @@
 
 #include "Events.h"
 
-namespace gea {
+// namespace gea {
     
-    class Blocker : public Handle {
+//     class Blocker : public Handle {
 	
-    public: 
+//     public: 
 	
-	Blocker() : Handle() {
-	    this->isBlockerPred = true;
-	}
+// 	Blocker() : Handle() {
+// 	    this->isBlockerPred = true;
+// 	}
 	
-	virtual int write(const char *buf, int size);
-	virtual int read (char *buf, int size);
-    };
+// 	virtual int write(const char *buf, int size);
+// 	virtual int read (char *buf, int size);
+//     };
     
-}; 
+// }; 
 
 
 

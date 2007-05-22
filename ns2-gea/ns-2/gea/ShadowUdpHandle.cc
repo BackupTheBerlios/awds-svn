@@ -10,34 +10,57 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+
+
+/* 
+   how is the udp data tranfered between the GEA UDP Handles?
+
+   ShadowUdpHandle ShadowUdpHandle
+       |	      ^   
+       V              | 
+   GeaUdpApp      GeaUdpApp
+       |	      ^
+       V	      |
+   UdpAgent       UdpAgent
+       |	      ^    
+       V	      |    
+     Node          Node     
+       |              ^  
+       V              |
+     [       ns2        ]
+     
+     I know it's insane. If you find a better way way, feel free to replace it.
+*/
+
+
 /* used for delivering parameters to new created ShadowUdpHandles */
 gea::UdpHandle      *gea::ShadowUdpHandle::currentUdpHandle;
 gea::UdpHandle::Mode gea::ShadowUdpHandle::currentMode;
-gea::UdpAddress      gea::ShadowUdpHandle::currentUdpAddress(0,"0"); 
+gea::UdpAddress      gea::ShadowUdpHandle::currentUdpAddress(0,0); 
 
-gea::ShadowUdpAddress::ShadowUdpAddress(int port, const char *_ip) :
-    port(port),
-    ip(0)
-{
-    in_addr tmp;
+// gea::ShadowUdpAddress::ShadowUdpAddress(int port, const char *_ip) :
+//     port(port),
+//     ip(0)
+// {
+//     in_addr tmp;
     
-    if (inet_aton(_ip, &tmp)) {
-	this->ip = ntohl(tmp.s_addr);
-    } else {
-	this->ip = IP_BROADCAST;
-    }
+//     if (inet_aton(_ip, &tmp)) {
+// 	this->ip = ntohl(tmp.s_addr);
+//     } else {
+// 	this->ip = IP_BROADCAST;
+//     }
 
-    if (!strcmp(_ip, gea::UdpAddress::IP_BROADCAST))
-	this->ip = IP_BROADCAST;
-}
+//     if (!strcmp(_ip, gea::UdpAddress::IP_BROADCAST))
+// 	this->ip = IP_BROADCAST;
+// }
 
 
-gea::ShadowUdpAddress::ShadowUdpAddress(const gea::ShadowUdpAddress& a) :
-    port(a.port),
-    ip(a.ip)
-{
+// gea::ShadowUdpAddress::ShadowUdpAddress(const gea::ShadowUdpAddress& a) :
+//     port(a.port),
+//     ip(a.ip)
+// {
     
-}
+// }
 
 
 
@@ -49,8 +72,8 @@ public:
 
     
     TclObject* create(int argc, const char*const* argv) {
-	return (new class gea::ShadowUdpHandle(gea::ShadowUdpHandle::currentMode,
-					       gea::ShadowUdpHandle::currentUdpAddress));
+	return ( new gea::ShadowUdpHandle(gea::ShadowUdpHandle::currentMode,
+					       gea::ShadowUdpHandle::currentUdpAddress) );
     }
 } class_gea_shadow_udp_app;
 
@@ -77,7 +100,7 @@ gea::ShadowUdpHandle::ShadowUdpHandle(gea::UdpHandle::Mode mode,
     timeout(gea::AbsTime::now()),
     mode(mode),
     addr(addr),
-    src(0,"0")
+    src(0,0)
 {
     
 
@@ -89,22 +112,25 @@ void gea::ShadowUdpHandle::init() {
     this->agent=dynamic_cast<Agent*>(TclObject::lookup(tcl.result()));
   
     if ( mode == gea::UdpHandle::Write ) { // set the destination address
-	tcl.evalf("%s set dst_addr_ %d", this->agent->name(), addr.shadow->ip );
-	tcl.evalf("%s set dst_port_ %d", this->agent->name(), addr.shadow->port );
+	tcl.evalf("%s set dst_addr_ %d", this->agent->name(), (int)(int32_t)addr.ip );
+	tcl.evalf("%s set dst_port_ %d", this->agent->name(), (int)(int32_t)addr.port );
     }
     
     tcl.evalf("%s attach-agent %s", this->name(), this->agent->name() );
    
- 
+    ShadowEventHandler * shadow = dynamic_cast<ShadowEventHandler *>(GEA.subEventHandler); 
     if (mode == gea::UdpHandle::Write) {
+	
+
+	
 	tcl.evalf("%s attach %s",
-		  GEA.shadow->currentNode->name(),
+		  shadow->currentNode->name(),
 		  this->agent->name());
     } else { /* mode == Read */ 
 	tcl.evalf("%s attach %s %d",
-		  GEA.shadow->currentNode->name(),
+		  shadow->currentNode->name(),
 		  this->agent->name(),
-		  addr.shadow->port );
+		  (int)addr.port );
     }
     
 }
@@ -127,20 +153,14 @@ int gea::ShadowUdpHandle::read (char *buf, int size) {
     return dsize;
 }
 
-int gea::ShadowUdpHandle::setSrc(gea::UdpAddress src_addr) {
+int gea::ShadowUdpHandle::setSrc(const gea::UdpAddress& src_addr) {
     return 0;
 }
 
-int gea::ShadowUdpHandle::setDest(gea::UdpAddress dest_addr) {
+void gea::ShadowUdpHandle::setDest(const gea::UdpAddress& dest_addr) {
     this->addr = dest_addr;
-    // Tcl& tcl = Tcl::instance();
-    //     if ( mode == gea::UdpHandle::Write ) { // set the destination address
-    // 	tcl.evalf("%s set dst_addr_ %d", this->agent->name(), addr.shadow->ip );
-    // 	tcl.evalf("%s set dst_port_ %d", this->agent->name(), addr.shadow->port );
-    //     }
     agent->daddr() = dest_addr.getIP();
     agent->dport() = dest_addr.getPort();
-    return 0;
 }
 
 int gea::ShadowUdpHandle::write(const char *buf, int size) {
@@ -156,21 +176,20 @@ gea::UdpAddress gea::ShadowUdpHandle::getSrc() const {
 
     return src;
 }
+
+gea::UdpAddress gea::ShadowUdpHandle::getDest() const {
+    return addr;
+}
 	
 void gea::ShadowUdpHandle::process_data(int size, ::AppData* data) { 
-    //    std::cout << __PRETTY_FUNCTION__ << std::endl;
+
     // save the source information
     ::UdpAgent *udp = dynamic_cast<UdpAgent *>(this->agent);
     int ip = Address::instance().get_nodeaddr(udp->iph->saddr());
     {
-	char buf_ip[10];
-	::snprintf(buf_ip, 10, "%d", ip);
-	this->src = gea::UdpAddress( udp->iph->sport(), buf_ip );
-	//#warning please determine the port!
+	this->src = gea::UdpAddress( ip, udp->iph->sport() );
     }
 
-    //    cout << "got some data" << endl;
-    
     switch (this->handle->status) {
     case gea::Handle::Error: /* still in error state!
 				That's NOT GOOD
@@ -197,12 +216,14 @@ void gea::ShadowUdpHandle::process_data(int size, ::AppData* data) {
 	    /* reset the event */
 	    this->e = 0; this->data = 0;
 	    
-	    double t = Scheduler::instance().clock();
-
-	    GEA.shadow->currentNode = this->handle->shadowHandle->node;
-	    GEA.lastEventTime = gea::AbsTime::t0() + gea::Duration(t);
+	    //double t = Scheduler::instance().clock();
+	    
+	    ShadowEventHandler *shadow = dynamic_cast<ShadowEventHandler *>(GEA.subEventHandler);
+	    
+	    shadow->currentNode = this->handle->shadowHandle->node;
+	    GEA.lastEventTime = gea::AbsTime::now();
 	    e(this->handle, GEA.lastEventTime ,data);
-	    GEA.shadow->doPendingEvents(GEA.lastEventTime);
+	    shadow->doPendingEvents(GEA.lastEventTime);
 	}
 	break;
     case gea::Handle::Timeout:
@@ -254,11 +275,13 @@ void gea::ShadowUdpHandle::do_timeout() {
     this->e = 0; this->data = 0;
     this->handle->status = gea::Handle::Timeout;
     
-    GEA.shadow->currentNode = this->handle->shadowHandle->node;  
+    ShadowEventHandler *shadow = dynamic_cast<ShadowEventHandler *>(GEA.subEventHandler);
+    
+    shadow->currentNode = this->handle->shadowHandle->node;  
     GEA.lastEventTime = this->timeout;
     event(this->handle, GEA.lastEventTime, data);
-  
-    GEA.shadow->doPendingEvents(GEA.lastEventTime);
+    
+    shadow->doPendingEvents(GEA.lastEventTime);
 }
 
 

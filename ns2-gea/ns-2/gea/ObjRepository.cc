@@ -1,19 +1,20 @@
-#include <gea/ObjRepository.h>
+//#include <gea/ObjRepository.h>
 #include <gea/API.h>
 #include <gea/ShadowEventHandler.h>
+#include "Ns2ApiIface.h"
 
-using namespace std;
+using namespace gea;
 
-ObjRepository * ObjRepository::inst = 0;
+// ObjRepository * ObjRepository::inst = 0;
 
-long ObjRepository::whichNode() const {
+// long ObjRepository::whichNode() const {
     // <begin> jenz::inria
     //    return GEA.shadow->currentNode->nodeid();
-    return GEA.shadow->getCurrentNodeID();
-    // <end> jenz::inria
-}
     
-
+//    return GEA.shadow->getCurrentNodeID();
+    // <end> jenz::inria
+// }
+    
 
 /* This stuff is for emacs
  * Local variables:

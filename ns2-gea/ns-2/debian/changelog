@@ -1,3 +1,15 @@
+ns2-gea (2.30-5) unstable; urgency=low
+
+  * ported to libgea-2.0
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Thu, 17 May 2007 12:44:10 +0200
+
+ns2-gea (2.30-4) unstable; urgency=low
+
+  * ported to gea-1.11
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Wed, 16 May 2007 17:25:51 +0200
+
 ns2-gea (2.30-3) unstable; urgency=low
 
   * added ricean model

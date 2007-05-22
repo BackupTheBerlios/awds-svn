@@ -3,10 +3,12 @@
 #include <gea/ShadowEventHandler.h>
 #include <gea/NodeColor.h>
 
+using namespace gea;
 
 std::ostream& operator<<(std::ostream& os, const gea::NodeColor& col) {
   /* do nothing */
-  const char *node = GEA.shadow->currentNode->name();
+  ShadowEventHandler *shadow = dynamic_cast<ShadowEventHandler *>(GEA.subEventHandler);
+  const char *node = shadow->currentNode->name();
   
   Tcl& tcl = Tcl::instance();
   tcl.evalf("%s color %s", node, col.color);

@@ -16,7 +16,7 @@ namespace gea {
 	
 	friend class ShadowEventHandler;
 	friend class Blocker;
-    protected:
+    public:
 	//bool isBlockerPred;
 
 	enum HandleType {

@@ -1,4 +1,4 @@
 #include <gea/API.h>
 
-gea::EventHandler GEA;
+//gea::EventHandler GEA;
 

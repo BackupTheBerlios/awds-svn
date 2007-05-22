@@ -29,7 +29,7 @@ namespace gea {
     };
     
 
-    class ShadowUdpHandle : public ::Application {
+    class ShadowUdpHandle : public SubUdpHandle, public ::Application {
 
 	friend class ShadowEventHandler;    
 	friend class UdpHandle;
@@ -56,7 +56,7 @@ namespace gea {
 	static gea::UdpHandle::Mode currentMode;
 	static gea::UdpAddress      currentUdpAddress; 
 	
-    protected:
+
 	/* all required infos */
 	gea::UdpHandle *handle;
 	gea::EventHandler::Event e;
@@ -70,6 +70,7 @@ namespace gea {
 		
 	void do_timeout();
 	friend class GeaUdpTimer;
+	
 	void init();
 	
     public:
@@ -81,13 +82,16 @@ namespace gea {
 	
 	ShadowUdpHandle(gea::UdpHandle::Mode mode, const gea::UdpAddress& addr);
 	
-	int setSrc(UdpAddress src_addr);
-	int setDest(UdpAddress dest_addr);
-	virtual int write(const char *buf, int size);
-        
-	virtual int read (char *buf, int size);
-	UdpAddress getSrc() const;
 
+	virtual int setSrc(const UdpAddress& src_addr);
+	virtual void setDest(const UdpAddress& dest_addr);
+	
+	virtual int write(const char *buf, int size);
+	virtual int read (char *buf, int size);
+	
+	virtual UdpAddress getSrc() const;
+	virtual UdpAddress getDest() const;
+	
 	virtual void process_data(int size, ::AppData* data);
 	int send(int size,const  char *data);
 	virtual ~ShadowUdpHandle();

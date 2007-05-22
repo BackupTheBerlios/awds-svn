@@ -5,11 +5,11 @@
 #include <common/timer-handler.h>
 #include <common/scheduler.h>
 #include <gea/EventHandler.h>
-
+#include <gea/DependHandle.h>
 
 namespace gea {
     
-    class ShadowDepend : public ::TimerHandler {
+    class ShadowDepend : public SubDepend,  public ::TimerHandler {
 	
 	friend class DependHandle;
 	
@@ -27,12 +27,12 @@ namespace gea {
 	
 	void activate(AbsTime t, gea::EventHandler::Event e, void *data);
 	
+	virtual void complied();
 	
     };
 
-    
-    
 }
+
 #endif //SHADOWDEPEND_H__
 /* This stuff is for emacs
  * Local variables:

@@ -1,17 +1,33 @@
 /* -*-	Mode:C++; c-basic-offset:4; tab-width:8; indent-tabs-mode:t -*- */
 #include <gea/API.h>
 #include <gea/GeaPlugin.h>
-#include <gea/ShadowEventHandler.h>
+#include "ShadowEventHandler.h"
 #include <iostream>
 #include <dlfcn.h>
-
+#include "Ns2ApiIface.h"
 
 typedef int (*gea_main_t)(int argc, const char * const *argv);
 
 
+void gea::initNs2ApiIface() {
+    
+    static bool ns2ApiInitilised = false; 
+    
+    if (ns2ApiInitilised) 
+	return;
+    
+    GEA_apiIface = new Ns2ApiIface();
+    GEA_apiIface->createSubEventHandler(&GEA);
+    ns2ApiInitilised = true;
+    cerr << "ns-2 gea api started" << endl;
+}
+
 int gea::gea_start(::TclObject *node, int argc,const char * const * argv) {
 
-    //    std::cerr << "Starting plugin: $filename" << endl;
+    std::cerr << "Starting plugin: $filename" << endl;
+
+
+    initNs2ApiIface();
 
     const char * filename = argv[1];
     void *dl_handle = dlopen(filename, RTLD_NOW);
@@ -34,8 +50,9 @@ int gea::gea_start(::TclObject *node, int argc,const char * const * argv) {
 	dlclose(dl_handle);
 	return -1;
     }
-
-    GEA.shadow->currentNode = node;
+    ShadowEventHandler *shadow = dynamic_cast<ShadowEventHandler *>(GEA.subEventHandler);
+    
+    shadow->currentNode = node;
     GEA.lastEventTime = gea::AbsTime::now();
     int ret = (*gea_main)(argc - 1, &(argv[1]) );
 

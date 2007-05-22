@@ -8,41 +8,23 @@ using namespace std;
 
 #include <gea/ShadowEventHandler.h>
 
-gea::EventHandler::EventHandler() :
-    shadow(new gea::ShadowEventHandler())
-{
+
+std::ostream& gea::ShadowEventHandler::dbg(unsigned level)  {
     
-}
-
-gea::EventHandler::~EventHandler() {
-//    delete shadow;
-}
-
-void gea::EventHandler::waitFor(gea::Handle *h, 
-				gea::AbsTime timeout,
-				gea::EventHandler::Event event,
-				void *data) {
-    
-    shadow->waitFor(h, timeout, event, data);
-}
-
-
-std::ostream& gea::EventHandler::dbg(unsigned level) const {
-    
-    if (level >= this->shadow->dbgLevel ){
+    if (level >= this->dbgLevel ){
 	
 	std::cout << "[";
 	std::cout.width(4);
 	// <begin> jenz::inria
 	//	std::cout << shadow->currentNode->nodeid()	    
 	//		  << "] ";
-	std:: cout << shadow->getCurrentNodeID() << "] ";
+	std:: cout << this->getCurrentNodeID() << "] ";
 	// <end> jenz::inria
 	std::cout.width(0);
 	return std::cout;
     }
     else
-	return this->shadow->nullOut;
+	return this->nullOut;
     
 }
 

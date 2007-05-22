@@ -14,10 +14,9 @@
 
 static void inOutLink(bool in, int dest, const char *color = 0) {
   
-  // <begin> jenz::inria
-  //  int         namid   = GEA.shadow->currentNode->nodeid();
-  int namid = GEA.shadow->getCurrentNodeID();
-  // <end> jenz::inria
+    
+  // int namid = GEA.shadow->getCurrentNodeID();
+  int namid = GEA_apiIface->getCurrentNode();
   
   if (namid == dest) // no links to ourself
     return;

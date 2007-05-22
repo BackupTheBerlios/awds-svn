@@ -2,36 +2,45 @@
 #include <cassert>
 #include <algorithm>
 
+
 #include <gea/DependHandle.h>
 #include <gea/ShadowDepend.h>
 #include <gea/ShadowHandle.h>
 #include <gea/API.h>
 
+#include "Ns2ApiIface.h"
+
 using namespace gea;
 
-DependHandle::DependHandle() : 
-    Handle(), 
-    shadowDepend(new ShadowDepend(this) )
-{
-    assert (this->shadowDepend);
-    this->shadowHandle->handleType = gea::ShadowHandle::TypeDepend;
-}
 
-DependHandle::~DependHandle() {
-    assert (this->shadowDepend);
-    delete this->shadowDepend;
+void Ns2ApiIface::createSubDepend(DependHandle *dh) {
+    dh->shadowHandle->handleType = gea::ShadowHandle::TypeDepend;
+    dh->subDepend = new ShadowDepend(dh);
+    dh->subDepend->master = dh;
 }
 
 
-void DependHandle::complied() {
+void Ns2ApiIface::destroySubDepend(DependHandle *dh) {
+    assert(dh->subDepend);
+    delete dh->subDepend;
+}
 
-    if (this->status != Blocked)
+
+
+// DependHandle::~DependHandle() {
+// assert (this->shadowDepend);
+// delete this->shadowDepend;
+// }
+
+void ShadowDepend::complied() {
+
+    if (master->status != Handle::Blocked)
 	return;
-    this->shadowDepend->triggered = true;
-    this->status = gea::Handle::Ready;
-    //  this->shadowDepend->cancel();
-   
-    GEA.shadow->addPendingEvent(this, shadowDepend->e, AbsTime::now(), shadowDepend->data);
+    this->triggered = true;
+    this->master->status = gea::Handle::Ready;
+    
+    ShadowEventHandler *shadow = dynamic_cast<ShadowEventHandler *>(GEA.subEventHandler);
+    shadow->addPendingEvent(this->master, this->e, AbsTime::now(), this->data);
     
 }
 

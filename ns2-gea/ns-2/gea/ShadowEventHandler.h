@@ -14,7 +14,7 @@
 #include <gea/DependHandle.h>
 
 namespace gea {
-    class ShadowEventHandler : public ::Handler {
+    class ShadowEventHandler : public gea::SubEventHandler, public ::Handler {
 	
     public:
 	
@@ -54,13 +54,16 @@ namespace gea {
 	//EventList x_eventList;
 	
     public:
-	ShadowEventHandler();
+	ShadowEventHandler(gea::EventHandler *master);
 	
     	void waitFor(gea::Handle *h, gea::AbsTime timeout, 
 		     gea::EventHandler::Event e, void *data);
 	virtual void handle(::Event* event);
 	/* void run(); -- not needed -- */
 	virtual ~ShadowEventHandler();
+
+	virtual std::ostream& dbg(unsigned level = 0x0000FFFF);
+
 
 	void doPendingEvents(gea::AbsTime t_now);
 	void addPendingEvent(gea::DependHandle *h,
