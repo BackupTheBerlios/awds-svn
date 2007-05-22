@@ -1,20 +1,20 @@
 
 #include <gea/Blocker.h>
-
-#include <gea/posix/ShadowHandle.h>
+#include <gea/ApiIface.h>
+//#include <gea/posix/ShadowHandle.h>
 
 using namespace gea;
 
 
 gea::Blocker::Blocker() :
-    Handle(),
-    shadowBlocker(0)
+    Handle()
 {
-    this->shadowHandle->handleType = gea::ShadowHandle::TypeBlocker;
+    GEA_apiIface->createSubBlocker(this);
 }
 
 
 gea::Blocker::~Blocker() {
+    GEA_apiIface->destroySubBlocker(this);
 }
 
 

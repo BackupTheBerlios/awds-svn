@@ -1,10 +1,12 @@
-libgea (1.11) unstable; urgency=low
+libgea (2.0) unstable; urgency=low
 
+  * this version contains changes that make it binary incampatible with previous one!
   * added GEA.lastEventTime element
   * GEA member functions became virtual
   * added default constructor for gea::Duration
+  * minor improvements
 
- -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Fri, 04 May 2007 15:49:14 +0200
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Thu, 17 May 2007 12:14:06 +0200
 
 libgea (1.10) unstable; urgency=low
 

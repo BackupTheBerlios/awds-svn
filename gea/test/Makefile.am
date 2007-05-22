@@ -13,31 +13,24 @@ GEAS = periodic.gea \
 
 
 
-check_PROGRAMS = periodic blink unixfd broadcast
+#check_PROGRAMS = periodic blink unixfd broadcast
 
-periodic_SOURCES = gea_stub.cc
-periodic_LDADD =  periodic.la  ../src/libgea-posix.la 
-periodic_CXXFLAGS = $(AM_CFLAGS) 
 
-AM_LDFLAGS = -module -export-dynamic -avoid-version --enable-auto-import
+AM_LDFLAGS = -module -export-dynamic -avoid-version 
 
-check_LTLIBRARIES = $(GEAS:.gea=.la)
+foodir=/tmp/
+foo_LTLIBRARIES = $(GEAS:.gea=.la)
+
 
 periodic_la_SOURCES = periodic.cc
 
 blink_la_SOURCES = blink.cc 
-blink_SOURCES = gea_stub.cc
-blink_LDADD = blink.la  ../src/libgea-posix.la 
 
 dependency_la_SOURCES = dependency.cc
 
 unixfd_la_SOURCES = unixfd.cc
-unixfd_SOURCES = gea_stub.cc
-unixfd_LDADD =  unixfd.la ../src/libgea-posix.la 
 
 broadcast_la_SOURCES = broadcast.cc
-broadcast_SOURCES = gea_stub.cc 
-broadcast_LDADD = blink.la ../src/libgea-posix.la 
 
 
 HidSt_la_SOURCES = HidSt.cc

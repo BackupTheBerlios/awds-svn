@@ -1,13 +1,11 @@
 #include <gea/API.h>
 #include <gea/posix/ShadowEventHandler.h>
-//#include <gea/posix/FTdlclose.h>
-//#include <gea/FlowTracker.h>
 #include <gea/posix/UnixFdHandle.h>
+#include <gea/posix/PosixApiIface.h>
 
 #include <cstdlib>
 
 #include <iostream>
-//#include <dlfcn.h>
 #include <ltdl.h>
 
 #include <sys/types.h>
@@ -143,7 +141,7 @@ void interactive() {
     
     gea::geaAPI().waitFor(&unixfd, AbsTime::now() + Duration(1.), new_input, 0);
     
-    gea::geaAPI().shadow->run();
+    static_cast<ShadowEventHandler *>(gea::geaAPI().subEventHandler)->run();
 
 }
 
@@ -154,7 +152,11 @@ int main(int argc, char **argv) {
 	cerr << "cannot initialise libltdl:" << lt_dlerror() << endl;
 	return 1;
     }
+    
 
+    initPosixApiIface();
+
+    
     if (argc==2 && !strcmp(argv[1],"-i")) {
 	
 	interactive();
@@ -185,7 +187,7 @@ int main(int argc, char **argv) {
     
     int ret = run_gea_main(argc -1, &argv[1]);
     
-    gea::geaAPI().shadow->run();
+    static_cast<ShadowEventHandler *>(gea::geaAPI().subEventHandler)->run();
 
     lt_dlexit();
     return ret;

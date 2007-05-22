@@ -6,15 +6,20 @@
 namespace gea {
 
     class Blocker : public Handle {
-		
+	
     public: 
 	
-	class ShadowBlocker * const shadowBlocker;
+	class SubBlocker * subBlocker;
 	
 	Blocker();
 	virtual ~Blocker();
 	virtual int write(const char *buf, int size);
 	virtual int read (char *buf, int size);
+    };
+    
+    class SubBlocker {
+	
+	virtual ~SubBlocker();
     };
 }
 

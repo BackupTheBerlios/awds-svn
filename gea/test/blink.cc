@@ -6,7 +6,7 @@
 #include <gea/Blocker.h>
 #include <gea/UdpHandle.h>
 
-
+#include <iostream>
 
 using namespace std;
 
@@ -37,12 +37,14 @@ Blink::Blink(int argc , const char*const* argv) :
 
     
     this->udp = new gea::UdpHandle( gea::UdpHandle::Write,
-				    gea::UdpAddress( PORT /*port*/,
- 						     gea::UdpAddress::IP_BROADCAST ));
+				    gea::UdpAddress(gea::UdpAddress::IPADDR_BROADCAST, 
+						    PORT)
+				    );
     
     this->udpRecv = new gea::UdpHandle(gea::UdpHandle::Read,
-				       gea::UdpAddress( PORT /*port*/,
-						       gea::UdpAddress::IP_ANY  /*ip*/   ));
+				       gea::UdpAddress(gea::UdpAddress::IPADDR_ANY, 
+						       PORT)
+				       );
 
      GEA.waitFor(this->udpRecv, 
  		gea::AbsTime::now() + gea::Duration(1.) ,
@@ -119,7 +121,7 @@ void Blink::recv_event(gea::Handle *h, gea::AbsTime t, void *data) {
 
 extern "C"
 int gea_main(int argc, const char * const *argv) {
-
+    
     new Blink(argc,argv);
     
     return 0;

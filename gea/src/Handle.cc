@@ -1,16 +1,16 @@
 
 #include <gea/Handle.h>
-#include <gea/posix/ShadowHandle.h>
+// #include <gea/posix/ShadowHandle.h>
+#include <gea/ApiIface.h>
 
 #include <cassert>
 
-gea::Handle::Handle() :
-  shadowHandle(new gea::ShadowHandle() )
+gea::Handle::Handle() 
 {
-  assert(this->shadowHandle != 0);
+  GEA_apiIface->createShadowHandle(this);
 }
 
 gea::Handle::~Handle() {
-  assert(this->shadowHandle != 0);
-  delete this->shadowHandle;
+  GEA_apiIface->destroyShadowHandle(this);
 }
+

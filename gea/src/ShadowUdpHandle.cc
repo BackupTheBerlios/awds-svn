@@ -6,6 +6,7 @@
 
 #include <gea/config.h>
 #include <gea/compat.h>
+#include <gea/posix/PosixApiIface.h>
 
 #include <unistd.h>
 
@@ -27,7 +28,22 @@
 
 using namespace gea;
 
-ShadowUdpAddress::ShadowUdpAddress(int port, const char * ip_addr) :
+void guess_iface(char *ret);
+
+uint32_t gea::PosixApiIface::getIpAddr() {
+    
+    if (this->ipAddr) return this->ipAddr;
+    char buf[20];
+    guess_iface(buf);
+    
+    return (uint32_t)inet_addr(buf);
+    
+}
+
+
+
+#if 0
+void x_ShadowUdpAddress(int port, const char * ip_addr) :
     broadcast(false)
 {
     
@@ -50,6 +66,7 @@ ShadowUdpAddress::ShadowUdpAddress(int port, const char * ip_addr) :
     }
 };
 
+
 ShadowUdpAddress::ShadowUdpAddress(const ShadowUdpAddress& a) {
     memcpy(&(addr), &(a.addr), sizeof(struct sockaddr_in) ); 
     broadcast = a.broadcast;
@@ -63,6 +80,26 @@ ShadowUdpAddress& ShadowUdpAddress::operator=(const ShadowUdpAddress &a) {
     return *this;
 }
 
+#endif
+
+void PosixApiIface::createSubUdpHandle(UdpHandle *handle, 
+				       bool receiveMode,
+				       const UdpAddress& addr) 
+{
+    ShadowUdpHandle *h = new ShadowUdpHandle(receiveMode ? UdpHandle::Recv : UdpHandle::Send,
+					     addr);
+    
+    handle->subUdpHandle = h;
+    h->master = handle;
+    handle->shadowHandle->handleType = ShadowHandle::TypeUdpHandle;
+}
+
+void PosixApiIface::destroySubUdpHandle(UdpHandle *handle) 
+{
+    assert(handle->subUdpHandle);
+    delete handle->subUdpHandle;
+    handle->subUdpHandle = 0;
+}
 
 
 
@@ -71,7 +108,7 @@ ShadowUdpHandle::ShadowUdpHandle(gea::UdpHandle::Mode mode, const gea::UdpAddres
 		 ? gea::ShadowHandle::Write 
 		 : gea::ShadowHandle::Read ),
     addr(addr),
-    src(0,UdpAddress::IP_ANY),
+    src(UdpAddress::IPADDR_ANY, 0),
     already_bound(false)
 {
     int udp_socket = socket(PF_INET, SOCK_DGRAM, 0);    
@@ -114,9 +151,14 @@ if (already_bound) {
     int opt = 1;
     ::setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof (opt));
 #endif
-
+    
+    struct sockaddr_in x_addr;
+    x_addr.sin_family      = AF_INET;
+    x_addr.sin_addr.s_addr = htonl(src_addr.ip);
+    x_addr.sin_port        = htons(src_addr.port);
+    
     int ret = ::bind(fd, 
-		     reinterpret_cast<struct sockaddr*>(&(this->src.shadow->addr)),
+		     (const struct sockaddr *)&x_addr,
 		     sizeof(struct sockaddr_in) );
     already_bound = true;
     return ret;
@@ -126,11 +168,17 @@ int ShadowUdpHandle::write(const char *buf, int size) {
     assert(this->shadowHandle->unixMode == gea::ShadowHandle::Write);    
     
     ssize_t ret;
+
+    struct sockaddr_in x_addr;
+    x_addr.sin_family      = AF_INET;
+    x_addr.sin_addr.s_addr = htonl(addr.ip);
+    x_addr.sin_port        = htons(addr.port);
+
     do {
 	ret = ::sendto(this->shadowHandle->unixFd,
 		       buf, size,
 		       0,
-		       reinterpret_cast<const struct sockaddr*>(&(this->addr.shadow->addr)),
+		       (const struct sockaddr *)&x_addr,
 		       sizeof(struct sockaddr_in) );
     } while ( (ret == -1) && ( errno == EINTR));
     
@@ -145,14 +193,19 @@ int ShadowUdpHandle::read(char *buf, int size) {
     ssize_t ret;
     recvfrom_lastarg_t src_size /* type defined in gea/compat.h */
 	= sizeof(struct sockaddr_in);
+
+    struct sockaddr_in x_addr;
+    
     do {
 	ret = ::recvfrom(this->shadowHandle->unixFd, 
 			 buf, size,
 			 0, /* flags */
-			 reinterpret_cast<struct sockaddr *>(&(this->src.shadow->addr)),
+			 (struct sockaddr *)&x_addr,
 			 &src_size);
     } while ( (ret == -1) && (errno == EINTR) );
     
+    src.setIP(   ntohl(x_addr.sin_addr.s_addr) );
+    src.setPort( ntohs(x_addr.sin_port) );
     return ret;
 }
 
@@ -164,7 +217,7 @@ void ShadowUdpHandle::setDest(const UdpAddress &dest_addr) {
     addr = dest_addr;
     
 #ifndef WIN32
-    if (addr.shadow->broadcast) {
+    if (addr.isBroadcast) {
 	int opt = 1;
 	::setsockopt(this->shadowHandle->unixFd, SOL_SOCKET, SO_BROADCAST, &opt, sizeof (opt));
     }

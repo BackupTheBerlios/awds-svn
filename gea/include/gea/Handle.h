@@ -8,7 +8,7 @@ namespace gea {
 	
     public:
 	
-	class ShadowHandle * const shadowHandle;
+	class ShadowHandle * shadowHandle;
 	
 	enum Status {
 	    Undefined,
@@ -26,7 +26,8 @@ namespace gea {
 
 	virtual ~Handle();
     };
-
+    
+    
 } // end namespace gea
 
 #endif //EVENTS_H__

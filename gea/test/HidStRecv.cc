@@ -33,8 +33,8 @@ HidStRecv::HidStRecv(int argc , const char*const* argv):
 	pkcount1(0), pkmax1(0), pkcount2(0), pkmax2(0)
 {
     this->udpRecv = new gea::UdpHandle( gea::UdpHandle::Read,
-				    gea::UdpAddress( PORT /*port*/,
- 						     gea::UdpAddress::IP_ANY ));
+					gea::UdpAddress( gea::UdpAddress::IPADDR_ANY, 
+							 PORT  ));
     
     GEA.waitFor(this->udpRecv, 
 		gea::AbsTime::now() + gea::Duration(1.),

@@ -8,20 +8,23 @@
 #endif // HAVE_WINDOWS_H
  
 #include <gea/Time.h>
+#include <gea/posix/PosixApiIface.h>
 
-gea::AbsTime gea::AbsTime::now() {
-    StoreType v; 
-	
+
+void gea::PosixApiIface::getCurrentTime(gea::AbsTime *p_now) {
+    
 #if HAVE_WINDOWS_H
-    v = GetTickCount() * ( FixNum::offset / 1000L );
+    p_now->v = GetTickCount() * ( FixNum::offset / 1000L );
 #else
     struct timeval tv;
     ::gettimeofday(&tv,0);
-    v = StoreType(tv.tv_sec) * FixNum::offset;
-    v += StoreType(tv.tv_usec) * ( FixNum::offset / 1000000L );
+    p_now->v = AbsTime::StoreType(tv.tv_sec) * FixNum::offset;
+    p_now->v += AbsTime::StoreType(tv.tv_usec) * ( FixNum::offset / 1000000L );
 #endif // HAVE_WINDOWS_H
-    return AbsTime(v);
+    
 }
+
+
 
 
 

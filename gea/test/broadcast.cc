@@ -28,8 +28,9 @@ public:
 Broadcast::Broadcast(int argc , const char*const* argv)
 {
     this->udp = new gea::UdpHandle( gea::UdpHandle::Write,
-				    gea::UdpAddress( PORT /*port*/,
- 						     gea::UdpAddress::IP_BROADCAST ));
+				    gea::UdpAddress( gea::UdpAddress::IPADDR_BROADCAST, 
+						     PORT 
+						     ));
     
     GEA.waitFor(&blocker, 
 		gea::AbsTime::now() + 0.01,

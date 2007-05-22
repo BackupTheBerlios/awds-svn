@@ -3,11 +3,12 @@
 
 #include <queue>
 
+#include <gea/DependHandle.h>
 #include <gea/EventHandler.h>
 
 namespace gea {
     
-    class ShadowDepend {
+    class ShadowDepend : public SubDepend {
     public:
 
 	
@@ -81,8 +82,9 @@ namespace gea {
        
 	//	PendList pendList;
 	
-	ShadowDepend() : triggered(false) {}
-
+	ShadowDepend(DependHandle *dh) : triggered(false) {this->master = dh;}
+	virtual void complied();
+    
     };
 
 

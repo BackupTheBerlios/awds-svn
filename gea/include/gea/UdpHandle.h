@@ -2,7 +2,8 @@
 #define _UDPHANDLE_H__
 
 #include <gea/Handle.h>
-#include <sys/types.h>
+// #include <sys/types.h>
+#include <stdint.h>
 
 namespace gea {
     
@@ -10,37 +11,47 @@ namespace gea {
 
     public:	
 	
-	class ShadowUdpAddress * const shadow;
-	
-	static const char * IP_ANY;
-	static const char * IP_BROADCAST;
-	
-	/** create address from string representation of ip address and port number */
-	UdpAddress(int port, const char * ip_addr = IP_ANY);
-	
+	uint32_t ip;
+	uint16_t port;
+	bool     isBroadcast;
+		
+	static const uint32_t IPADDR_ANY;
+	static const uint32_t IPADDR_BROADCAST;
+		
 	/** create address from nummeric IP address and port number*/ 
 	UdpAddress(u_int32_t ip, u_int16_t port);
+	
 	
 	/** copy contructor */
 	UdpAddress(const UdpAddress& a);
 	UdpAddress& operator=(const UdpAddress& a);
 	
-	u_int32_t getIP() const;
+	uint32_t getIP() const { return this->ip; }
+	void     setIP(uint32_t ip) {this->ip = ip;  isBroadcast = (ip == IPADDR_BROADCAST); }
+	uint16_t getPort() const { return this->port; }
+	void     setPort(uint16_t port) {this->port = port; }
 	
-	void      setIP(u_int32_t ip);
-	
-	u_int16_t getPort() const;
-	
-	void      setPort(u_int16_t port);
-	
-	virtual ~UdpAddress();
     };
     
+    class SubUdpHandle {
+    public:
+	class UdpHandle *master;
+	
+	virtual int setSrc(const UdpAddress& src_addr) = 0 ;
+	virtual void setDest(const UdpAddress& dest_addr) = 0;
+	
+	virtual UdpAddress getSrc() const = 0;
+	virtual UdpAddress getDest() const = 0;
+	
+	virtual int write(const char *buf, int size) = 0;
+	virtual int read (char *buf, int size) = 0;
+	virtual ~SubUdpHandle() {};
+    };
     
     class UdpHandle : public gea::Handle{
 	
     public:
-	class ShadowUdpHandle * const shadowUdpHandle;
+	class SubUdpHandle * subUdpHandle;
 	   	
     public:
 

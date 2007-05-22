@@ -1,13 +1,14 @@
 #include <gea/ObjRepository.h>
-
+#include <gea/ApiIface.h>
 using namespace std;
 
 ObjRepository * ObjRepository::inst = 0;
 
 long ObjRepository::whichNode() const {
-    return 0;
+    return GEA_apiIface->getCurrentNode();
+    //    return 0;
 }
-    
+
 
 
 /* This stuff is for emacs

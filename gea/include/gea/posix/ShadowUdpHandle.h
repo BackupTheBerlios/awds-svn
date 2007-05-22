@@ -25,7 +25,7 @@
 #include <gea/UdpHandle.h>
 
 namespace gea {
-    
+    /*
     class ShadowUdpAddress {
 	
     public:	
@@ -38,10 +38,10 @@ namespace gea {
 	ShadowUdpAddress(const ShadowUdpAddress& a);
 	ShadowUdpAddress& operator=(const ShadowUdpAddress &a); 
     };
-
+    */
 
     
-    class ShadowUdpHandle : public UnixFdHandle {
+    class ShadowUdpHandle : public SubUdpHandle, public UnixFdHandle {
     
     protected:
 	UdpAddress addr;
@@ -52,13 +52,13 @@ namespace gea {
 
 	virtual ~ShadowUdpHandle();
     
-	int setSrc(const UdpAddress &src_addr);
-	void setDest(const UdpAddress &dest_addr);
+	virtual int setSrc(const UdpAddress& src_addr);
+	virtual void setDest(const UdpAddress &dest_addr);
 	virtual int write(const char *buf, int size);
         
 	virtual int read (char *buf, int size);
-	UdpAddress getSrc() const;
-	UdpAddress getDest() const;
+	virtual UdpAddress getSrc() const;
+	virtual UdpAddress getDest() const;
     };
     
 }

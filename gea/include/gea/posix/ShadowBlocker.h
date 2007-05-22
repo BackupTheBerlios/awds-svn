@@ -5,16 +5,16 @@
 
 namespace gea {
 
-class Blocker : public Handle {
+    class Blocker : public Handle {
+	
+    public: 
+	static const char * TypeName;
+	
+	virtual const char *getType() const;
+	virtual int write(const char *buf, int size);
+	virtual int read (char *buf, int size);
+    };
     
-public: 
-    static const char * TypeName;
-    
-    virtual const char *getType() const;
-    virtual int write(const char *buf, int size);
-    virtual int read (char *buf, int size);
-};
-
 };
 
 #endif //TIMER_H__

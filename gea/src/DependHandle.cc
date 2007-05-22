@@ -5,29 +5,18 @@
 #include <gea/posix/ShadowEventHandler.h>
 #include <gea/posix/ShadowDependHandle.h>
 #include <gea/API.h>
-
+#include <gea/ApiIface.h>
 
 gea::DependHandle::DependHandle() :
-    Handle(), 
-    shadowDepend(new ShadowDepend())
+    Handle() 
 {
-    assert(this->shadowDepend);
-    this->shadowHandle->handleType = gea::ShadowHandle::TypeDepend;
+    GEA_apiIface->createSubDepend(this);
 }
 
 gea::DependHandle::~DependHandle() {
-    
-    if (this->shadowDepend) 
-	delete this->shadowDepend;
-    
+    GEA_apiIface->createSubDepend(this);
 }
 
-void gea::DependHandle::complied() {
-    
-    //  this->shadowDepend->pendList.moveTo(GEA.shadow->pendList);
-    this->shadowDepend->triggered = true;
-    this->status = Handle::Ready;
-}
 
 /* This stuff is for emacs
  * Local variables:

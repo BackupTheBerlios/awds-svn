@@ -4,6 +4,8 @@
 
 #include <cassert>
 
+#include <gea/ApiIface.h>
+
 namespace gea {
     
     class AbsTime;
@@ -47,7 +49,7 @@ namespace gea {
         }
 	
 
-	static AbsTime now();
+	static AbsTime now() { AbsTime ret; GEA_apiIface->getCurrentTime(&ret); return ret; }
 	
     public:
 	

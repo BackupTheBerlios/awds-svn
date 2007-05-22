@@ -33,8 +33,8 @@ HidSt::HidSt(int argc , const char*const* argv) :
 	msgnr(1), freq(atof(argv[1]))
 {
     this->udp = new gea::UdpHandle( gea::UdpHandle::Write,
-				    gea::UdpAddress( PORT /*port*/,
- 						     gea::UdpAddress::IP_BROADCAST ));
+				    gea::UdpAddress( gea::UdpAddress::IPADDR_BROADCAST, 
+						     PORT /*port*/ ));
    
     GEA.waitFor(&blocker, 
 		gea::AbsTime::now() + 0.01,

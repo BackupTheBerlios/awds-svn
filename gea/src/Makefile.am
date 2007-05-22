@@ -1,28 +1,34 @@
 CPPFLAGS += "-I../include"
 
-lib_LTLIBRARIES = libgea-posix.la
+lib_LTLIBRARIES = libgea-posix.la libgea.la
 
-libgea_posix_la_SOURCES = \
+libgea_la_SOURCES = \
 	EventHandler.cc \
 	gea.cc \
 	Blocker.cc \
-	Time.cc \
-	UdpHandle.cc \
 	Handle.cc \
+	UdpHandle.cc \
 	DependHandle.cc \
+	ObjRepository.cc
+
+
+libgea_posix_la_SOURCES = \
+	Time.cc \
 	UnixFdHandle.cc \
+	ShadowBlocker.cc \
+	ShadowHandle.cc \
 	ShadowEventHandler.cc \
 	ShadowUdpHandle.cc \
+	ShadowDependHandle.cc \
 	NodeColor.cc \
 	guess_iface.cc \
-	ObjRepository.cc \
 	compat.cc \
 	AnimLink.cc
 
 libgea_posix_la_CPPFLAGS = -DGEA_POSIX 
 
-libgea_posix_la_LDFLAGS =   @NETWORK_LIBS@ -export-dynamic -version-info @MAJOR_VER@:@MINOR_VER@:0
+libgea_posix_la_LDFLAGS = @NETWORK_LIBS@ -static -version-info @MAJOR_VER@:@MINOR_VER@:0
 
-#libgea_posix_la_LDADD = 
+libgea_la_LDFLAGS = -version-info @MAJOR_VER@:@MINOR_VER@:0
 
 SUBDIRS = . utils

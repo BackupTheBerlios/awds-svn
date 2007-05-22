@@ -12,9 +12,9 @@ namespace gea {
 
 
     
-    class ShadowEventHandler {
+    class ShadowEventHandler : public SubEventHandler {
     protected:
-	gea::AbsTime& lastEventTime;
+	//gea::AbsTime& lastEventTime; // use master->lastEventTime instead.
 	
     public:
 	
@@ -50,11 +50,14 @@ namespace gea {
 	
 	
 	
-	ShadowEventHandler(gea::AbsTime& lastEventTime);
-	~ShadowEventHandler();
+	ShadowEventHandler(gea::EventHandler *master);
+	virtual ~ShadowEventHandler();
 
-	void waitFor(Handle *h, AbsTime timeout,
-		     gea::EventHandler::Event e, void *data);
+	virtual void waitFor(Handle *h, AbsTime timeout,
+			     gea::EventHandler::Event e, void *data);
+	
+	virtual std::ostream& dbg(unsigned level = 0x0000FFFF) ;
+	
 	void run();
 	
 
