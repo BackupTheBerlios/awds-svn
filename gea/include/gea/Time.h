@@ -35,6 +35,26 @@ namespace gea {
 	bool_op(>=);
 	bool_op(!=);
 #undef bool_op // we don't need this anymore
+
+	void toArray(void *p) const {
+	    unsigned long long temp = this->v;
+	    unsigned char *buf = (unsigned char *)p;
+	    buf += size;
+	    for (unsigned i = 0; i != size; ++i) {
+		--buf;
+		*buf = temp;
+		temp >>= 8;
+	    }
+	}
+	
+	void fromArray(const void *p) {
+	    unsigned char *buf = (unsigned char *)p;
+	    v = 0;
+	    for (unsigned i = 0; i != size; ++i) {
+		v <<= 8;
+		v |= buf[i];
+	    }
+	}
 	
     };
 

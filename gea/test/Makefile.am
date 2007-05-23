@@ -16,11 +16,14 @@ GEAS = periodic.gea \
 #check_PROGRAMS = periodic blink unixfd broadcast
 
 
+
 AM_LDFLAGS = -module -export-dynamic -avoid-version 
 
 foodir=/tmp/
-foo_LTLIBRARIES = $(GEAS:.gea=.la)
+foo_LTLIBRARIES = $(GEAS:.gea=.la) time2array.la
 
+time2array_la_SOURCES = time2array.cc
+time2array_la_LIBADD = -lgea
 
 periodic_la_SOURCES = periodic.cc
 
