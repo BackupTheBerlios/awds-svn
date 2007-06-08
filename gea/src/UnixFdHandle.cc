@@ -3,6 +3,7 @@
 
 #include <gea/posix/ShadowHandle.h>
 #include <gea/posix/UnixFdHandle.h>
+#include <gea/gea_main.h>
 
 using namespace gea;
 
@@ -14,7 +15,7 @@ UnixFdHandle::UnixFdHandle(int fd, gea::ShadowHandle::UnixMode mode)
     this->shadowHandle->unixFd = fd;
 }
 
-UnixFdHandle::~UnixFdHandle() {
+DLLEXPORT UnixFdHandle::~UnixFdHandle() {
     this->shadowHandle->unixFd = 0;
 }
 

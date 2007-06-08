@@ -6,3 +6,4 @@ Makefile
 periodic
 *.gea
 *.exe
+time2array

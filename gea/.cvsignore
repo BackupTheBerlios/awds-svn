@@ -16,3 +16,6 @@ install-sh
 config.cache
 build-stamp
 libgea*.tar.gz
+libltdl/
+ltmain.sh
+include/gea/config.h

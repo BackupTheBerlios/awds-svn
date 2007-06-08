@@ -2,15 +2,16 @@
 #include <gea/Handle.h>
 // #include <gea/posix/ShadowHandle.h>
 #include <gea/ApiIface.h>
+#include <gea/gea_main.h>
 
 #include <cassert>
 
-gea::Handle::Handle() 
+DLLEXPORT gea::Handle::Handle() 
 {
   GEA_apiIface->createShadowHandle(this);
 }
 
-gea::Handle::~Handle() {
+DLLEXPORT gea::Handle::~Handle() {
   GEA_apiIface->destroyShadowHandle(this);
 }
 

@@ -18,36 +18,29 @@
 
 #include <gea/ApiIface.h>
 #include <gea/UdpHandle.h>
-//#include <gea/posix/ShadowUdpHandle.h>
-//#include <gea/posix/ShadowHandle.h>
+#include <gea/gea_main.h>
 
 
 using namespace gea;
 
-// const char * UdpAddress::IP_ANY = "ip_any";
-// const char * UdpAddress::IP_BROADCAST = "ip_broadcast";
+DLLEXPORT const uint32_t UdpAddress::IPADDR_ANY = 0;
+DLLEXPORT const uint32_t UdpAddress::IPADDR_BROADCAST = 0xffffffffUL;
 
-const uint32_t UdpAddress::IPADDR_ANY = 0;
-const uint32_t UdpAddress::IPADDR_BROADCAST = 0xffffffffUL;
 
-// UdpAddress::UdpAddress(int port, const char * ip_addr) 
-//     :shadow(new ShadowUdpAddress(port, ip_addr) )
-// {}
-
-UdpAddress::UdpAddress(u_int32_t ip, u_int16_t port) 
+DLLEXPORT UdpAddress::UdpAddress(u_int32_t ip, u_int16_t port) 
 {
     setIP(ip);
     setPort(port);
 }
 
 
-UdpAddress::UdpAddress(const UdpAddress& a) :
+DLLEXPORT UdpAddress::UdpAddress(const UdpAddress& a) :
     ip(a.ip),
     port(a.port),
     isBroadcast(a.isBroadcast)
 { }
 
-UdpAddress& UdpAddress::operator=(const UdpAddress& a) {
+DLLEXPORT UdpAddress& UdpAddress::operator=(const UdpAddress& a) {
     ip = a.ip;
     port = a.port;
     isBroadcast = a.isBroadcast;
@@ -55,31 +48,15 @@ UdpAddress& UdpAddress::operator=(const UdpAddress& a) {
 }
 
 
-// u_int32_t UdpAddress::getIP() const {
-//     return shadow->addr.sin_addr.s_addr; 
-// }
 
-// void UdpAddress::setIP(u_int32_t ip) { 
-//     shadow->addr.sin_addr.s_addr = ip; 
-// }
-
-// u_int16_t UdpAddress::getPort() const {
-//     return ntohs(shadow->addr.sin_port); 
-// } 
-
-// void UdpAddress::setPort(u_int16_t port) { 
-//     shadow->addr.sin_port = htons(port); 
-// }
-
-
-unsigned long UdpHandle::getIP() {
+DLLEXPORT unsigned long UdpHandle::getIP() {
     return GEA_apiIface->getIpAddr();
 }
 
 
 #ifndef NO_TYPES_IO
 
-std::ostream &operator <<(std::ostream &s,
+DLLEXPORT std::ostream &operator <<(std::ostream &s,
 			  const gea::UdpAddress &a) {
     
     struct in_addr ip_addr;
@@ -96,34 +73,34 @@ std::ostream &operator <<(std::ostream &s,
 
 
 
-UdpHandle::UdpHandle(Mode mode, const UdpAddress& addr) :
+DLLEXPORT UdpHandle::UdpHandle(Mode mode, const UdpAddress& addr) :
     gea::Handle()
 {
     GEA_apiIface->createSubUdpHandle(this, mode == Recv, addr);
 }
 
-UdpHandle::~UdpHandle() {
+DLLEXPORT UdpHandle::~UdpHandle() {
     GEA_apiIface->destroySubUdpHandle(this);
 }
 
-int UdpHandle::setSrc(UdpAddress src_addr) {
+DLLEXPORT int UdpHandle::setSrc(UdpAddress src_addr) {
     return subUdpHandle->setSrc(src_addr);
 }
 
-void UdpHandle::setDest(UdpAddress dest_addr) {
+DLLEXPORT void UdpHandle::setDest(UdpAddress dest_addr) {
     subUdpHandle->setDest(dest_addr);
 }
 
 
-int UdpHandle::write(const char *buf, int size) {
+DLLEXPORT int UdpHandle::write(const char *buf, int size) {
     return subUdpHandle->write(buf, size);
 }
 
-int UdpHandle::read(char *buf, int size) {
+DLLEXPORT int UdpHandle::read(char *buf, int size) {
     return subUdpHandle->read(buf, size);
 }
 
-UdpAddress UdpHandle::getSrc() const {
+DLLEXPORT UdpAddress UdpHandle::getSrc() const {
     return subUdpHandle->getSrc();
 }
 

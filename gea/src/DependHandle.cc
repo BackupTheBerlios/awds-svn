@@ -6,14 +6,15 @@
 #include <gea/posix/ShadowDependHandle.h>
 #include <gea/API.h>
 #include <gea/ApiIface.h>
+#include <gea/gea_main.h>
 
-gea::DependHandle::DependHandle() :
+DLLEXPORT gea::DependHandle::DependHandle() :
     Handle() 
 {
     GEA_apiIface->createSubDepend(this);
 }
 
-gea::DependHandle::~DependHandle() {
+DLLEXPORT gea::DependHandle::~DependHandle() {
     GEA_apiIface->createSubDepend(this);
 }
 

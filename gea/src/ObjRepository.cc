@@ -1,10 +1,11 @@
 #include <gea/ObjRepository.h>
 #include <gea/ApiIface.h>
+#include <gea/gea_main.h>
 using namespace std;
 
-ObjRepository * ObjRepository::inst = 0;
+DLLEXPORT ObjRepository * ObjRepository::inst = 0;
 
-long ObjRepository::whichNode() const {
+DLLEXPORT long ObjRepository::whichNode() const {
     return GEA_apiIface->getCurrentNode();
     //    return 0;
 }

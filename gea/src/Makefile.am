@@ -11,6 +11,7 @@ libgea_la_SOURCES = \
 	DependHandle.cc \
 	ObjRepository.cc
 
+#libgea_la_CXXFLAGS = -fvisibility=hidden 
 
 libgea_posix_la_SOURCES = \
 	Time.cc \
@@ -25,7 +26,7 @@ libgea_posix_la_SOURCES = \
 	compat.cc \
 	AnimLink.cc
 
-libgea_posix_la_CPPFLAGS = -DGEA_POSIX 
+libgea_posix_la_CPPFLAGS = -DGEA_POSIX -fvisibility=hidden 
 
 libgea_posix_la_LDFLAGS = @NETWORK_LIBS@ -version-info @MAJOR_VER@:@MINOR_VER@:0
 
