@@ -23,7 +23,7 @@ foodir=/tmp/
 foo_LTLIBRARIES = $(GEAS:.gea=.la) time2array.la
 
 time2array_la_SOURCES = time2array.cc
-time2array_la_LIBADD = -lgea
+
 
 periodic_la_SOURCES = periodic.cc
 

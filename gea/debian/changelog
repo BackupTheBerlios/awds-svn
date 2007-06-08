@@ -1,3 +1,9 @@
+libgea (2.1) unstable; urgency=low
+
+  * 
+
+ -- Andre Herms <aherms@euklab.cs.uni-magdeburg.de>  Thu,  7 Jun 2007 12:23:19 +0200
+
 libgea (2.0) unstable; urgency=low
 
   * this version contains changes that make it binary incampatible with previous one!
