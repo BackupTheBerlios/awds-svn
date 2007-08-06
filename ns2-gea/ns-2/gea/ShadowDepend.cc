@@ -38,7 +38,7 @@ void ShadowDepend::activate(AbsTime t,
     this->data = data;
     assert(this->status() != TIMER_PENDING);
   
-    this->sched(t - AbsTime::now());
+    this->resched(t - AbsTime::now());
     assert(this->status() == TIMER_PENDING);
   
 }

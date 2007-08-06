@@ -40,7 +40,7 @@ void ShadowDepend::complied() {
     this->master->status = gea::Handle::Ready;
     
     ShadowEventHandler *shadow = dynamic_cast<ShadowEventHandler *>(GEA.subEventHandler);
-    shadow->addPendingEvent(this->master, this->e, AbsTime::now(), this->data);
+    shadow->addPendingEvent(this->master, this->e, GEA.lastEventTime, this->data);
     
 }
 

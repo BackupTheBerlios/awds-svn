@@ -24,8 +24,8 @@ void gea::initNs2ApiIface() {
 
 int gea::gea_start(::TclObject *node, int argc,const char * const * argv) {
 
-    std::cerr << "Starting plugin: $filename" << endl;
-
+//    std::cerr << "Starting plugin: $filename" << endl;
+    
 
     initNs2ApiIface();
 
