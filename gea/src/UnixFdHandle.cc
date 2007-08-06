@@ -8,7 +8,7 @@
 using namespace gea;
 
 
-UnixFdHandle::UnixFdHandle(int fd, gea::ShadowHandle::UnixMode mode) 
+DLLEXPORT UnixFdHandle::UnixFdHandle(int fd, gea::ShadowHandle::UnixMode mode) 
 {
     this->shadowHandle->handleType = ShadowHandle::TypeUnixFdHandle;
     this->shadowHandle->unixMode = mode;
@@ -26,13 +26,13 @@ DLLEXPORT UnixFdHandle::~UnixFdHandle() {
 //     return UnixFdHandle::TypeName; 
 // }
 
-int UnixFdHandle::write(const char *buf, int size) {
+DLLEXPORT int UnixFdHandle::write(const char *buf, int size) {
     assert (status == Ready);
     assert (this->shadowHandle->isUnixFdHandle());
     return ::write(this->shadowHandle->unixFd, buf, size);
 }
 
-int UnixFdHandle::read (char *buf, int size) {
+DLLEXPORT int UnixFdHandle::read (char *buf, int size) {
     assert (status == Ready);
     return ::read(this->shadowHandle->unixFd, buf, size);
     

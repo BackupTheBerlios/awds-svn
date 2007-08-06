@@ -24,6 +24,8 @@
 #include <gea/posix/UnixFdHandle.h>
 #include <gea/posix/PosixApiIface.h>
 
+#include <gea/gea_main.h>
+
 class NullBuf : public std::basic_streambuf<char> {
 public:
     NullBuf() : std::basic_streambuf<char>() {};
@@ -231,7 +233,7 @@ struct resetDepTrigger {
 
 
 
-void gea::ShadowEventHandler::run() {
+DLLEXPORT void gea::ShadowEventHandler::run() {
     
 
     while (! eventList.empty() ) {
@@ -351,7 +353,7 @@ long gea::PosixApiIface::getCurrentNode() {
 
 #include <gea/API.h>
 
-void gea::initPosixApiIface() {
+DLLEXPORT void gea::initPosixApiIface() {
     GEA_apiIface = new gea::PosixApiIface();
     GEA_apiIface->createSubEventHandler(&GEA);
 }
