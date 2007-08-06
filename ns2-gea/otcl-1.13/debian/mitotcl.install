@@ -1,0 +1,6 @@
+usr/bin/*
+usr/lib/lib*.so.*
+usr/lib/lib*.a
+usr/lib/lib*.so
+usr/lib/*.la
+usr/share/doc/mitotcl/*

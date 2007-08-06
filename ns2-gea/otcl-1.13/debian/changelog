@@ -1,0 +1,24 @@
+otcl (1.13-1) unstable; urgency=low
+
+  * Using new version of MIT otcl
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Mon, 06 Aug 2007 17:30:01 +0200
+
+otcl (1.9-1) unstable; urgency=low
+
+  * new otcl release
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Tue,  8 Feb 2005 11:08:37 +0100
+
+otcl (1.8-2) unstable; urgency=low
+
+  * fixed dependencies 
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Sun, 23 Jan 2005 14:59:43 +0100
+
+otcl (1.8-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Tue,  4 Jan 2005 11:42:28 +0100
+
