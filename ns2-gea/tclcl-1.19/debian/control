@@ -1,0 +1,27 @@
+Source: tclcl
+Priority: optional
+Maintainer: Andre Herms <aherms@ivs.cs.uni-magdeburg.de>
+Build-Depends: debhelper (>= 4.0.0), mitotcl-dev, tcl8.4-dev, tk8.4-dev
+Standards-Version: 3.6.1
+
+Package: tclcl-dev
+Section: libdev
+Architecture: any
+Depends: tclcl, tcl8.4-dev, tk8.4-dev, mitotcl-dev
+Description: contains the tcl/C++ interface used by vic, vat, ns, rtp_play, and nam.
+ This directory contains the tcl/C++ interface used by vic, vat, ns,
+ rtp_play, and nam.  Be very careful when you change anything as all
+ these tools depend on this code.
+ - Steve
+
+
+Package: tclcl
+Section: libs
+Architecture: any
+Depends: tcl8.4, tk8.4, mitotcl, ${shlibs:Depends}, ${misc:Depends}
+Description: contains the tcl/C++ interface used by vic, vat, ns, rtp_play, and nam.
+ This directory contains the tcl/C++ interface used by vic, vat, ns,
+ rtp_play, and nam.  Be very careful when you change anything as all
+ these tools depend on this code.
+ - Steve
+
