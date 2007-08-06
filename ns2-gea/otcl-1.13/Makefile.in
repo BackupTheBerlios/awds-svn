@@ -25,6 +25,8 @@ SHLIB_LD_LIBS  = @SHLIB_LD_LIBS@
 # where to install shells, libraries, and includes
 #
 
+DESTDIR=/
+
 INST_OTCLSH=	@prefix@/bin
 INST_OWISH=	@prefix@/bin
 INST_OLIB=	@prefix@/lib
@@ -115,12 +117,12 @@ dirs:
 	done
 
 install: owish otclsh libotcl.a libotcl$(SHLIB_SUFFIX) otcl.h dirs
-	$(INSTALL) owish $(INST_OWISH)
-	$(INSTALL) otclsh $(INST_OTCLSH)
-	$(INSTALL) libotcl.a $(INST_OLIB)
-	$(RANLIB)  $(INST_OLIB)/libotcl.a
-	$(INSTALL) libotcl$(SHLIB_SUFFIX) $(INST_OLIBSH)
-	$(INSTALL) -m 644 otcl.h $(INST_OINC)
+	$(INSTALL) owish $(DESTDIR)$(INST_OWISH)
+	$(INSTALL) otclsh $(DESTDIR)$(INST_OTCLSH)
+	$(INSTALL) libotcl.a $(DESTDIR)$(INST_OLIB)
+	$(RANLIB)  $(DESTDIR)$(INST_OLIB)/libotcl.a
+	$(INSTALL) libotcl$(SHLIB_SUFFIX) $(DESTDIR)$(INST_OLIBSH)
+	$(INSTALL) -m 644 otcl.h $(DESTDIR)$(INST_OINC)
 
 clean:
 	rm -f owish otclsh libotcl.a libotcl$(SHLIB_SUFFIX) \
