@@ -79,6 +79,7 @@ public class InputParser extends DefaultHandler implements Runnable{
 	} //of if
 	if(attributes != null){
 	    for(int i = 0; i < attributes.getLength(); i++){
+		
 		attrib = attributes.getQName(i).toLowerCase();
 		if(attrib.equals("id")){
 		    
@@ -153,7 +154,8 @@ public class InputParser extends DefaultHandler implements Runnable{
 		    } //of if
 		    continue;
 		} //of if
-		if((i > 0)&&(attrib.equals("to"))){
+		
+		if( (i > 0) && attrib.equals("to") ) {
 		    if((ntag.equals("edge"))||(ntag.equals("add_edge"))||(ntag.equals("modify_edge"))){
 			Node from = tg_panel.findNode(attributes.getValue(i-1));
 			Node to = tg_panel.findNode(attributes.getValue(i));
@@ -197,13 +199,15 @@ public class InputParser extends DefaultHandler implements Runnable{
 		    } //of if
 		    continue;
 		} //of if
-		if(attrib.equals("value")){
+		
+		if( attrib.equals("value") ) {
 		    if(connect != null){
 			int val = 100;
 			try{
-			    val = 
-				(new Integer(attributes.getValue(i).substring(0,
-									      attributes.getValue(i).indexOf("%")))).intValue();
+			    String param_val = attributes.getValue(i);
+			    String number = param_val.substring(0, param_val.indexOf("%"));
+			    val = new Double(number).intValue();
+				   
 			} catch(NumberFormatException nfe){
 			    System.out.println("NumberFormat-Exception in method <InputParser.startElement>");
 			    System.out.print("\"");
@@ -215,7 +219,8 @@ public class InputParser extends DefaultHandler implements Runnable{
 		    } //of if
 		    continue;
 		} //of if
-		if(attrib.equals("pix")){
+		
+		if( attrib.equals("pix") ) {
 		    int pixOneMeter = 1;
 		    try{
 			pixOneMeter = (new Integer(attributes.getValue(i))).intValue();
