@@ -5,7 +5,8 @@ Xerces-J-bin.2.9.0.zip:
 	wget http://archive.apache.org/dist/xml/xerces-j/binaries/Xerces-J-bin.2.9.0.zip
 
 batik-1.6.zip:
-	wget http://apache.autinity.de/xml/batik/batik-1.6.zip
+	wget http://apache.linux-mirror.org/xmlgraphics/batik/batik-1.6.zip
+#	wget http://apache.autinity.de/xml/batik/batik-1.6.zip
 
 xerces-2_9_0/xercesImpl.jar: Xerces-J-bin.2.9.0.zip
 	jar xvf Xerces-J-bin.2.9.0.zip xerces-2_9_0/xercesImpl.jar
