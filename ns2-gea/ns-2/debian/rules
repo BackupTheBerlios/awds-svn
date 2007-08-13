@@ -24,6 +24,8 @@ else
 	CFLAGS += -O3
 endif
 
+configure: configure.in
+	autoconf
 
 config.status: configure Makefile.in
 	dh_testdir

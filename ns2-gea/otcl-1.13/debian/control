@@ -2,7 +2,7 @@ Source: otcl
 Priority: optional
 Maintainer: Andre Herms <aherms@ivs.cs.uni-magdeburg.de>
 Build-Depends: debhelper (>= 4.0.0), tcl8.4-dev, tk8.4-dev, tk8.4, tcl8.4 
-Standards-Version: 3.6.1
+Standards-Version: 3.7.2
 
 Package: mitotcl-dev
 Section: libdev
