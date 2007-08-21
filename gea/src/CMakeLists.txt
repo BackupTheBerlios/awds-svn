@@ -43,7 +43,3 @@ SET_TARGET_PROPERTIES(gea gea-posix
 
 INSTALL(TARGETS gea gea-posix LIBRARY DESTINATION lib)
 
-INSTALL(DIRECTORY "../include/gea/"
-  DESTINATION include/gea/
-  REGEX ".\\.$" EXCLUDE
-  )
