@@ -1,0 +1,7 @@
+- Quellcode von Wireshark (0.99.6)
+- Archiv in ein Verzeichnis entpacken
+- AWDS-Verzeichnis in Ordner 'plugins' kopieren
+- Patch im Wireshark-Source einspielen (patch -p1 < ../add_awds.diff)
+- './autogen.sh' ausfuehren
+- './configure' ausfuehren evt. mit Option '--disable-gtk2'
+- 'make' ausfuehren

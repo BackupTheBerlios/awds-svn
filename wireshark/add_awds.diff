@@ -1,0 +1,83 @@
+diff -uNr wireshark-0.99.6/configure.in wireshark-0.99.6p-back/configure.in
+--- wireshark-0.99.6/configure.in	2007-07-05 21:25:24.000000000 +0200
++++ wireshark-0.99.6p-back/configure.in	2007-08-28 15:46:56.000000000 +0200
+@@ -1504,6 +1504,7 @@
+   plugins/agentx/Makefile
+   plugins/artnet/Makefile
+   plugins/asn1/Makefile
++  plugins/awds/Makefile
+   plugins/ciscosm/Makefile
+   plugins/docsis/Makefile
+   plugins/enttec/Makefile
+diff -uNr wireshark-0.99.6/plugins/Makefile.am wireshark-0.99.6p-back/plugins/Makefile.am
+--- wireshark-0.99.6/plugins/Makefile.am	2007-07-05 21:22:47.000000000 +0200
++++ wireshark-0.99.6p-back/plugins/Makefile.am	2007-08-28 15:24:44.000000000 +0200
+@@ -25,6 +25,7 @@
+ 	agentx \
+ 	artnet \
+ 	asn1 \
++	awds \
+ 	ciscosm \
+ 	docsis \
+ 	enttec \
+diff -uNr wireshark-0.99.6/plugins/Makefile.nmake wireshark-0.99.6p-back/plugins/Makefile.nmake
+--- wireshark-0.99.6/plugins/Makefile.nmake	2007-07-05 21:22:47.000000000 +0200
++++ wireshark-0.99.6p-back/plugins/Makefile.nmake	2007-08-28 15:26:41.000000000 +0200
+@@ -10,6 +10,7 @@
+ 	agentx \
+ 	artnet \
+ 	asn1 \
++	awds \
+ 	ciscosm \
+ 	custom \
+ 	docsis \
+@@ -50,6 +51,11 @@
+ 	$(MAKE) /$(MAKEFLAGS) -f Makefile.nmake
+ 	cd ..
+ 
++awds:: 
++	cd awds
++	$(MAKE) /$(MAKEFLAGS) -f Makefile.nmake
++	cd ..
++
+ ciscosm:: 
+ 	cd ciscosm
+ 	$(MAKE) /$(MAKEFLAGS) -f Makefile.nmake
+@@ -174,6 +180,9 @@
+ 	cd asn1
+ 	$(MAKE) /$(MAKEFLAGS) -f Makefile.nmake clean
+ 	cd ..
++	cd awds
++	$(MAKE) /$(MAKEFLAGS) -f Makefile.nmake clean
++	cd ..
+ 	cd ciscosm
+ 	$(MAKE) /$(MAKEFLAGS) -f Makefile.nmake clean
+ 	cd ..
+@@ -252,6 +261,9 @@
+ 	cd asn1
+ 	$(MAKE) /$(MAKEFLAGS) -f Makefile.nmake distclean
+ 	cd ..
++	cd awds
++	$(MAKE) /$(MAKEFLAGS) -f Makefile.nmake distclean
++	cd ..
+ 	cd ciscosm
+ 	$(MAKE) /$(MAKEFLAGS) -f Makefile.nmake distclean
+ 	cd ..
+@@ -330,6 +342,9 @@
+ 	cd asn1
+ 	$(MAKE) /$(MAKEFLAGS) -f Makefile.nmake maintainer-clean
+ 	cd ..
++	cd awds
++	$(MAKE) /$(MAKEFLAGS) -f Makefile.nmake maintainer-clean
++	cd ..
+ 	cd ciscosm
+ 	$(MAKE) /$(MAKEFLAGS) -f Makefile.nmake maintainer-clean
+ 	cd ..
+@@ -407,6 +422,7 @@
+ 	xcopy agentx\*.dll $(VERSION) /d
+ 	xcopy artnet\*.dll $(VERSION) /d
+ 	xcopy asn1\*.dll $(VERSION) /d
++	xcopy awds\*.dll $(VERSION) /d
+ 	xcopy ciscosm\*.dll $(VERSION) /d
+ 	xcopy docsis\*.dll $(VERSION) /d
+ 	xcopy enttec\*.dll $(VERSION) /d
