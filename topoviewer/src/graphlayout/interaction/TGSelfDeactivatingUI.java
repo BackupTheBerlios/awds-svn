@@ -72,4 +72,4 @@ public abstract class TGSelfDeactivatingUI extends TGUserInterface {
         selfDeactivate = sd;
     }
 
-} // end com.touchgraph.graphlayout.interaction.TGSelfDeactivatingUI
+} //of class TGSelfDeactivatingUI

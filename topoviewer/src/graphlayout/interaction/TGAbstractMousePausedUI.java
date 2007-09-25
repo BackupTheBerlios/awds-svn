@@ -153,4 +153,4 @@ public abstract class TGAbstractMousePausedUI extends TGUserInterface {
         }
     }
 
-} // end com.touchgraph.graphlayout.interaction.TGAbstractMousePauseUI
+} //of class TGAbstractMousePauseUI

@@ -60,4 +60,4 @@ public abstract class TGForEachNode {
 
     public abstract void forEachNode( Node n );
 
-} // end com.touchgraph.graphlayout.graphelements.TGForEachNode
+} //of class TGForEachNode

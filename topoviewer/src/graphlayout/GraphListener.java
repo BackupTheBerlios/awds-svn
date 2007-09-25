@@ -60,4 +60,4 @@ public interface GraphListener extends EventListener{
     void graphMoved();
     void graphReset();
 
-} // end com.touchgraph.graphlayout.GraphListener
+} //of interface GraphListener

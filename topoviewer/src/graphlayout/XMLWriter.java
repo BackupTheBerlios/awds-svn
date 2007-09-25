@@ -18,7 +18,7 @@ public class XMLWriter{
     try{
       fwriter = new FileWriter(path);
     } catch (IOException e){
-      System.out.println("Can't create \"" + path + "\"!");
+      System.out.println("Couldn't create \"" + path + "\"!");
       return;
     } //of try-catch
     writeLine("<?xml version=\"1.0\"?>");
@@ -56,7 +56,7 @@ public class XMLWriter{
       try{
         fwriter.write(line + "\r\n");
       } catch (IOException e){
-        System.out.println("Can't write \"" + line + "\"!");
+        System.out.println("Couldn't write \"" + line + "\"!");
         return;
       } //of try-catch
     } //of if
@@ -67,9 +67,9 @@ public class XMLWriter{
       try{
         fwriter.close();
       } catch (IOException e){
-        System.out.println("Can't complete XML-File!");
+        System.out.println("Couldn't complete XML-File!");
         return;
       } //of try-catch
     } //of if
   } //of fclose
-} //of XMLWriter
+} //of class XMLWriter

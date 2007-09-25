@@ -138,4 +138,4 @@ public class DragMultiselectUI extends TGAbstractDragUI implements TGPaintListen
 
     }
 
-} // end
+} //of class DragMultiselectUI

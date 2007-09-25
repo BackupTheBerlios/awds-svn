@@ -120,4 +120,4 @@ public class DragNodeUI extends TGAbstractDragUI{
 
     }
 
-} // end com.touchgraph.graphlayout.interaction.DragNodeUI
+} //of class DragNodeUI

@@ -323,4 +323,4 @@ public class LocalityUtils {
             }
         }.start();
     }
-} // end com.touchgraph.graphlayout.LocalityUtils
+} //of class LocalityUtils

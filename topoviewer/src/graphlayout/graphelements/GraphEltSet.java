@@ -353,39 +353,37 @@ public class GraphEltSet implements ImmutableGraphEltSet {
         }
     }
 
-   /** A way of iterating through all the nodes.
-     * Maybe too complex, and should be replaced by iterators.
-     */
-    public void forAllNodes( TGForEachNode fen ) {
-        synchronized(nodes) {
-            for (int i=0;i<nodeCount();i++) {
-                Node n = nodeAt(i);
-                fen.forEachNode(n);
-            }
-        }
-    }
+  /** A way of iterating through all the nodes.
+    * Maybe too complex, and should be replaced by iterators.
+    */
+  public void forAllNodes(TGForEachNode fen){
+    synchronized(nodes){
+      for(int i = 0; i < nodeCount(); i++){
+        Node n = nodeAt(i);
+        if(n != null)fen.forEachNode(n);
+      } //of for
+    } //of synchronized
+  } //of forAllNodes
 
-    /** iterates through pairs of Nodes. */
-    public void forAllNodePairs( TGForEachNodePair fenp ) {
-        synchronized(nodes) {
-            for (int i=0;i<nodeCount();i++) {
-                Node n1=nodeAt(i);
-                fenp.beforeInnerLoop(n1);
-                for (int j=i+1;j<nodeCount();j++)
-                    fenp.forEachNodePair(n1, nodeAt(j));
-                fenp.afterInnerLoop(n1);
-            }
-        }
-    }
+  /** iterates through pairs of Nodes. */
+  public void forAllNodePairs(TGForEachNodePair fenp){
+    synchronized(nodes){
+      for(int i = 0; i < nodeCount(); i++){
+        Node n1 = nodeAt(i);
+        fenp.beforeInnerLoop(n1);
+        for(int j = i + 1; j < nodeCount(); j++)fenp.forEachNodePair(n1, nodeAt(j));
+        fenp.afterInnerLoop(n1);
+      } //of for
+    } //of synchronized
+  } //of forAllNodePairs
 
-    /** Iterates through Edges. */
-    public void forAllEdges( TGForEachEdge fee ) {
-        synchronized(edges) {
-            for (int i=0;i<edgeCount();i++) {
-                Edge e = edgeAt(i);
-                fee.forEachEdge(e);
-            }
-        }
-    }
-
-} // end com.touchgraph.graphlayout.graphelements.GraphEltSet
+  /** Iterates through Edges. */
+  public void forAllEdges(TGForEachEdge fee){
+    synchronized(edges){
+      for(int i = 0; i < edgeCount(); i++){
+        Edge e = edgeAt(i);
+        if(e != null)fee.forEachEdge(e);
+      } //of for
+    } //of synchronized
+  } //of forAllEdges
+} //of class GraphEltSet

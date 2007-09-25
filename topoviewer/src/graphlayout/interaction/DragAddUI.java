@@ -144,4 +144,4 @@ public class DragAddUI extends TGAbstractDragUI implements TGPaintListener {
                mousePos.x, mousePos.y, c);
     }
 
-} // end com.touchgraph.graphlayout.interaction.DragAddUI
+} //of class DragAddUI

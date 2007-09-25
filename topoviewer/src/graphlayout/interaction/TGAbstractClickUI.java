@@ -97,4 +97,4 @@ public abstract class TGAbstractClickUI extends TGSelfDeactivatingUI {
         }
     }
 
-} // end com.touchgraph.graphlayout.interaction.TGAbstractClickUI
+} //of class TGAbstractClickUI

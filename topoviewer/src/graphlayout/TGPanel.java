@@ -153,7 +153,7 @@ public class TGPanel extends JSVGCanvas{
           try{
             invTrans = getRenderingTransform().createInverse();
           } catch(NoninvertibleTransformException ex){
-            System.out.println("Can't create inverse matrix");
+            System.out.println("Couldn't create inverse matrix");
           } //of try-catch
 
           AffineTransform renTrans = new AffineTransform();
@@ -941,7 +941,7 @@ public class TGPanel extends JSVGCanvas{
       try{
         invTrans = getRenderingTransform().createInverse();
       } catch(NoninvertibleTransformException ex){
-        System.out.println("Can't create inverse matrix");
+        System.out.println("Couldn't create inverse matrix");
       } //of try-catch
 
       AffineTransform renTrans = new AffineTransform();
@@ -983,7 +983,7 @@ public class TGPanel extends JSVGCanvas{
       try{
         invTrans = getRenderingTransform().createInverse();
       } catch(NoninvertibleTransformException ex){
-        System.out.println("Can't create inverse matrix");
+        System.out.println("Couldn't create inverse matrix");
       } //of try-catch
 
       AffineTransform renTrans = new AffineTransform();
@@ -1031,7 +1031,7 @@ public class TGPanel extends JSVGCanvas{
       try{
         invTrans = getRenderingTransform().createInverse();
       } catch(NoninvertibleTransformException ex){
-        System.out.println("Can't create inverse matrix");
+        System.out.println("Couldn't create inverse matrix");
       } //of try-catch
 
       AffineTransform renTrans = new AffineTransform();

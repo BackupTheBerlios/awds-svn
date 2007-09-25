@@ -200,4 +200,4 @@ public class Locality extends GraphEltSet {
         completeEltSet.clearAll();
     }
 
-} // end com.touchgraph.graphlayout.graphelements.Locality
+} //of class Locality

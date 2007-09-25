@@ -64,4 +64,4 @@ public interface TGPaintListener extends EventListener{
     void paintAfterEdges(Graphics g);
     void paintLast(Graphics g);
 
-} // end com.touchgraph.graphlayout.TGPaintListener
+} //of interface TGPaintListener

@@ -97,4 +97,4 @@ public abstract class TGAbstractMouseMotionUI extends TGUserInterface{
 						TGAbstractMouseMotionUI.this.mouseMoved(e);
 			}
 	}
-} // end com.touchgraph.graphlayout.interaction.TGAbstractMouseMotionUI
+} //of class TGAbstractMouseMotionUI

@@ -140,4 +140,4 @@ public class VisibleLocality extends Locality {
         };
         completeEltSet.forAllEdges(fee);
     }
-} // end com.touchgraph.graphlayout.graphelements.VisibleLocality
+} //of class VisibleLocality

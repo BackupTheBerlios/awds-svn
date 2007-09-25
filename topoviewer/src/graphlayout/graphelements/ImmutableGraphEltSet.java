@@ -106,4 +106,4 @@ public interface ImmutableGraphEltSet {
     /** iterates through Edges. */
     public void forAllEdges( TGForEachEdge fee );
 
-} // end com.touchgraph.graphlayout.graphelements.ImmutableGraphEltSet
+} //of interface ImmutableGraphEltSet

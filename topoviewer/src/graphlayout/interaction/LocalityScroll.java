@@ -111,4 +111,4 @@ public class LocalityScroll implements GraphListener {
         }
     }
 
-} // end com.touchgraph.graphlayout.interaction.LocalityScroll
+} //of class LocalityScroll

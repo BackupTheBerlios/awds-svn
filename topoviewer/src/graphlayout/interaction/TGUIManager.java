@@ -116,4 +116,4 @@ public class TGUIManager {
         }
     }
 
-} // end com.touchgraph.graphlayout.interaction.TGUIManager
+} //of class TGUIManager

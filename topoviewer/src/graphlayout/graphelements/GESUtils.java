@@ -140,4 +140,4 @@ public class GESUtils {
         return (Hashtable) subgraphVector.elementAt(maxIndex);
     }
 
-} // end com.touchgraph.graphlayout.graphelements.GraphEltSet
+} //of class GraphEltSet

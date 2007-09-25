@@ -42,4 +42,4 @@ public class JFileFilter extends javax.swing.filechooser.FileFilter{
   public String getDescription(){
     return description;
   } //of getDescription
-} //of JFileFilter
+} //of class JFileFilter

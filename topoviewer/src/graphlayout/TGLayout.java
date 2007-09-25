@@ -320,7 +320,7 @@ public class TGLayout implements Runnable {
 
   private void myWait(){ //I think it was Netscape that caused me not to use Wait, or was it java 1.1?
     try{
-      Thread.sleep(100);
+      Thread.currentThread().sleep(100);
     } catch (InterruptedException e){} //of try-catch
   } //of myWait
 
@@ -345,4 +345,4 @@ public class TGLayout implements Runnable {
   public void stop(){
     relaxer = null;
   } //of stop
-} // end graphlayout.TGLayout
+} //of class TGLayout

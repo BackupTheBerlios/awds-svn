@@ -555,4 +555,4 @@ public class Node {
   public void setURL(String strUrl) {
     this.strUrl = strUrl;
   }
-} // end com.touchgraph.graphlayout.Node
+} //of class Node

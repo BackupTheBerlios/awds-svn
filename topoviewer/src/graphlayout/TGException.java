@@ -128,4 +128,4 @@ public class TGException extends Exception {
         return id;
     }
 
-} // end com.touchgraph.graphlayout.TGException
+} //of class TGException

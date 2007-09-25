@@ -231,4 +231,4 @@ public class Edge {
       if(intersects(tgPanel.getSize()))paintArrow(g, x1, y1, x2, y2, c);
     } //of if
   } //of paint
-} //of graphlayout.Edge
+} //of class Edge

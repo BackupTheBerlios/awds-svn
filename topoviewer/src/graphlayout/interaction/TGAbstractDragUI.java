@@ -122,4 +122,4 @@ public abstract class TGAbstractDragUI extends TGSelfDeactivatingUI {
         }
     }
 
-} // end com.touchgraph.graphlayout.interaction.TGAbstractDragUI
+} //of class TGAbstractDragUI

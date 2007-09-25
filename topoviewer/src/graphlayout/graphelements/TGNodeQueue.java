@@ -85,4 +85,4 @@ public class TGNodeQueue {
         return queue.contains(n);
     }
 
-} // end com.touchgraph.graphlayout.graphelements.TGNodeQueue
+} //of class TGNodeQueue

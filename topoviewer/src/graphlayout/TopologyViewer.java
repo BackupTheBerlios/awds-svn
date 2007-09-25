@@ -8,6 +8,7 @@ import javax.swing.event.*;
 import graphlayout.interaction.*;
 
 public class TopologyViewer extends JFrame{
+  public static String VERSION = "v0.6.0";                         //revision of this program
   public static Font STD_FONT = new Font("Arial", Font.PLAIN, 12); //standard font
   public static Color BACKGROUND = Color.LIGHT_GRAY;               //standard backround
   public static Color FOREGROUND = Color.BLACK;                    //standard foreground
@@ -19,6 +20,7 @@ public class TopologyViewer extends JFrame{
   private static String loc_path;                                  //path to a local file
   private static String map_path;                                  //path to background map
   private static boolean console;                                  //starting programm with console parameters?
+  private static boolean reconnect;                                //reconnect if socket error
   
   private JMenuItem map_item;                                      //menu entry for loading map
   private TGPanel tg_panel;                                        //the touchgraph panel
@@ -31,7 +33,7 @@ public class TopologyViewer extends JFrame{
    * Constructor for class TopologyViewer
    */
   public TopologyViewer(){
-    super("Topology-Viewer");
+    super("Topology-Viewer " + VERSION);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     Container frame = getContentPane();
   
@@ -169,18 +171,20 @@ public class TopologyViewer extends JFrame{
 
     setVisible(true);
 
-    //--maybe load information from console--//
+    //--perhaps load information from console--//
     //--graph--//
-    if(loc_path != null){
-      new InputParser(tg_panel, loc_path);
-      map_item.setEnabled(true);
-      //--map--//
-      tg_panel.loadMap(map_path);
-    } else if(console){
-      new InputParser(tg_panel, host, port);
-      map_item.setEnabled(true);
-      //--map--//
-      tg_panel.loadMap(map_path);
+    if(console){
+      if(loc_path != null){
+        new InputParser(tg_panel, loc_path);
+        map_item.setEnabled(true);
+        //--map--//
+        tg_panel.loadMap(map_path);
+      } else {
+        new InputParser(tg_panel, host, port, reconnect);
+        map_item.setEnabled(true);
+        //--map--//
+        tg_panel.loadMap(map_path);
+      } //of if-else
     } //of if
   } //of TopologyViewer
   
@@ -226,8 +230,9 @@ public class TopologyViewer extends JFrame{
           class ConnectDialog extends JDialog implements ActionListener{
             private boolean press_ok;
             private JButton ok, cancel;
+            private JCheckBox reconnect_field;
             private JTextField host_field, port_field;
-            
+
             public ConnectDialog(JFrame owner){
               super(owner, "Connect to host");
 
@@ -242,44 +247,58 @@ public class TopologyViewer extends JFrame{
               dialog.setLayout(null);
               dialog.setBackground(BACKGROUND);
               dialog.setForeground(FOREGROUND);
-              
+
               JGroupBox groupbox = new JGroupBox();
               groupbox.setFont(STD_FONT);
               groupbox.setLayout(null);
               groupbox.setBackground(BACKGROUND);
               groupbox.setForeground(FOREGROUND);
-              groupbox.setBounds(15, 10, 270, 100);
+              groupbox.setBounds(15, 10, 270, 105);
               dialog.add(groupbox);
-              
+
               JLabel label = new JLabel("Host:");
               label.setFont(new Font("Arial", Font.BOLD, 12));
               label.setBackground(BACKGROUND);
               label.setForeground(FOREGROUND);
-              label.setBounds(20, 25, 50, 15);
+              label.setBounds(20, 15, 65, 15);
               groupbox.add(label);
 
               label = new JLabel("Port:");
               label.setFont(new Font("Arial", Font.BOLD, 12));
               label.setBackground(BACKGROUND);
               label.setForeground(FOREGROUND);
-              label.setBounds(20, 60, 50, 15);
+              label.setBounds(20, 45, 65, 15);
               groupbox.add(label);
-              
+
+              label = new JLabel("Reconnect:");
+              label.setFont(new Font("Arial", Font.BOLD, 12));
+              label.setBackground(BACKGROUND);
+              label.setForeground(FOREGROUND);
+              label.setBounds(20, 75, 65, 15);
+              groupbox.add(label);
+
+              reconnect_field = new JCheckBox("", reconnect);
+              reconnect_field.setFont(STD_FONT);
+              reconnect_field.setBackground(BACKGROUND);
+              reconnect_field.setForeground(FOREGROUND);
+              reconnect_field.setBounds(90, 75, 20, 15);
+              groupbox.add(reconnect_field);
+
               host_field = new JTextField(host);
               host_field.setFont(STD_FONT);
-              host_field.setBounds(70, 24, 175, 17);
+              host_field.setBounds(95, 14, 155, 17);
               groupbox.add(host_field);
 
               port_field = new JTextField("" + port);
               port_field.setFont(STD_FONT);
-              port_field.setBounds(70, 59, 175, 17);
+              port_field.setBounds(95, 44, 155, 17);
               groupbox.add(port_field);
 
               ok = new JButton("Ok");
               ok.setFont(STD_FONT);
               ok.setBackground(BACKGROUND);
               ok.setForeground(FOREGROUND);
-              ok.setBounds(50, 125, 75, 30);
+              ok.setBounds(50, 130, 75, 30);
               ok.setMnemonic('O');
               ok.addActionListener(this);
               dialog.add(ok);
@@ -288,11 +307,11 @@ public class TopologyViewer extends JFrame{
               cancel.setFont(STD_FONT);
               cancel.setBackground(BACKGROUND);
               cancel.setForeground(FOREGROUND);
-              cancel.setBounds(175, 125, 75, 30);
+              cancel.setBounds(175, 130, 75, 30);
               cancel.setMnemonic('C');
               cancel.addActionListener(this);
               dialog.add(cancel);
-             
+
               addWindowListener(new WindowAdapter(){
                 public void windowClosing(WindowEvent e){
                   dispose();
@@ -300,13 +319,14 @@ public class TopologyViewer extends JFrame{
               }); //of WindowAdapter
               setVisible(true);
             } //of InfoWindow
-            
+
             public boolean isAccepted(){
               return press_ok;
             } //of isAccepted
-         
+
             public void actionPerformed(ActionEvent e){
               if(e.getSource() == ok){
+                reconnect = reconnect_field.isSelected();
                 host = host_field.getText();
                 try{
                   port = new Integer(port_field.getText()).intValue();
@@ -324,7 +344,7 @@ public class TopologyViewer extends JFrame{
           ConnectDialog cd = new ConnectDialog(topology_viewer);
           if(cd.isAccepted()){
             tg_panel.clearAll();
-            new InputParser(tg_panel, host, port);
+            new InputParser(tg_panel, host, port, reconnect);
             map_item.setEnabled(true);
             System.gc();
           } //of if
@@ -390,7 +410,7 @@ public class TopologyViewer extends JFrame{
               dialog.setBackground(BACKGROUND);
               dialog.setForeground(FOREGROUND);
 
-              JLabel label = new JLabel("Topology-Viewer", JLabel.CENTER);
+              JLabel label = new JLabel("Topology-Viewer " + VERSION, JLabel.CENTER);
               label.setFont(new Font("Arial", Font.BOLD, 14));
               label.setBackground(BACKGROUND);
               label.setForeground(FOREGROUND);
@@ -573,23 +593,29 @@ public class TopologyViewer extends JFrame{
   //--end import from GLPanel--//
 
   public static void main(String args[]){
+    int offset = 0;
     port = 8333;
     host = "localhost";
     console = false;
+    reconnect = false;
     loc_path = null;
     map_path = null;
     if(args.length > 0){
-      if(args[0].toLowerCase().equals("-net")){
-        if((args.length == 3)||(args.length == 4)){
+      if(args[offset++].toLowerCase().equals("-net")){
+        if((args.length <= 5)&&(args.length >= 3)){
           console = true;
-          host = args[1];
+          if(args[offset].toLowerCase().equals("-reconnect")){
+            reconnect = true;
+            offset++;
+      } //of if
+          host = args[offset++];
           try{
-            port = (new Integer(args[2])).intValue();
+            port = (new Integer(args[offset++])).intValue();
           } catch(NumberFormatException ex){
             ex.printStackTrace();
           } //of try-catch
-          if(args.length == 4)map_path = args[3];
-        } else System.out.println("TopologyViewer <\"-net\"> <host> <port> [map]");
+          if(offset < args.length)map_path = args[offset];
+        } else System.out.println("TopologyViewer <\"-net\"> [\"-reconnect\"] <host> <port> [map]");
       } else if(args[0].toLowerCase().equals("-loc")){
         if((args.length == 2)||(args.length == 3)){
           console = true;
@@ -599,13 +625,13 @@ public class TopologyViewer extends JFrame{
       } else {
         System.out.println("Valid commands:");
         System.out.println("TopologyViewer <\"-loc\"> <path> [map]");
-        System.out.println("TopologyViewer <\"-net\"> <host> <port> [map]");
+        System.out.println("TopologyViewer <\"-net\"> [\"-reconnect\"] <host> <port> [map]");
       } //of if-else
     } //of if
     //else{
     //  loc_path = "a.xml";
     //  map_path = "plan.svg";
     //}
-    topology_viewer = new TopologyViewer();    
+    topology_viewer = new TopologyViewer();
   } //of main
 } //of class TopologyViewer

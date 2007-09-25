@@ -109,4 +109,4 @@ public class TGLensSet {
         return newp;
     }
 
-} // end com.touchgraph.graphlayout.TGLensSet
+} //of class TGLensSet

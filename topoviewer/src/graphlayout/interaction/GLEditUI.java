@@ -366,4 +366,4 @@ public class GLEditUI extends TGUserInterface {
         backPopup.add(menuItem);
     }
 
-} // end com.touchgraph.graphlayout.interaction.GLEditUI
+} //of class GLEditUI

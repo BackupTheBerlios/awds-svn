@@ -83,4 +83,4 @@ public abstract class TGUserInterface {
         parentUI = null;
     }
 
-} // end com.touchgraph.graphlayout.interaction.TGUserInterface
+} //of class TGUserInterface

@@ -60,4 +60,4 @@ public abstract class TGForEachEdge {
 
     public abstract void forEachEdge( Edge e );
 
-} // end com.touchgraph.graphlayout.graphelements.TGForEachEdge
+} //of class TGForEachEdge
