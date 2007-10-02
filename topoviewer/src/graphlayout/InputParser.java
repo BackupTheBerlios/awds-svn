@@ -7,23 +7,31 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class InputParser extends DefaultHandler implements Runnable{
-  private int port = -1;             //port number for input socket
-  private boolean reconnect = false; //reconnect option for socket
-  private Edge connect = null;       //connection between two nodes
-  private String host = null;        //host adress for input socket
-  private TGPanel tg_panel = null;   //touchgraph panel for drawing
+  private int port = -1;               //port number for input socket
+  private boolean reconnect = false;   //reconnect option for socket
+  private Edge connect = null;         //connection between two nodes
+  private String host = null;          //host adress for input socket
+  private TGPanel tg_panel = null;     //touchgraph panel for drawing
+  private JStatusBar statusBar = null; //statusbar for additional information
+  private int edgeCnt = 0;             //edge counter
+  private int nodeCnt = 0;             //node counter
 
-  public InputParser(TGPanel tg_panel, String host, int port, boolean reconnect){
+  public InputParser(TGPanel tg_panel, JStatusBar statusBar, String host, int port, boolean reconnect){
     this.host = host;
     this.port = port;
     this.tg_panel = tg_panel;
     this.reconnect = reconnect;
+    this.statusBar = statusBar;
     Thread thread = new Thread(this);
     thread.start();
   } //of InputParser
 
-  public InputParser(TGPanel tg_panel, String path){
+  public InputParser(TGPanel tg_panel, JStatusBar statusBar, String path){
     this.tg_panel = tg_panel;
+    this.statusBar = statusBar; 
+    String filename = path.substring(Math.max(Math.max(0, path.lastIndexOf('/')), path.lastIndexOf('\\')) + 1);
+    statusBar.setText(0, "Topology from: " + filename);
+    statusBar.setText(1, "Number of nodes: 0     Number of edges: 0");
     try{
       SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
       parser.parse(new File(path), this);
@@ -33,17 +41,21 @@ public class InputParser extends DefaultHandler implements Runnable{
       //t.printStackTrace();
       //System.out.println("\"");
       System.out.println("Parsing Error");
+      return;
     } //of try-catch
   } //of InputParser
 
   public void run(){
     int try_cnt = 0;
+    statusBar.setText(0, "Connection non-established.");
+    statusBar.setText(1, "Number of nodes: 0     Number of edges: 0");
     do{
       try{
         Socket sock = new Socket(host, port);
         OutputStream os = sock.getOutputStream();
         InputStream is = sock.getInputStream();
         os.write('x'); //XML-Type
+        statusBar.setText(0, "Connected to: " + host + " port: " + port);
         try{
           SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
           parser.parse(is, this);
@@ -57,12 +69,14 @@ public class InputParser extends DefaultHandler implements Runnable{
         is.close();
         os.close();
         sock.close();
+        statusBar.setText(0, "Connection non-established.");
       } catch(IOException e){
         //System.out.println("I/O-Exception in method <InputParser.run>");
         //System.out.print("\"");
         //e.printStackTrace();
         //System.out.println("\"");
         System.out.println("Connection refused");
+        statusBar.setText(0, "Connection non-established.");
         try_cnt++;
       } //of try-catch
       try{
@@ -74,6 +88,8 @@ public class InputParser extends DefaultHandler implements Runnable{
 
   //--methods for handling--//
   public void startDocument() throws SAXException{
+    edgeCnt = 0;
+    nodeCnt = 0;
   } //of startDocument
 
   public void endDocument() throws SAXException{
@@ -98,12 +114,16 @@ public class InputParser extends DefaultHandler implements Runnable{
           Node node = newNode ? new Node(id, id) : tg_panel.findNode(id);
           if((newNode)||(ntag.equals("modify_node"))){
             try{
-              if(newNode)tg_panel.addNode(node);
+              if(newNode){
+                tg_panel.addNode(node);
+                nodeCnt++;
+                statusBar.setText(1, "Number of nodes: " + nodeCnt + "     Number of edges: " + edgeCnt);
+              } //of if
             } catch(TGException tge){
               System.out.println("TouchGraph-Exception in method <InputParser.startElement>");
-              System.out.print("\"");
-              tge.printStackTrace();
-              System.out.println("\"");
+              //System.out.print("\"");
+              //tge.printStackTrace();
+              //System.out.println("\"");
             } //of try-catch
             double x = Double.MIN_VALUE, y = Double.MIN_VALUE; //position of node
             while((++i) < attributes.getLength()){
@@ -116,9 +136,9 @@ public class InputParser extends DefaultHandler implements Runnable{
                   x = /*tg_panel.getPixelForOneMeter()*/(new Double(attributes.getValue(i))).doubleValue();
                 } catch(NumberFormatException nfe){
                   System.out.println("NumberFormat-Exception in method <InputParser.startElement>");
-                  System.out.print("\"");
-                  nfe.printStackTrace();
-                  System.out.println("\"");
+                  //System.out.print("\"");
+                  //nfe.printStackTrace();
+                  //System.out.println("\"");
                 } //of try-catch
                 //break;
               } //of if
@@ -127,9 +147,9 @@ public class InputParser extends DefaultHandler implements Runnable{
                   y = /*tg_panel.getPixelForOneMeter()*/(new Double(attributes.getValue(i))).doubleValue();
                 } catch(NumberFormatException nfe){
                   System.out.println("NumberFormat-Exception in method <InputParser.startElement>");
-                  System.out.print("\"");
-                  nfe.printStackTrace();
-                  System.out.println("\"");
+                  //System.out.print("\"");
+                  //nfe.printStackTrace();
+                  //System.out.println("\"");
                 } //of try-catch
                 //break;
               } //of if
@@ -147,6 +167,8 @@ public class InputParser extends DefaultHandler implements Runnable{
           } //of if
           if(ntag.equals("remove_node")){
             tg_panel.deleteNodeById(attributes.getValue(i));
+            nodeCnt--;
+            statusBar.setText(1, "Number of nodes: " + nodeCnt + "     Number of edges: " + edgeCnt);
             continue;
           } //of if
           continue;
@@ -159,28 +181,34 @@ public class InputParser extends DefaultHandler implements Runnable{
             if(from == null){
               try{
                 tg_panel.addNode(from = new Node(attributes.getValue(i-1), attributes.getValue(i-1)));
+                nodeCnt++;
+                statusBar.setText(1, "Number of nodes: " + nodeCnt + "     Number of edges: " + edgeCnt);
               } catch(TGException tge){
                 System.out.println("TouchGraph-Exception in method <InputParser.startElement>");
-                System.out.print("\"");
-                tge.printStackTrace();
-                System.out.println("\"");
+                //System.out.print("\"");
+                //tge.printStackTrace();
+                //System.out.println("\"");
               } //of try-catch
-              System.out.println("Node with id=" + attributes.getValue(i-1) + " is non-existent!");
+              System.out.println("Node with id=" + attributes.getValue(i-1) + " was non-existent!");
 			      } //of if
             if(to == null){
               try{
                 tg_panel.addNode(to = new Node(attributes.getValue(i), attributes.getValue(i)));
+                nodeCnt++;
+                statusBar.setText(1, "Number of nodes: " + nodeCnt + "     Number of edges: " + edgeCnt);
               } catch(TGException tge){
                 System.out.println("TouchGraph-Exception in method <InputParser.startElement>");
-                System.out.print("\"");
-                tge.printStackTrace();
-                System.out.println("\"");
+                //System.out.print("\"");
+                //tge.printStackTrace();
+                //System.out.println("\"");
               } //of try-catch
-              System.out.println("Node with id=" + attributes.getValue(i) + " is non-existent!");
+              System.out.println("Node with id=" + attributes.getValue(i) + " was non-existent!");
             } //of if
             connect = ntag.equals("modify_edge") ? tg_panel.findEdge(from, to) : new Edge(from, to);
             //if((connect.getFrom().getLabel().equals("1"))||(connect.getTo().getLabel().equals("1")))connect.setVisible(false);
             tg_panel.addEdge(connect);
+            edgeCnt++;
+            statusBar.setText(1, "Number of nodes: " + nodeCnt + "     Number of edges: " + edgeCnt);
             continue;
           } //of if
           if(ntag.equals("remove_edge")){
@@ -191,6 +219,8 @@ public class InputParser extends DefaultHandler implements Runnable{
               continue;
             } //of if
             tg_panel.deleteEdge(from, to);
+            edgeCnt--;
+            statusBar.setText(1, "Number of nodes: " + nodeCnt + "     Number of edges: " + edgeCnt);
             continue;
           } //of if
           continue;
@@ -205,9 +235,9 @@ public class InputParser extends DefaultHandler implements Runnable{
               val = new Double(number).intValue();
             } catch(NumberFormatException nfe){
               System.out.println("NumberFormat-Exception in method <InputParser.startElement>");
-              System.out.print("\"");
-              nfe.printStackTrace();
-              System.out.println("\"");
+              //System.out.print("\"");
+              //nfe.printStackTrace();
+              //System.out.println("\"");
             } //of try-catch
             val = (255 * Math.min(Math.max(val, 1), 100)) / 100;
             connect.setColor(new java.awt.Color(255 - val, 255 - val, val));
@@ -221,9 +251,9 @@ public class InputParser extends DefaultHandler implements Runnable{
             pixOneMeter = (new Integer(attributes.getValue(i))).intValue();
           } catch(NumberFormatException nfe){
             System.out.println("NumberFormat-Exception in method <InputParser.startElement>");
-            System.out.print("\"");
-            nfe.printStackTrace();
-            System.out.println("\"");
+            //System.out.print("\"");
+            //nfe.printStackTrace();
+            //System.out.println("\"");
           } //of try-catch
           if(pixOneMeter < 1)pixOneMeter = 1;
           tg_panel.setPixelForOneMeter(pixOneMeter);

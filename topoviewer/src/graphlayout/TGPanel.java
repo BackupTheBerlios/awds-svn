@@ -1096,8 +1096,8 @@ public class TGPanel extends JSVGCanvas{
         return new Color(r,g,b);
     }
 
-  public void paint(final Graphics g){
-    super.paint(g);
+  public void createGraphic(final Graphics g, final boolean complete){
+    if(complete)super.paint(g);
 
     synchronized(this){
       paintListeners = (Vector)paintListeners.clone();
@@ -1172,7 +1172,10 @@ public class TGPanel extends JSVGCanvas{
       g.drawString(full_info + " m", met_x + 23, met_y + 5);
       g.drawString("0.0 m", met_x + 23, met_y + 103);
     } //of if
+  } //of createGraphic
 
+  public void paint(final Graphics g){
+    createGraphic(g, true);
     paintComponents(g); //Paint any components that have been added to this panel
   } //of paint
 

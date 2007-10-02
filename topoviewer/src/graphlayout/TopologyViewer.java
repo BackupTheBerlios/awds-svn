@@ -2,13 +2,14 @@ package graphlayout;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
 import graphlayout.interaction.*;
 
 public class TopologyViewer extends JFrame{
-  public static String VERSION = "v0.6.0";                         //revision of this program
+  public static String VERSION = "v0.7.5";                         //revision of this program
   public static Font STD_FONT = new Font("Arial", Font.PLAIN, 12); //standard font
   public static Color BACKGROUND = Color.LIGHT_GRAY;               //standard backround
   public static Color FOREGROUND = Color.BLACK;                    //standard foreground
@@ -23,6 +24,7 @@ public class TopologyViewer extends JFrame{
   private static boolean reconnect;                                //reconnect if socket error
   
   private JMenuItem map_item;                                      //menu entry for loading map
+  private JMenuItem exp_item;                                      //menu entry for export graphic
   private TGPanel tg_panel;                                        //the touchgraph panel
   protected TGLensSet tg_lens_set;
 
@@ -58,14 +60,23 @@ public class TopologyViewer extends JFrame{
     locality_scroll = new LocalityScroll(tg_panel);
     top.add(hv_scroll.getVerticalSB(), BorderLayout.EAST);
     top.add(hv_scroll.getHorizontalSB(), BorderLayout.SOUTH);
-        
+
+    //--fictive panel--//
+    JPanel below = new JPanel();
+    below.setFont(STD_FONT);
+    below.setLayout(new BorderLayout(0, 0));
+    below.setBackground(BACKGROUND);
+    below.setForeground(FOREGROUND);
+    frame.add(below, BorderLayout.SOUTH);
+
     //--build control panel--//
     JPanel control = new JPanel();
     control.setFont(STD_FONT);
     control.setLayout(new GridLayout(1, 3, 15, 10));
     control.setBackground(BACKGROUND);
     control.setForeground(FOREGROUND);
-    frame.add(control, BorderLayout.SOUTH);
+    //frame.add(control, BorderLayout.SOUTH);
+    below.add(control, BorderLayout.CENTER);
     
     JGroupBox gpb_rot = new JGroupBox();
     gpb_rot.setFont(STD_FONT);
@@ -112,7 +123,7 @@ public class TopologyViewer extends JFrame{
     gpb_zoom.add(sld_zoom);
     final ZoomScroll zoombar = new ZoomScroll(tg_panel, sld_zoom, 1.0);
 
-    final JLabel lbl_dis_zoom = new JLabel("_.__ pxpm", JLabel.CENTER);
+    final JLabel lbl_dis_zoom = new JLabel("20.00 pxpm", JLabel.CENTER);
     lbl_dis_zoom.setFont(STD_FONT);
     lbl_dis_zoom.setBackground(BACKGROUND);
     lbl_dis_zoom.setForeground(FOREGROUND);
@@ -122,7 +133,7 @@ public class TopologyViewer extends JFrame{
     fill.setFont(STD_FONT);
     fill.setBackground(BACKGROUND);
     fill.setForeground(FOREGROUND);
-    control.add(fill); 
+    control.add(fill);
 
     ChangeListener slideListener = new ChangeListener(){
       public void stateChanged(ChangeEvent e){
@@ -153,8 +164,18 @@ public class TopologyViewer extends JFrame{
       } //of componentResized
     }); //of ComponentAdapter 
 */
+
+    //--build statusbar--//
+    JStatusBar statusBar = new JStatusBar(2);
+    statusBar.setFont(STD_FONT);
+    statusBar.setBackground(BACKGROUND);
+    statusBar.setForeground(FOREGROUND);
+    statusBar.setText(0, "Ready");
+    statusBar.setText(1, "Number of nodes: 0     Number of edges: 0");
+    below.add(statusBar, BorderLayout.SOUTH);
+
     //--build main menu--//
-    setJMenuBar(buildMenu(sld_rot, sld_zoom, control));
+    setJMenuBar(buildMenu(sld_rot, sld_zoom, statusBar, control));
     
     setSize(800, 600);
     setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getWidth()) >> 1,
@@ -175,23 +196,25 @@ public class TopologyViewer extends JFrame{
     //--graph--//
     if(console){
       if(loc_path != null){
-        new InputParser(tg_panel, loc_path);
+        new InputParser(tg_panel, statusBar, loc_path);
         map_item.setEnabled(true);
+        exp_item.setEnabled(true);
         //--map--//
         tg_panel.loadMap(map_path);
       } else {
-        new InputParser(tg_panel, host, port, reconnect);
+        new InputParser(tg_panel, statusBar, host, port, reconnect);
         map_item.setEnabled(true);
+        exp_item.setEnabled(true);
         //--map--//
         tg_panel.loadMap(map_path);
       } //of if-else
     } //of if
   } //of TopologyViewer
   
-  private JMenuBar buildMenu(final JSlider sld_rot, final JSlider sld_zoom, final JPanel crl){
+  private JMenuBar buildMenu(final JSlider sld_rot, final JSlider sld_zoom, final JStatusBar statusBar, final JPanel ctrl){
     final String menu_text[] = {"Save topology", "Load topology", "Connect to host", 
-                                "Load positions", "Load map", "Quit", "Toggle Metric panel",
-                                "Toggle Control panel", "About"};
+                                "Load positions", "Load map", "Export graphic", "Quit",
+                                "Toggle Metric panel", "Toggle Control panel", "About"};
     //--action commands of the menubar--//
     ActionListener menuAction = new ActionListener(){
       public void actionPerformed(ActionEvent e){
@@ -202,6 +225,7 @@ public class TopologyViewer extends JFrame{
           filter.addExtension("xml");
           filter.setDescription("*.xml");
           dialog.setFileFilter(filter);
+          dialog.setDialogType(JFileChooser.SAVE_DIALOG);
           if(dialog.showDialog(topology_viewer, "Save topology") == JFileChooser.APPROVE_OPTION){
             String path = dialog.getSelectedFile().getAbsolutePath();
             if(!path.toLowerCase().endsWith(".xml"))path += ".xml";
@@ -214,6 +238,7 @@ public class TopologyViewer extends JFrame{
           filter.addExtension("xml");
           filter.setDescription("*.xml");
           dialog.setFileFilter(filter);
+          dialog.setDialogType(JFileChooser.OPEN_DIALOG);
           if(dialog.showDialog(topology_viewer, "Load topology") == JFileChooser.APPROVE_OPTION){
             String tmp_loc_path = dialog.getSelectedFile().getAbsolutePath();
             sld_rot.setValue(0);
@@ -221,8 +246,9 @@ public class TopologyViewer extends JFrame{
             if((tmp_loc_path != null)&&(!tmp_loc_path.equals(loc_path))){
               loc_path = tmp_loc_path;
               tg_panel.clearAll();
-              new InputParser(tg_panel, loc_path);
+              new InputParser(tg_panel, statusBar, loc_path);
               map_item.setEnabled(true);
+              exp_item.setEnabled(true);
               System.gc();
             } //of if         
           } //of if          
@@ -344,8 +370,9 @@ public class TopologyViewer extends JFrame{
           ConnectDialog cd = new ConnectDialog(topology_viewer);
           if(cd.isAccepted()){
             tg_panel.clearAll();
-            new InputParser(tg_panel, host, port, reconnect);
+            new InputParser(tg_panel, statusBar, host, port, reconnect);
             map_item.setEnabled(true);
+            exp_item.setEnabled(true);
             System.gc();
           } //of if
         } else if(cmd.equals(menu_text[3])){
@@ -354,6 +381,7 @@ public class TopologyViewer extends JFrame{
           filter.addExtension("xml");
           filter.setDescription("*.xml");
           dialog.setFileFilter(filter);
+          dialog.setDialogType(JFileChooser.OPEN_DIALOG);
           if(dialog.showDialog(topology_viewer, "Load positions") == JFileChooser.APPROVE_OPTION){
             String tmp_loc_path = dialog.getSelectedFile().getAbsolutePath();
             //sld_rot.setValue(0);
@@ -373,6 +401,7 @@ public class TopologyViewer extends JFrame{
           //#filter.setDescription("*.gif, *.jpg, *.png, *.svg");
           filter.setDescription("*.svg");
           dialog.setFileFilter(filter);
+          dialog.setDialogType(JFileChooser.OPEN_DIALOG);
           if(dialog.showDialog(topology_viewer, "Load map") == JFileChooser.APPROVE_OPTION){
             map_path = dialog.getSelectedFile().getAbsolutePath();
             sld_rot.setValue(0);
@@ -380,13 +409,48 @@ public class TopologyViewer extends JFrame{
             tg_panel.loadMap(map_path);
           } //of if          
         } else if(cmd.equals(menu_text[5])){
+          String[] supExtensions = GraphicExporter.getSupportedTypes();
+          JFileChooser dialog = new JFileChooser();
+          for(int i = 0; i < supExtensions.length; i++){
+            JFileFilter filter = new JFileFilter();           
+            filter.addExtension(supExtensions[i]);
+            filter.setDescription("*."+supExtensions[i]);
+            dialog.addChoosableFileFilter(filter);
+          } //of for
+          dialog.setDialogType(JFileChooser.SAVE_DIALOG);
+          if(dialog.showDialog(topology_viewer, "Export graphic") == JFileChooser.APPROVE_OPTION){
+            String path = dialog.getSelectedFile().getAbsolutePath();
+            boolean foundFilter = false;
+            for(int i = 0; i < supExtensions.length; i++)
+              if(dialog.getFileFilter().getDescription().equals("*." + supExtensions[i])){
+                if(!path.toLowerCase().endsWith("." + supExtensions[i]))path += ("." + supExtensions[i]);
+                foundFilter = true;
+                break;
+              } //of if
+            if(!foundFilter)path += ".jpg";
+            GraphicExporter exp = new GraphicExporter(tg_panel);
+            try{
+              try{
+                if(path.toLowerCase().endsWith(".bmp"))exp.createBMPFile(path);
+                else if(path.toLowerCase().endsWith(".gif"))exp.createGIFFile(path);
+                else if(path.toLowerCase().endsWith(".jpg"))exp.createJPGFile(path, 100);
+                else if(path.toLowerCase().endsWith(".png"))exp.createPNGFile(path);
+                else if(path.toLowerCase().endsWith(".svg"))exp.createSVGFile(path);
+              } catch(java.io.IOException eio){
+                System.out.println("Couldn't create graphic file.");
+              } //of try-catch
+            } catch(Throwable th){
+              System.out.println("Internal error during create graphic file.");
+            } //of try-catch
+          } //of if
+        } else if(cmd.equals(menu_text[6])){
           dispose();
           System.exit(0);
-        } else if(cmd.equals(menu_text[6])){
-          tg_panel.setMetricVisible(!tg_panel.isMetricVisible());
         } else if(cmd.equals(menu_text[7])){
-          crl.setVisible(!crl.isVisible());
+          tg_panel.setMetricVisible(!tg_panel.isMetricVisible());
         } else if(cmd.equals(menu_text[8])){
+          ctrl.setVisible(!ctrl.isVisible());
+        } else if(cmd.equals(menu_text[9])){
           class InfoDialog extends JDialog implements ActionListener{
             private JButton button;
             
@@ -517,18 +581,33 @@ public class TopologyViewer extends JFrame{
     map_item.addActionListener(menuAction);
     map_item.setAccelerator(KeyStroke.getKeyStroke('M', Event.CTRL_MASK));
     menu.add(map_item);
+    
+    separ = new JSeparator();
+    separ.setOpaque(true);
+    menu.add(separ);
+
+    exp_item = new JMenuItem(menu_text[5]);
+    exp_item.setFont(STD_FONT);
+    exp_item.setEnabled(false);
+    exp_item.setBackground(BACKGROUND);
+    exp_item.setForeground(FOREGROUND);
+    exp_item.setOpaque(true);
+    exp_item.addActionListener(menuAction);
+    exp_item.setAccelerator(KeyStroke.getKeyStroke('E', Event.CTRL_MASK));
+    menu.add(exp_item);    
 
     separ = new JSeparator();
     separ.setOpaque(true);
     menu.add(separ);
 
-    item = new JMenuItem(menu_text[5]);
+    item = new JMenuItem(menu_text[6]);
     item.setFont(STD_FONT);
     item.setBackground(BACKGROUND);
     item.setForeground(FOREGROUND);
     item.setOpaque(true);
     item.addActionListener(menuAction);
-    item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, Event.ALT_MASK));
+    //item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, Event.ALT_MASK));
+    item.setAccelerator(KeyStroke.getKeyStroke('Q', Event.CTRL_MASK));
     menu.add(item);
 
     menubar.add(menu);    
@@ -540,7 +619,7 @@ public class TopologyViewer extends JFrame{
     menu.setForeground(FOREGROUND);
     menu.setOpaque(true);
 
-    item = new JMenuItem(menu_text[6]);
+    item = new JMenuItem(menu_text[7]);
     item.setFont(STD_FONT);
     item.setBackground(BACKGROUND);
     item.setForeground(FOREGROUND);
@@ -549,7 +628,7 @@ public class TopologyViewer extends JFrame{
     item.setAccelerator(KeyStroke.getKeyStroke('E', Event.CTRL_MASK));
     menu.add(item);
 
-    item = new JMenuItem(menu_text[7]);
+    item = new JMenuItem(menu_text[8]);
     item.setFont(STD_FONT);
     item.setBackground(BACKGROUND);
     item.setForeground(FOREGROUND);
@@ -567,7 +646,7 @@ public class TopologyViewer extends JFrame{
     menu.setForeground(FOREGROUND);
     menu.setOpaque(true);
 
-    item = new JMenuItem(menu_text[8]);
+    item = new JMenuItem(menu_text[9]);
     item.setFont(STD_FONT);
     item.setBackground(BACKGROUND);
     item.setForeground(FOREGROUND);
