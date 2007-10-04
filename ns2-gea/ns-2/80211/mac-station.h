@@ -84,6 +84,7 @@ protected:
 private:
 	int m_sequence;
 	bool m_associated;
+protected:
 	MacStations *m_stations;
 };
 

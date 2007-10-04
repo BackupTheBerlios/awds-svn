@@ -88,6 +88,10 @@ public:
 	void attachAgent(Agent *agent,int port);
 	// <end> jenz::inria
 	void addInterface (NetInterface *interface, BroadcastChannel *channel);
+
+	NetInterface *getInterface() {
+		return m_interface;
+	}
 private:
 	int allocUid (void);
 

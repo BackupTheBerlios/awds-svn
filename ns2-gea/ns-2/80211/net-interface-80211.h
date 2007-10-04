@@ -56,8 +56,22 @@ class MacStations;
 class Phy80211;
 class Packet;
 
+#include <map>
+
 class NetInterface80211 : public NetInterface {
 public:
+
+	struct s_tt {
+		double alpha,transmitTime,duration;
+		s_tt():alpha(0.5),transmitTime(1),duration(0) {}
+	};
+	std::map<unsigned int,s_tt> ttdata;
+
+	virtual double getTransmitTime(unsigned int dest);
+
+	virtual void setDuration(double d,Packet *p);
+	virtual void setSuccess(bool s,Packet *p);
+
 	void resetRate(int toAddress);
 	int getPackCount(int toAddress);
 	double getEffectiveRate(int toAddress);
@@ -86,6 +100,13 @@ public:
 	virtual int32_t getIpAddress (void);
 	virtual int getMacAddress (void);
 	virtual void peekPosition (NodePosition *position);
+	virtual BroadcastChannel *getChannel() {
+		return m_channel;
+	}
+	virtual Phy80211 *getPhy() {
+		return m_phy;
+	}
+
 
 private:
 

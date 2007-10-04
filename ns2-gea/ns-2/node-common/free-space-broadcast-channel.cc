@@ -62,6 +62,8 @@ private:
 	NetInterface *m_interface;
 	Packet *m_packet;
 };
+
+
 class FreeSpaceChannelHandler : public Handler {
 public:
 	FreeSpaceChannelHandler () {}
@@ -99,7 +101,7 @@ FreeSpaceBroadcastChannel::calc_delay (NodePosition *source, NodePosition *dest)
 void
 FreeSpaceBroadcastChannel::send_later (NetInterface *to, Packet *packet, double delay)
 {
-	
+
 	if (delay > 0.0) {
 		Scheduler::instance ().schedule (m_handler, new FreeSpaceChannelEvent (to, packet), delay);
 	} else {
@@ -110,7 +112,8 @@ FreeSpaceBroadcastChannel::send_later (NetInterface *to, Packet *packet, double 
 void 
 FreeSpaceBroadcastChannel::sendDown (Packet *packet, NetInterface *caller)
 {
-	Packet *p(packet->copy());
+	//	std::cout << __PRETTY_FUNCTION__ << std::endl;
+	//	Packet *p(packet->copy());
 	std::list<NetInterface *>::iterator tmp;
 	NodePosition source;
 	caller->peekPosition (&source);
@@ -133,3 +136,14 @@ FreeSpaceBroadcastChannel::registerInterface (NetInterface *interface)
 	m_interfaces.push_back (interface);
 }
 
+
+NetInterface *FreeSpaceBroadcastChannel::getInterface(int address) {
+	std::list<NetInterface *>::iterator tmp(m_interfaces.begin());
+	while (tmp != m_interfaces.end()) {
+		if (address == (*tmp)->getIpAddress()) {
+			return *tmp;
+		}
+		++tmp;
+	}
+	return 0;
+}

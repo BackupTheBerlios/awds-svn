@@ -58,7 +58,7 @@ namespace {
 
 		virtual void recv(Packet*packet, Handler* callback = 0) {
 			// XXX we don't deal with packet callbacks here.
-			//			std::cout << __PRETTY_FUNCTION__ << std::endl;
+			// std::cout << __PRETTY_FUNCTION__ << std::endl;
 			m_node->sendDown (packet);
 		}
 	private:

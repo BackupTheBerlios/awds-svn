@@ -46,6 +46,10 @@
 #include "tcl-net-interface.h"
 #include "tcl-constructor.h"
 #include "agent.h"
+#include "net-interface.h"
+
+
+#include <string>
 
 // <begin> jenz::inria
 #include <gea/GeaPlugin.h>
@@ -67,7 +71,15 @@ TclNetNode::TclNetNode ()
 int 
 TclNetNode::command(int argc, const char*const* argv)
 {
-	//	std::cout << argv[1] << std::endl;
+	if ((argc == 3) && (std::string(argv[1]) == "getTransmitTime")) {
+		//		std::cout << argv[1] << std::endl;
+		int dest(atoi(argv[2]));
+		Tcl &tcl(Tcl::instance());
+		char buf[100];
+		sprintf(buf,"%f",m_node->getInterface()->getTransmitTime(dest));
+		tcl.result(buf);
+		return TCL_OK;
+	}
 	
 	// <begin> jenz::inria
 	if ((argc == 2) && (strcmp(argv[1],"reset") == 0)) {

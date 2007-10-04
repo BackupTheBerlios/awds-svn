@@ -63,6 +63,9 @@ public:
 	virtual int32_t getIpAddress (void);
 	virtual int getMacAddress (void);
 	virtual void peekPosition (NodePosition *position);
+	virtual BroadcastChannel *getChannel() {
+		return m_channel;
+	}
 
 private:
 	Delay *m_delay;

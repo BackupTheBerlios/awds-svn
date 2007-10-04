@@ -48,7 +48,10 @@ double MacStation::getTime() {
 }
 
 double MacStation::getEffectiveRate() {
-	return (double)rate_sum/(double)packet_counter;
+	if (packet_counter) {
+		return (double)rate_sum/(double)packet_counter;
+	}
+	return 0;
 }
 
 int MacStation::getPackCount() {

@@ -105,7 +105,8 @@ double NetInterface80211::getTime(int toAddress) {
 
 NetInterface80211::NetInterface80211 ()
 	: NetInterface ()
-{}
+{
+}
 NetInterface80211::~NetInterface80211 ()
 {}
 
@@ -167,21 +168,25 @@ NetInterface80211::connectTo (BroadcastChannel *channel, NetNode *node)
 void 
 NetInterface80211::sendUpToNode (Packet *packet)
 {
+	//	std::cout << __PRETTY_FUNCTION__ << std::endl;
 	m_node->receiveFromInterface (packet, this);
 }
 void 
 NetInterface80211::sendDownToChannel (Packet *packet)
 {
+	//	std::cout << __PRETTY_FUNCTION__ << std::endl;
 	m_channel->sendDown (packet, this);
 }
 void 
 NetInterface80211::sendDown (Packet *packet)
 {
+	//	std::cout << __PRETTY_FUNCTION__ << std::endl;
 	m_ll->sendDown (packet);
 }
 void 
 NetInterface80211::sendUp (Packet *packet)
 {
+	//	std::cout << __PRETTY_FUNCTION__ << std::endl;
 	m_phy->sendUp (packet);
 }
 int32_t
@@ -471,4 +476,38 @@ NetInterfaceConstructor80211::createInterface (void)
 	propagation->setInterface (interface);
 
 	return interface;
+}
+
+void NetInterface80211::setDuration(double d,Packet *p) {
+	p_info info;
+	//	std::cout << info.name(HDR_CMN(p)->ptype_) << std::endl;
+	//	std::cout << HDR_CMN(p)->ptype_ << std::endl;
+	int dest(HDR_MAC_80211(p)->getFinalDestination());
+	if (dest != -1) {
+		//		std::cout << "setD: " << getIpAddress() << 	"  " << HDR_MAC_80211(p)->getSource() << "   " << HDR_MAC_80211(p)->getDestination() << std::endl;
+		ttdata[dest].duration = d;
+		if (HDR_CMN(p)->ptype_ == 0) {
+		}
+	}
+}
+
+void NetInterface80211::setSuccess(bool s,Packet *p) {
+	int dest(HDR_MAC_80211(p)->getFinalDestination());
+	if (dest != -1) {
+		//		std::cout << "setS: " << getIpAddress() << 	"  " << HDR_MAC_80211(p)->getSource() << "   " << HDR_MAC_80211(p)->getDestination() << std::endl;
+		//		std::cout << "here we are" << std::endl;
+			if (s) {
+				double &t(ttdata[dest].transmitTime);
+				double &a(ttdata[dest].alpha);
+				double &d(ttdata[dest].duration);
+				t = t*(1-a)+d*a;
+				//				std::cout << "Time: " << ttdata[dest].transmitTime << std::endl;
+				d = 0;
+			}
+		if (HDR_CMN(p)->ptype_ == 0) {
+		}
+	}
+}
+double NetInterface80211::getTransmitTime(unsigned int dest) {
+	return ttdata[dest].transmitTime;
 }

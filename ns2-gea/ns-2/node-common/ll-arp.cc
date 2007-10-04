@@ -264,16 +264,16 @@ LLArp::ensureQueueIsFlushed (void)
 void 
 LLArp::sendDown (Packet *packet)
 {
+	//	std::cout << __PRETTY_FUNCTION__ << std::endl;
 	int32_t ipDest = HDR_IP (packet)->daddr ();
 	ArpCacheEntry *entry;
-
 	// <begin> jenz::inria
 	if (ipDest == (int32_t)IP_BROADCAST) {
 		m_mac->enqueueFromLL (packet, (int32_t)IP_BROADCAST);
 	} else {
 		// <end> jenz::inria
-		if (m_arpCache.find (ipDest) != m_arpCache.end ()) {
-			entry = m_arpCache[ipDest];
+		if (m_arpCache.find (ipDest) != m_arpCache.end ()) {			
+			entry = m_arpCache[ipDest];			
 			assert (entry != 0);
 			if (entry->isExpired ()) {
 				switch (entry->getState ()) {
@@ -314,7 +314,6 @@ LLArp::sendDown (Packet *packet)
 		} else {
 			// This is our first attempt to transmit data to this destination.
 			TRACE ("no entry for %d -- send arp request", ipDest);
-			//			std::cout << "sending ARP request for ip " << ipDest << std::endl;
 			entry = new ArpCacheEntry (this);
 			sendArpRequest (ipDest); 
 			m_queue.push_back (packet);

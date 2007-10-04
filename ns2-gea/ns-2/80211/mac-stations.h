@@ -53,6 +53,7 @@ public:
 	virtual ~MacStations ();
 
 	void setInterface (NetInterface80211 *interface);
+	NetInterface80211 *getInterface() {return m_interface;}
   
 	MacStation *lookup (int address);
 

@@ -49,11 +49,19 @@ class NetNode;
 class BroadcastChannel;
 class Packet;
 class NodePosition;
+class Phy80211;
 
 class NetInterface {
 public:
+	
 	NetInterface ();
 	virtual ~NetInterface ();
+
+	virtual double getTransmitTime(unsigned int) {
+		return 0;
+	}
+	virtual void setDuration(double d,Packet *p) {}
+	virtual void setSuccess(bool s,Packet *p) {}
 
 	virtual void connectTo (BroadcastChannel *channel, NetNode *node) = 0;
 	virtual void sendUp (Packet *packet) = 0;
@@ -64,6 +72,9 @@ public:
 	virtual int32_t getIpAddress (void) = 0;
 	virtual int getMacAddress (void) = 0;
 	virtual void peekPosition (NodePosition *position) = 0;
+
+	virtual BroadcastChannel *getChannel() = 0;
+	virtual Phy80211 *getPhy() {return 0;}
 };
 
 

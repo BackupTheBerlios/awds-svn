@@ -1,3 +1,4 @@
+ 
 /* -*-	Mode:C++; c-basic-offset:4; tab-width:8; indent-tabs-mode:t -*- */
 #include <gea/API.h>
 #include <gea/GeaPlugin.h>
@@ -30,6 +31,7 @@ int gea::gea_start(::TclObject *node, int argc,const char * const * argv) {
     initNs2ApiIface();
 
     const char * filename = argv[1];
+    std::cerr << "Starting plugin: " << filename << endl;
     void *dl_handle = dlopen(filename, RTLD_NOW);
 
     if (!dl_handle) {
@@ -51,8 +53,9 @@ int gea::gea_start(::TclObject *node, int argc,const char * const * argv) {
 	return -1;
     }
     ShadowEventHandler *shadow = dynamic_cast<ShadowEventHandler *>(GEA.subEventHandler);
-    
-    shadow->currentNode = node;
+ 
+   
+    shadow->setCurrentNode(node);
     GEA.lastEventTime = gea::AbsTime::now();
     int ret = (*gea_main)(argc - 1, &(argv[1]) );
 

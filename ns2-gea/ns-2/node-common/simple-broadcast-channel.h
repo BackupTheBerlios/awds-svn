@@ -58,6 +58,8 @@ public:
 	virtual void sendDown (Packet *packet, NetInterface *caller);
 
 	virtual void registerInterface (NetInterface *interface);
+
+	virtual NetInterface *getInterface(int address);
 private:
 	std::list<NetInterface *> m_interfaces;
 };

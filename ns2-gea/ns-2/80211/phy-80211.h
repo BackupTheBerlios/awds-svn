@@ -43,13 +43,14 @@
 #ifndef PHY_80211_H
 #define PHY_80211_H
 
+#include "node-common/net-interface.h"
 #include <stdint.h>
 #include <vector>
 
 class FreeSpacePropagation;
 class TransmissionMode;
 class MacLow;
-class NetInterface;
+//class NetInterface;
 class Packet;
 
 class Phy80211Listener {
@@ -79,7 +80,13 @@ public:
 
 class Phy80211
 {
+protected:
+	unsigned int tries;
+	unsigned int failures;
 public:
+	void notifyTxStart (double now,double duration,Packet *packet);
+	void notifyTxEnd (double now,bool receivedOk,Packet *packet);
+
 	enum Phy80211State {
 		SYNC,
 		TX,
@@ -90,7 +97,7 @@ public:
 	Phy80211 ();
 	virtual ~Phy80211 ();
 
-	void setInterface (NetInterface *interface);
+	void setInterface (class NetInterface *interface);
 	
 	void setMac (MacLow *low);
 
@@ -119,6 +126,10 @@ public:
 	void setPropagationModel (FreeSpacePropagation *propagation);
 
 	int getNModes (void);
+
+	NetInterface *getInterface() {
+		return m_interface;
+	}
 private:
 	virtual void startRx (Packet *packet) = 0;
 	virtual void cancelRx (void) = 0;

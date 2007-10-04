@@ -29,7 +29,7 @@ int gea::ShadowEventHandler::getCurrentNodeID() {
     char buf[100];
     sprintf(buf,"%s id",currentNode->name());
     tcl.evalc(buf);
-    return atoi(tcl.result());
+    return atoi(tcl.result())+1;
 }
 
 class NullBuf : public std::basic_streambuf<char> {

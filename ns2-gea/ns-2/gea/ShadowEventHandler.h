@@ -13,6 +13,8 @@
 #include <gea/EventHandler.h>
 #include <gea/DependHandle.h>
 
+extern TclObject *shadow_currentNode;
+
 namespace gea {
     class ShadowEventHandler : public gea::SubEventHandler, public ::Handler {
 	
@@ -21,11 +23,20 @@ namespace gea {
 	unsigned dbgLevel;
 	std::ostream nullOut;
 
-	// <begin> jenz::inria
-	//	static Node *currentNode;
+    private:
 	static TclObject *currentNode;
+    public:
 	static int getCurrentNodeID();
-	// <end> jenz::inria
+	void setCurrentNode(TclObject *n) {
+	    currentNode = n;
+	    shadow_currentNode = n;
+	}
+	static TclObject *getCurrentNode() {
+	    return currentNode;
+	}
+	TclObject *getCNode() {
+	    return currentNode;
+	}
     private:
 	
 	struct EventDescr {

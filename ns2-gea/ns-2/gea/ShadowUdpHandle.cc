@@ -10,7 +10,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-
+TclObject *shadow_currentNode;
 
 /* 
    how is the udp data tranfered between the GEA UDP Handles?
@@ -124,11 +124,11 @@ void gea::ShadowUdpHandle::init() {
 
 	
 	tcl.evalf("%s attach %s",
-		  shadow->currentNode->name(),
+		  shadow->getCurrentNode()->name(),
 		  this->agent->name());
     } else { /* mode == Read */ 
 	tcl.evalf("%s attach %s %d",
-		  shadow->currentNode->name(),
+		  shadow->getCurrentNode()->name(),
 		  this->agent->name(),
 		  (int)addr.port );
     }
@@ -220,7 +220,7 @@ void gea::ShadowUdpHandle::process_data(int size, ::AppData* data) {
 	    
 	    ShadowEventHandler *shadow = dynamic_cast<ShadowEventHandler *>(GEA.subEventHandler);
 	    
-	    shadow->currentNode = this->handle->shadowHandle->node;
+	    shadow->setCurrentNode(this->handle->shadowHandle->node);
 	    GEA.lastEventTime = gea::AbsTime::now();
 	    e(this->handle, GEA.lastEventTime ,data);
 	    shadow->doPendingEvents(GEA.lastEventTime);
@@ -277,7 +277,7 @@ void gea::ShadowUdpHandle::do_timeout() {
     
     ShadowEventHandler *shadow = dynamic_cast<ShadowEventHandler *>(GEA.subEventHandler);
     
-    shadow->currentNode = this->handle->shadowHandle->node;  
+    shadow->setCurrentNode(this->handle->shadowHandle->node);  
     GEA.lastEventTime = this->timeout;
     event(this->handle, GEA.lastEventTime, data);
     

@@ -186,6 +186,11 @@ void ArfMacStation::reportFinalDataFailed (void)
 int ArfMacStation::getDataMode (int size)
 {
 	return m_rate;
+	/*	if (m_rate > 0) {
+		return m_rate-1;
+	} else {
+		return 0;
+		}*/
 }
 int ArfMacStation::getRTSMode (void)
 {

@@ -92,11 +92,11 @@ Phy80211Listener::~Phy80211Listener ()
  *       The actual Phy80211 class
  ****************************************************************/
 
-Phy80211::Phy80211 ()
-	: m_sleeping (false),
-	  m_rxing (false),
-	  m_endTx (0.0),
-	  m_previousStateChangeTime (0.0)
+Phy80211::Phy80211 (): tries(0),failures(0),
+		       m_sleeping (false),
+		       m_rxing (false),
+		       m_endTx (0.0),
+		       m_previousStateChangeTime (0.0)
 {}
 
 Phy80211::~Phy80211 ()
@@ -179,6 +179,15 @@ Phy80211::notifyRxEnd (double now, bool receivedOk)
 		(*i)->notifyRxEnd (now, receivedOk);
 	}
 }
+
+void Phy80211::notifyTxStart (double now,double duration,Packet *packet) {
+	m_interface->setDuration(duration,packet);
+}
+
+void Phy80211::notifyTxEnd (double now,bool receivedOk,Packet *packet) {
+	m_interface->setSuccess(receivedOk,packet);
+}
+
 void 
 Phy80211::notifyTxStart (double now, double duration)
 {
@@ -426,6 +435,7 @@ Phy80211::sendDown (Packet *packet)
 						     getPayloadMode (packet),
 						     getSize (packet));
 	notifyTxStart (now (), txDuration);
+	notifyTxStart(now(),txDuration,packet);
 	switchToTx (txDuration);
 	m_interface->sendDownToChannel (packet);
 }

@@ -369,26 +369,28 @@ void
 DcaTxop::gotACK (double snr, int txMode)
 {
 	TRACE ("got ack");
-	MacStation *station = lookupDestStation (m_currentTxPacket);
-	//	std::cout << (int) this << std::endl;
-	station->reportDataOk (snr, txMode);
-	m_SLRC = 0;
-	if (!needFragmentation () ||
-	    isLastFragment ()) {
-		m_interface->high ()->notifyAckReceivedFor (m_currentTxPacket);
-
-		/* we are not fragmenting or we are done fragmenting
-		 * so we can get rid of that packet now.
-		 */
-		Packet::free (m_currentTxPacket);
-		m_currentTxPacket = 0;
-		m_dcf->notifyAccessOngoingOk ();
-		m_dcf->notifyAccessFinished ();
+	if (m_currentTxPacket) {
+		MacStation *station = lookupDestStation (m_currentTxPacket);
+		//	std::cout << (int) this << std::endl;
+		station->reportDataOk (snr, txMode);
+		m_SLRC = 0;
+		if (!needFragmentation () ||
+		    isLastFragment ()) {
+			m_interface->high ()->notifyAckReceivedFor (m_currentTxPacket);
+			
+			/* we are not fragmenting or we are done fragmenting
+			 * so we can get rid of that packet now.
+			 */
+			Packet::free (m_currentTxPacket);
+			m_currentTxPacket = 0;
+			m_dcf->notifyAccessOngoingOk ();
+			m_dcf->notifyAccessFinished ();
+		}
 	}
 }
 void 
 DcaTxop::missedACK (void)
-{
+{	
 	TRACE ("missed ack");
 	MacStation *station = lookupDestStation (m_currentTxPacket);
 	//	std::cout << (int) this << std::endl;
@@ -436,5 +438,9 @@ DcaTxop::dropCurrentPacket (void)
 MacStation *
 DcaTxop::lookupDestStation (Packet *packet)
 {
+	/*	std::cout << "Lookup" << std::endl;
+	std::cout << m_interface << std::endl;
+	std::cout << m_interface->stations() << std::endl;
+	std::cout << packet << std::endl;*/
 	return m_interface->stations ()->lookup (getDestination (packet));
 }

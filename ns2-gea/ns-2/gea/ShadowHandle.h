@@ -50,7 +50,7 @@ namespace gea {
 	ShadowHandle() : 
 	    //	    isBlockerPred(false),
 	    handleType(TypeUdp),
-	    node(gea::ShadowEventHandler::currentNode),
+	    node(gea::ShadowEventHandler::getCurrentNode()),
 	    status(Undefined)
 	{}
 

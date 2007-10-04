@@ -53,6 +53,8 @@ public:
 	virtual void sendDown (Packet *packet, NetInterface *caller) = 0;
 
 	virtual void registerInterface (NetInterface *interface) = 0;
+
+	virtual NetInterface *getInterface(int address) = 0;
 };
 
 #endif /* BROADCAST_CHANNEL_H */

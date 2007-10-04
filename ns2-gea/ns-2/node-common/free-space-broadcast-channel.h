@@ -58,6 +58,8 @@ public:
 	virtual void sendDown (Packet *packet, NetInterface *caller);
 
 	virtual void registerInterface (NetInterface *interface);
+
+	virtual NetInterface *getInterface(int address);
 private:
 	double calc_delay (NodePosition *source, NodePosition *dest);
 	void send_later (NetInterface *to, Packet *packet, double delay);

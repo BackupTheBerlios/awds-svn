@@ -69,6 +69,18 @@ SimpleBroadcastChannel::sendDown (Packet *packet, NetInterface *caller)
 	Packet::free (packet);
 }
 
+NetInterface *SimpleBroadcastChannel::getInterface(int address) {
+	std::list<NetInterface *>::iterator tmp(m_interfaces.begin());
+	while (tmp != m_interfaces.end()) {
+		if (address == (*tmp)->getIpAddress()) {
+			return *tmp;
+		}
+		++tmp;
+	}
+	return 0;
+}
+
+
 void 
 SimpleBroadcastChannel::registerInterface (NetInterface *interface)
 {

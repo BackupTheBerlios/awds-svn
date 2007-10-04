@@ -8,7 +8,7 @@ using namespace gea;
 std::ostream& operator<<(std::ostream& os, const gea::NodeColor& col) {
   /* do nothing */
   ShadowEventHandler *shadow = dynamic_cast<ShadowEventHandler *>(GEA.subEventHandler);
-  const char *node = shadow->currentNode->name();
+  const char *node = shadow->getCurrentNode()->name();
   
   Tcl& tcl = Tcl::instance();
   tcl.evalf("%s color %s", node, col.color);

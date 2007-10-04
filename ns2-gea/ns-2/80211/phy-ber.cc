@@ -53,6 +53,8 @@
 #include "hdr-mac-80211.h"
 #include "transmission-mode.h"
 #include <iostream>
+#include "node-common/broadcast-channel.h"
+//#include "net-interface.h"
 
 /****************************************************************
  *       Class which records SNIR change events for a 
@@ -419,10 +421,11 @@ PhyBer::endRx (PhyRxEvent *phyRxEvent, Packet *packet)
 	double r(m_random->pick());
 	//	std::cout << "random: " << r << std::endl;
 	if (r > per) {
+	//if (1) {
 		/* success. */
 		HDR_CMN (packet)->error () = 0;
 		receivedOk = true;
-	} else {
+	} else {		
 		/* failure. */
 		HDR_CMN (packet)->error () = 1;
 		receivedOk = false;
@@ -431,6 +434,12 @@ PhyBer::endRx (PhyRxEvent *phyRxEvent, Packet *packet)
 	HDR_CMN (packet)->direction() = hdr_cmn::UP;
 	
 	notifyRxEnd (now (), receivedOk);
+
+	int src(HDR_MAC_80211(packet)->getSource());
+	
+
+	getInterface()->getChannel()->getInterface(src)->getPhy()->notifyTxEnd(now(),receivedOk,packet);
+
 	switchToIdleFromSync ();
 	forwardUp (packet);
 }
@@ -480,7 +489,7 @@ PhyBer::startRx (Packet *packet)
 	case Phy80211::IDLE: {
 		double power = calculateRxPower (packet);
 		
-		if (power > dBmToW (getRxThreshold ())) {
+		if (power > dBmToW (getRxThreshold ())) {			
 			// sync to signal
 			notifyRxStart (now (), event->getDuration ());
 			switchToSyncFromIdle (event->getDuration ());

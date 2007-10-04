@@ -48,6 +48,7 @@
 
 RngUniform::RngUniform () {
 	gsl_rng_default_seed = time(0);
+	//	gsl_rng_default_seed = 0;
 	m_rng = gsl_rng_alloc (gsl_rng_taus);
 }
 RngUniform::~RngUniform ()
