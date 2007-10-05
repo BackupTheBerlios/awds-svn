@@ -29,16 +29,26 @@
 	<mkdir dir="lib" />
 	
 	<genjar jarfile="lib/topoviewer.jar" destdir="lib">
-		<class name="graphlayout/TopologyViewer" /> 
+		<class name="graphlayout.TopologyViewer" /> 
+		<class name="org.apache.xerces.parsers.SAXParser" /> 
+		<class name="org.apache.xerces.parsers.DOMParser" /> 
+		<class name="org.apache.xerces.parsers.XIncludeAwareParserConfiguration" /> 
+		<class name="org.apache.xerces.impl.dv.dtd.DTDDVFactoryImpl" /> 
+		<class name="org.apache.batik.css.parser.Parser" /> 
+	    
 		<classpath >
 			 <pathelement location="." />
 			 <pathelement location="build" />
 			<pathelement location="/usr/share/java/batik-all.jar" />
+			<pathelement location="/usr/share/java/xercesImpl.jar" />
 		</classpath>
-		<manifest>
+		<manifest generateEntryAttributes="no">
 			<attribute name="Main-Class" 
 			value="graphlayout/TopologyViewer" />
 		</manifest>
+		<resource file="XMLResourceDescriptor.properties" package="org/apache/batik/util/resources/" />
+		<resource file="JErrorPane.properties" package="org/apache/batik/util/gui/resources/" />
+		<resource file="Messages.properties" package="org/apache/batik/dom/svg/resources/" />
 	</genjar>
     </target>
     
