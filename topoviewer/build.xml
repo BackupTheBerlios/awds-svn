@@ -17,14 +17,8 @@
         </javac>
     </target>
 
-    <target name="manifest">
-    	<manifest file="manifest.mf">
-		<attribute name="Main-Class" 
-		value="graphlayout/TopologyViewer" />
-	</manifest>
-    </target>
     
-    <target name="allinone" depends="compile,manifest" >
+    <target name="allinone" depends="compile" >
     	
 	<mkdir dir="lib" />
 	
