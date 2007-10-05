@@ -97,7 +97,7 @@ public class TopologyViewer extends JFrame{
     gpb_rot.add(sld_rot);
     final RotateScroll rotatebar = new RotateScroll(tg_panel, sld_rot, 0);
 
-    final JLabel lbl_dis_rot = new JLabel("0°", JLabel.CENTER);
+    final JLabel lbl_dis_rot = new JLabel("0", JLabel.CENTER);
     lbl_dis_rot.setFont(STD_FONT);
     lbl_dis_rot.setBackground(BACKGROUND);
     lbl_dis_rot.setForeground(FOREGROUND);
@@ -139,7 +139,7 @@ public class TopologyViewer extends JFrame{
       public void stateChanged(ChangeEvent e){
         if(e.getSource() == sld_rot){
           rotatebar.setRotateValue(sld_rot.getValue());
-          lbl_dis_rot.setText(sld_rot.getValue() + "°");
+          lbl_dis_rot.setText(sld_rot.getValue() + " ");
         } if(e.getSource() == sld_zoom){
           zoombar.setZoomValue(Math.pow(2, sld_zoom.getValue() / 10.0));
           String info = "" + (zoombar.getZoomValue() * tg_panel.getPixelForOneMeter());

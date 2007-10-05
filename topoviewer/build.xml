@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project name="AWDS Topology Viewer" default="allinone" basedir=".">
+    <path id="classpath">
+        <pathelement location="." />
+        <pathelement location="build" />
+        <pathelement location="/usr/share/java/batik-all.jar" />
+
+    </path>
+
+    <taskdef resource="genjar.properties" classpath="./GenJar/GenJar.jar"/>
+    
+    <target name="compile" >
+        <mkdir dir="build" />
+        <javac destdir="build" source="1.5" target="1.5" >
+            <src path="."></src>
+            <classpath refid="classpath" />
+        </javac>
+    </target>
+
+    <target name="manifest">
+    	<manifest file="manifest.mf">
+		<attribute name="Main-Class" 
+		value="graphlayout/TopologyViewer" />
+	</manifest>
+    </target>
+    
+    <target name="allinone" depends="compile,manifest" >
+    	
+	<mkdir dir="lib" />
+	
+	<genjar jarfile="lib/topoviewer.jar" destdir="lib">
+		<class name="graphlayout/TopologyViewer" /> 
+		<classpath >
+			 <pathelement location="." />
+			 <pathelement location="build" />
+			<pathelement location="/usr/share/java/batik-all.jar" />
+		</classpath>
+		<manifest>
+			<attribute name="Main-Class" 
+			value="graphlayout/TopologyViewer" />
+		</manifest>
+	</genjar>
+    </target>
+    
+    </project>

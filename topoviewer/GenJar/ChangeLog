@@ -1,0 +1,62 @@
+2003-03-06   <jesse_dev@yahoo.com> Release 1.0.2
+  * Fix exception message regression introduced in 1.0.1
+
+2003-02-23   <jesse_dev@yahoo.com> Release 1.0.1
+  * com.ibm.jvm. added to default exclude list
+  * Fix bug #619762 META-INF directory of <library> jars is now ignored as signing information
+    from the old jar was causing the verify to fail
+  * Fix bug# 686070, Handling of Windows paths in <library> was incorrect
+  * Fix bug# 643263, Handle uppercase classpath entries
+  * Fix bug# 631562, Files on classpath were not being closed properly
+  * Document <class>'s ability to handle <fileset>s
+  * Add a properties file for <taskdef>ing GenJar
+
+2002-09-28    <jesse_dev@yahoo.com> Release 1.0.0
+  * Jesse Stockall takes over stewardship and moves GenJar to SourceForge.
+  * Allow GenJar to generate class file dependencies to disk.
+  * Fix a few bugs in the <resource> and <library> elements.
+
+2002-01-13    <jake@riggshill.com>
+    * several bug reports have com in in the last month:
+    * absoulte jarfile paths were not handled correctly - was testing
+    agains PATH separator instead of FILE separator - fixed
+    * release: 0.3.3
+
+2001-05-02    <jake@riggshill.com>
+    * added <library> tag allowing insertion of entire jars
+    or directories into the jar - new class LibrarySpec.java
+    updated docs to reflect new tag
+    * bug fix: JeffP reports that in using cascading project files
+    only the first <genjar> invocation works correctly, the rest mysteriously
+    'drop' class files
+    Fixed - was using a static Set to track thos classes already resolved.  Making
+    this set non-static fixed the problem
+
+2001-04-25    <jkohler@JKOHLER>
+
+    * src/org/apache/tools/ant/taskdefs/optional/genjar/GenJar.java:
+    added project.baseDir to generated jar file name - bug reported
+    by JeffPost - jars were ending up in the root dir
+    * bumped to rev 0.2.4
+
+2001-04-23    <jkohler@JKOHLER>
+    * src/org/apache/tools/ant/taskdefs/optional/genjar/GenJar.java:
+    added duplicate removal - all incoming jarEntries are tested against
+    existing list - first addition wins
+    * bumped to rev 0.2.3
+
+2000-12-20    <jkohler@JKOHLER>
+
+    * build.xml  revamped and added targets to
+    run tests and build distributions
+
+2000-12-19  John Kohler  <jake@raptor.riggshill.com>
+
+    * docs/genjar.html: minor edits
+
+    * build.xml: added usage target and rebuild target
+    start of effort to make a real build file
+    I don't think it's apprpriate for a Task build file to rely
+    upon that task - so it should use the regular jar task to build
+    its jar.
+
