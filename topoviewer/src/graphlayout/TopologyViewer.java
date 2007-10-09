@@ -166,12 +166,10 @@ public class TopologyViewer extends JFrame{
 */
 
     //--build statusbar--//
-    JStatusBar statusBar = new JStatusBar(2);
+    JTopoStatusBar statusBar = new JTopoStatusBar();
     statusBar.setFont(STD_FONT);
     statusBar.setBackground(BACKGROUND);
     statusBar.setForeground(FOREGROUND);
-    statusBar.setText(0, "Ready");
-    statusBar.setText(1, "Number of nodes: 0     Number of edges: 0");
     below.add(statusBar, BorderLayout.SOUTH);
 
     //--build main menu--//
@@ -211,7 +209,7 @@ public class TopologyViewer extends JFrame{
     } //of if
   } //of TopologyViewer
   
-  private JMenuBar buildMenu(final JSlider sld_rot, final JSlider sld_zoom, final JStatusBar statusBar, final JPanel ctrl){
+  private JMenuBar buildMenu(final JSlider sld_rot, final JSlider sld_zoom, final JTopoStatusBar statusBar, final JPanel ctrl){
     final String menu_text[] = {"Save topology", "Load topology", "Connect to host", 
                                 "Load positions", "Load map", "Export graphic", "Quit",
                                 "Toggle Metric panel", "Toggle Control panel", "About"};
