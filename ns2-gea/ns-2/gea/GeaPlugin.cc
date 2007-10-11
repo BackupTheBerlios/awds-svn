@@ -31,7 +31,7 @@ int gea::gea_start(::TclObject *node, int argc,const char * const * argv) {
     initNs2ApiIface();
 
     const char * filename = argv[1];
-    std::cerr << "Starting plugin: " << filename << endl;
+//    std::cerr << "Starting plugin: " << filename << endl;
     void *dl_handle = dlopen(filename, RTLD_NOW);
 
     if (!dl_handle) {
