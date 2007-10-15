@@ -189,8 +189,9 @@ MacHighAp::receiveFromMacLow (Packet *packet)
 		}
 	} else {
 		// <begin> jenz::inria
-		if ((getFinalDestination(packet) == ((int)MAC_BROADCAST)) && (getSource(packet) != interface()->getMacAddress()))  {
-			MacStation *station = interface ()->stations ()->lookup (getSource (packet));
+		if ( (getFinalDestination(packet) == ((int)MAC_BROADCAST) ) 
+		    && (getSource(packet) != interface()->getMacAddress()) )  {
+			//MacStation *station = interface ()->stations ()->lookup (getSource (packet));
 
 			// forward to target station.
 			TRACE ("%d associated: forwarding packet", getSource (packet));

@@ -50,6 +50,7 @@ class NodePosition;
 class FreeSpacePropagation {
 public:
 	FreeSpacePropagation ();
+	virtual ~FreeSpacePropagation();
 
 	void setInterface (NetInterface *interface);
 

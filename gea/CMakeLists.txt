@@ -20,7 +20,24 @@ INCLUDE(TestForANSIForScope)
 INCLUDE(TestForANSIStreamHeaders)
 INCLUDE(TestForSTDNamespace)
 
+INCLUDE(CheckIncludeFile)
+INCLUDE(CheckLibraryExists)
+
+CHECK_INCLUDE_FILE(dlfcn.h DLFCN_HEADER_FOUND)
+IF(NOT DLFCN_HEADER_FOUND)
+  MESSAGE(FATAL_ERROR "cannot find the header <dlfcn.h> required for dynamic linking")
+ENDIF(NOT DLFCN_HEADER_FOUND)
+
+CHECK_LIBRARY_EXISTS(dl dlsym "" LIB_DL_FOUND)
+
 ADD_SUBDIRECTORY(src)
+ADD_SUBDIRECTORY(src/utils)
 
 ADD_SUBDIRECTORY(include/gea)
 
+
+
+
+# Local variables:
+# mode:cmake
+# End:

@@ -1,3 +1,9 @@
+ns2-gea (2.30-6) unstable; urgency=low
+
+  * changed dependency to the new(renamed) libgea2
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Wed, 10 Oct 2007 09:39:34 +0200
+
 ns2-gea (2.30-5) unstable; urgency=low
 
   * ported to libgea-2.0

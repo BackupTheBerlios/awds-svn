@@ -48,7 +48,7 @@ class MacStations;
 
 class MacStation {
 public:
-	double clk_first,clk_last;
+	double clk_first, clk_last;
 	//	std::map<int,int> packet_counter;  // 0-max_rate erfolgreich max_rate-2max_rate nicht erfolgreich
 	int packet_counter,rate_sum;
 	void resetRate();

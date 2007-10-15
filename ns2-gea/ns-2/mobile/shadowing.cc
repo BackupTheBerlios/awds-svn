@@ -123,6 +123,12 @@ double Shadowing::Pr(PacketStamp *t, PacketStamp *r, WirelessPhy *ifp)
 	// calculate receiving power at reference distance
 	double Pr0 = Friis(t->getTxPr(), Gt, Gr, lambda, L, dist0_);
 
+	// The power is not defined below the reference distance.
+	// We use the Friis equation instead.
+	// This also avaoids the floating point exception when dist = 0.
+	if (dist <= dist0_) 
+		return Pr0;
+	
 	// calculate average power loss predicted by path loss model
 	double avg_db = -10.0 * pathlossExp_ * log10(dist/dist0_);
    

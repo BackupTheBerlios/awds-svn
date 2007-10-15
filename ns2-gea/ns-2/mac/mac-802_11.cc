@@ -943,7 +943,7 @@ Mac802_11::check_pktBEACON()
 	struct hdr_mac802_11 *mh;
 	double timeout;
 
-	assert(mhBackoff_.busy() == 0);
+	// XXX onjo XXX assert(mhBackoff_.busy() == 0);
 
 	if(pktBEACON_ == 0)
  		return -1;
@@ -979,7 +979,7 @@ Mac802_11::check_pktASSOCREQ()
 	struct hdr_mac802_11 *mh;
 	double timeout;
 
-	assert(mhBackoff_.busy() == 0);
+	// XXX onjo XXX assert(mhBackoff_.busy() == 0);
 
 	if(pktARQ_ == 0)
  		return -1;

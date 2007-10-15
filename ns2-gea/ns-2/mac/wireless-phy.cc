@@ -52,11 +52,13 @@
 #include <ip.h>
 #include <agent.h>
 #include <trace.h>
-#include <sys/param.h>  /* for MIN/MAX */
+//#include <sys/param.h>  /* for MIN/MAX */
 
 #include "diffusion/diff_header.h"
 
-#define MAX(a,b) (((a)<(b))?(b):(a))
+//#define MAX(a,b) (((a)<(b))?(b):(a))
+
+
 
 void Sleep_Timer::expire(Event *) {
 	a_->UpdateSleepEnergy();
@@ -232,8 +234,8 @@ WirelessPhy::sendDown(Packet *p)
 		if (em()->energy() > 0) {
 
 		    double txtime = hdr_cmn::access(p)->txtime();
-		    double start_time = MAX(channel_idle_time_, NOW);
-		    double end_time = MAX(channel_idle_time_, NOW+txtime);
+		    double start_time = fmax(channel_idle_time_, NOW);
+		    double end_time = fmax(channel_idle_time_, NOW+txtime);
 		    double actual_txtime = end_time-start_time;
 
 		    if (start_time > update_energy_time_) {
@@ -252,7 +254,7 @@ WirelessPhy::sendDown(Packet *p)
 		    */
 
 		   // Sanity check
-		   double temp = MAX(NOW,last_send_time_);
+		   double temp = fmax(NOW,last_send_time_);
 
 		   /*
 		   if (NOW < last_send_time_) {
@@ -260,8 +262,8 @@ WirelessPhy::sendDown(Packet *p)
 		   }
 		   */
 		   
-		   double begin_adjust_time = MIN(channel_idle_time_, temp);
-		   double finish_adjust_time = MIN(channel_idle_time_, NOW+txtime);
+		   double begin_adjust_time = fmin(channel_idle_time_, temp);
+		   double finish_adjust_time = fmin(channel_idle_time_, NOW+txtime);
 		   double gap_adjust_time = finish_adjust_time - begin_adjust_time;
 		   if (gap_adjust_time < 0.0) {
 			   fprintf(stderr,"What the heck ! negative gap time.\n");
@@ -397,8 +399,8 @@ DONE:
 		double rcvtime = hdr_cmn::access(p)->txtime();
 		// no way to reach here if the energy level < 0
 		
-		double start_time = MAX(channel_idle_time_, NOW);
-		double end_time = MAX(channel_idle_time_, NOW+rcvtime);
+		double start_time = fmax(channel_idle_time_, NOW);
+		double end_time = fmax(channel_idle_time_, NOW+rcvtime);
 		double actual_rcvtime = end_time-start_time;
 
 		if (start_time > update_energy_time_) {

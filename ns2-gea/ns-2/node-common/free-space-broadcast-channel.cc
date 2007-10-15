@@ -112,8 +112,9 @@ FreeSpaceBroadcastChannel::send_later (NetInterface *to, Packet *packet, double 
 void 
 FreeSpaceBroadcastChannel::sendDown (Packet *packet, NetInterface *caller)
 {
-	//	std::cout << __PRETTY_FUNCTION__ << std::endl;
-	//	Packet *p(packet->copy());
+
+	// XXX possible leak?	Packet *p(packet->copy());
+
 	std::list<NetInterface *>::iterator tmp;
 	NodePosition source;
 	caller->peekPosition (&source);

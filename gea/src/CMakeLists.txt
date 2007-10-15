@@ -43,3 +43,6 @@ SET_TARGET_PROPERTIES(gea gea-posix
 
 INSTALL(TARGETS gea gea-posix LIBRARY DESTINATION lib)
 
+# Local variables:
+# mode:cmake
+# End:

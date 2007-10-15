@@ -64,14 +64,15 @@ void MacStation::resetRate() {
 	rate_sum = 0;
 }
 
-MacStation::MacStation (MacStations *stations)
-	: m_sequence (0),
-	  m_associated (false),
-	  m_stations (stations),
-	  clk_first(-1),
-	  clk_last(-1),
-	  packet_counter(0),
-	  rate_sum(0)
+MacStation::MacStation (MacStations *stations) :
+	clk_first(-1),
+	clk_last(-1),
+	packet_counter(0),
+	rate_sum(0),
+	m_sequence (0),
+	m_associated (false),
+	m_stations (stations)
+	
 {
 }
 

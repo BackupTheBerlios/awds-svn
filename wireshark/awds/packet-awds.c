@@ -37,6 +37,7 @@
 #define AWDS_BEACON   0x00
 #define AWDS_FLOOD    0x01
 #define AWDS_UNICAST  0x02
+#define AWDS_FLOW     0x03
 
 #define AWDS_TOPO     0x00
 #define AWDS_CRYPTO   0x63
@@ -63,6 +64,7 @@ static const value_string awds_types[] = {
   {AWDS_BEACON, "Beacon"},
   {AWDS_FLOOD, "Flood"},
   {AWDS_UNICAST, "Unicast"},
+  {AWDS_FLOW, "Flow"},
   {0, "Unknown"}
 };
 
@@ -508,7 +510,10 @@ static void dissect_awds_topo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tre
 
   /* Fill information column */
   if(check_col(pinfo->cinfo, COL_INFO))
-    col_append_fstr(pinfo->cinfo, COL_INFO, ", Topology [Node name=\"%s\"])", tvb_get_ephemeral_string(tvb, offset, (name_len > 32) ? 32 : name_len));
+    col_append_fstr( pinfo->cinfo, COL_INFO, 
+		     ", Topology [Node name=\"%s\"])",
+		     tvb_get_ephemeral_string( tvb, offset, 
+					       (name_len > 32) ? 32 : name_len) );
 
   /* Decode Node-name */
   proto_tree_add_item(tree, hf_awds_topo_node_name, tvb, offset, name_len, FALSE);
@@ -550,7 +555,12 @@ static void dissect_awds_data(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tre
   } //of if
 } //of dissect_awds_data
 
-static void dissect_awds_flood(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, proto_tree *tree_lv1, gint offset){
+static void dissect_awds_flood(tvbuff_t *tvb, 
+			       packet_info *pinfo, 
+			       proto_tree *tree, 
+			       proto_tree *tree_lv1, 
+			       gint offset) 
+{
   guint8 ttl = 0, subtype = 0;
   proto_item *awds_item = NULL;
   proto_tree *awds_tree = NULL;

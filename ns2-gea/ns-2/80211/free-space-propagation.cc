@@ -56,6 +56,9 @@ const double FreeSpacePropagation::SQ_MIN_DISTANCE = 1e-4;
 FreeSpacePropagation::FreeSpacePropagation ()
 {}
 
+FreeSpacePropagation::~FreeSpacePropagation() {
+}
+
 void 
 FreeSpacePropagation::setInterface (NetInterface *interface)
 {

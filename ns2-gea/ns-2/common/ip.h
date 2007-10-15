@@ -52,7 +52,7 @@
 #endif
 
 // #define IP_BROADCAST	((u_int32_t) 0xffffffff)
-static const u_int32_t IP_BROADCAST = ((u_int32_t) 0xffffffff);
+static const nsaddr_t IP_BROADCAST = static_cast<nsaddr_t>(-1);
 
 
 struct hdr_ip {
