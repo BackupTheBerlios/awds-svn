@@ -370,7 +370,7 @@ void proto_register_awds(void){
     &ett_awds_beacon_nmbr_lst
   };
 
-  /* Setup beacon nmpr subtree array */
+  /* Setup beacon mpr subtree array */
   static gint *ett_beacon_mpr_lst[] = {
     &ett_awds_beacon_mbr_lst
   };
@@ -432,12 +432,12 @@ static void dissect_awds_beacon(tvbuff_t *tvb, packet_info *pinfo, proto_tree *t
   proto_tree_add_item(tree, hf_awds_beacon_int, tvb, offset, 2, FALSE);
   offset += 2;
 
-  /* Decode Non-multipoint relay counter */
+  /* Decode non-multipoint relay counter */
   nmbr_cnt = tvb_get_guint8(tvb, offset);
   proto_tree_add_item(tree, hf_awds_beacon_nmpr_cnt, tvb, offset, 1, FALSE);
   offset++;
 
-  /* Decode Multipoint relay counter */
+  /* Decode multipoint relay counter */
   mbr_cnt = tvb_get_guint8(tvb, offset);
   proto_tree_add_item(tree, hf_awds_beacon_mpr_cnt, tvb, offset, 1, FALSE);
   offset++;
@@ -446,7 +446,7 @@ static void dissect_awds_beacon(tvbuff_t *tvb, packet_info *pinfo, proto_tree *t
   if(check_col(pinfo->cinfo, COL_INFO))
     col_add_fstr(pinfo->cinfo, COL_INFO, "Beacon (int=%d, nonmprcnt=%d, mprcnt=%d)", interval, nmbr_cnt, mbr_cnt);
 
-  /* Decode Non-multipoint relay list if it exists */
+  /* Decode non-multipoint relay list if it exists */
   if(nmbr_cnt){
     awds_item_nmpr = proto_tree_add_item(tree, hf_awds_beacon_nmbr_lst, tvb, offset, 6 * nmbr_cnt, FALSE);
     awds_tree_nmpr = proto_item_add_subtree(awds_item_nmpr, ett_awds_beacon_nmbr_lst);
@@ -456,7 +456,7 @@ static void dissect_awds_beacon(tvbuff_t *tvb, packet_info *pinfo, proto_tree *t
     } //of for
   } //of if
 
-  /* Decode Non-multipoint relay list if it exists */
+  /* Decode multipoint relay list if it exists */
   if(mbr_cnt){
     awds_item_mpr = proto_tree_add_item(tree, hf_awds_beacon_mbr_lst, tvb, offset, 6 * mbr_cnt, FALSE);
     awds_tree_mpr = proto_item_add_subtree(awds_item_mpr, ett_awds_beacon_mbr_lst);
@@ -503,7 +503,7 @@ static void dissect_awds_topo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tre
     } //of for
   } //of if
 
-  /* Decode Node-name length */
+  /* Decode node-name length */
   name_len = tvb_get_guint8(tvb, offset);
   proto_tree_add_item(tree, hf_awds_topo_node_name_len, tvb, offset, 1, FALSE);
   offset++;
@@ -515,7 +515,7 @@ static void dissect_awds_topo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tre
 		     tvb_get_ephemeral_string( tvb, offset, 
 					       (name_len > 32) ? 32 : name_len) );
 
-  /* Decode Node-name */
+  /* Decode node-name */
   proto_tree_add_item(tree, hf_awds_topo_node_name, tvb, offset, name_len, FALSE);
   offset += name_len;
 } //of dissect_awds_topo
@@ -569,7 +569,7 @@ static void dissect_awds_flood(tvbuff_t *tvb,
   proto_tree_add_item(tree, hf_awds_flood_lasthop_mac_addr, tvb, offset, 6, FALSE);
   offset += 6;
 
-  /* Decode TTL */
+  /* Decode TTL (Time To Live) */
   ttl = tvb_get_guint8(tvb, offset);
   proto_tree_add_item(tree, hf_awds_flood_ttl, tvb, offset, 1, FALSE);
   offset++;
@@ -603,7 +603,7 @@ static void dissect_awds_unicast(tvbuff_t *tvb, packet_info *pinfo, proto_tree *
   proto_tree_add_item(tree, hf_awds_unicast_dest_mac_addr, tvb, offset, 6, FALSE);
   offset += 6;
 
-  /* Decode destination MAC-address */
+  /* Decode next-hop MAC-address */
   proto_tree_add_item(tree, hf_awds_unicast_nexthop_mac_addr, tvb, offset, 6, FALSE);
   offset += 6;
 
@@ -687,7 +687,7 @@ static void dissect_awds(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree){
                        break;
   } //of switch
 
-  /* Highest priority for this dissector*/
+  /* Highest priority for this dissector */
   if(check_col(pinfo->cinfo, COL_PROTOCOL))
     col_add_str(pinfo->cinfo, COL_PROTOCOL, "AWDS");
 } //of dissect_awds
