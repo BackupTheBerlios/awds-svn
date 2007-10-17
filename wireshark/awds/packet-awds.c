@@ -494,12 +494,12 @@ static void dissect_awds_topo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tre
       address[3] = tvb_get_guint8(tvb, offset + 3);
       address[4] = tvb_get_guint8(tvb, offset + 4);
       address[5] = tvb_get_guint8(tvb, offset + 5);
-      quality = tvb_get_guint8(tvb, offset + 6);
+      quality = tvb_get_guint16(tvb, offset + 6);
       awds_item_sublink = proto_tree_add_text(awds_tree_link, tvb, offset, 7, "(%02x:%02x:%02x:%02x:%02x:%02x) - %d", address[0], address[1], address[2], address[3], address[4], address[5], quality);
       awds_tree_sublink = proto_item_add_subtree(awds_item_sublink, ett_awds_topo_link_entry);     
       proto_tree_add_item(awds_tree_sublink, hf_awds_topo_link_mac_addr, tvb, offset, 6, FALSE);
       proto_tree_add_item(awds_tree_sublink, hf_awds_topo_link_quality, tvb, offset + 6, 1, FALSE);
-      offset += 7;
+      offset += 8;
     } //of for
   } //of if
 
