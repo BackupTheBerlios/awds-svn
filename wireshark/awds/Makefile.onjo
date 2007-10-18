@@ -1,0 +1,11 @@
+
+
+awds.so: packet-awds.c
+	echo include params  $(shell pkg-config --libs --cflags glib-2.0)
+	gcc -shared \
+	-I/usr/include/wireshark/ \
+	 $(shell pkg-config --libs --cflags glib-2.0)  \
+	 -L/usr/lib/wireshark -lwireshark \
+	-D HAVE_CONFIG_H \
+	-o awds.so plugin.c packet-awds.c 
+
