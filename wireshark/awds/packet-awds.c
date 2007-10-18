@@ -444,7 +444,7 @@ static void dissect_awds_beacon(tvbuff_t *tvb, packet_info *pinfo, proto_tree *t
 
   /* Fill information column */
   if(check_col(pinfo->cinfo, COL_INFO))
-    col_add_fstr(pinfo->cinfo, COL_INFO, "Beacon (int=%d, nonmprcnt=%d, mprcnt=%d)", interval, nmbr_cnt, mbr_cnt);
+    col_add_fstr(pinfo->cinfo, COL_INFO, "Beacon (int=%d, nonmpr=%d, mpr=%d)", interval, nmbr_cnt, mbr_cnt);
 
   /* Decode non-multipoint relay list if it exists */
   if(nmbr_cnt){
