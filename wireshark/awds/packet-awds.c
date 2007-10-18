@@ -163,7 +163,7 @@ static gint hf_awds_topo_link_lst = -1;
 static gint ett_awds_topo_link_lst = -1;
 static gint ett_awds_topo_link_entry = -1;
 static gint hf_awds_topo_link_mac_addr = -1;
-static gint hf_awds_topo_link_quality = -1;
+static gint hf_awds_topo_link_cost = -1;
 
 /* Topology Node-name length */
 static gint hf_awds_topo_node_name_len = -1;
@@ -223,78 +223,78 @@ void proto_register_awds(void){
        TFS(&awds_flag_5), 0x80,
        "Trace-Flag", HFILL}},
     {&hf_awds_src_mac_addr,
-      {"Source address", "awds.src_mac_addr",
+      {"Source address", "awds.sa",
        FT_ETHER, BASE_NONE,
        NULL, 0,
        "Source MAC adress", HFILL}},
     {&hf_awds_seq_no,
-      {"Sequence number", "awds.seq_no",
+      {"Sequence number", "awds.seqno",
        FT_UINT16, BASE_DEC,
        NULL, 0,
        NULL, HFILL}},
     /* For Beacon-packets */
     {&hf_awds_beacon_int,
-      {"Interval", "awds.type.beacon.int",
+      {"Beacon Interval", "awds.bint",
        FT_UINT16, BASE_DEC,
        NULL, 0,
-       NULL, HFILL}},
+       "Beacon Interval in seconds", HFILL}},
     {&hf_awds_beacon_nmpr_cnt,
-      {"Non-multipoint relay count", "awds.type.beacon.nmpr_cnt",
+      {"Non-MPR count", "awds.beacon.nmpr_cnt",
        FT_UINT8, BASE_DEC,
        NULL, 0,
        NULL, HFILL}},
     {&hf_awds_beacon_mpr_cnt,
-      {"Multipoint relay count", "awds.type.beacon.mpr_cnt",
+      {"MPR count", "awds.beacon.mpr_cnt",
        FT_UINT8, BASE_DEC,
        NULL, 0,
        NULL, HFILL}},
     {&hf_awds_beacon_nmbr_lst,
-      {"Non-multipoint relay list", "awds.type.beacon.nmpr_lst",
+      {"Non-MPR list", "awds.beacon.nmpr_lst",
       FT_NONE, BASE_NONE,
       NULL, 0,
       NULL, HFILL}},
     {&hf_awds_beacon_nmbr_mac_addr,
-      {"Address", "awds.type.beacon.nmpr_mac_addr",
+      {"Address", "awds.beacon.nmpr_mac",
        FT_ETHER, BASE_NONE,
        NULL, 0,
        "MAC adress", HFILL}},
     {&hf_awds_beacon_mbr_lst,
-      {"Multipoint relay list", "awds.type.beacon.mpr_lst",
+      {"MPR list", "awds.beacon.mpr_lst",
       FT_NONE, BASE_NONE,
       NULL, 0,
       NULL, HFILL}},
     {&hf_awds_beacon_mbr_mac_addr,
-      {"Address", "awds.type.beacon.mpr_mac_addr",
+      {"Address", "awds.beacon.mpr_mac",
        FT_ETHER, BASE_NONE,
        NULL, 0,
        "MAC adress", HFILL}},
     /* For Flood-packets */
     {&hf_awds_flood_lasthop_mac_addr,
-      {"Lasthop address", "awds.type.flood.lasthop_mac_addr",
+      {"Last-hop address", "awds.flood.lasthop_mac",
        FT_ETHER, BASE_NONE,
        NULL, 0,
        "Lasthop MAC adress", HFILL}},
     {&hf_awds_flood_ttl,
-      {"TTL", "awds.type.flood.ttl",
+      {"TTL", "awds.flood.ttl",
        FT_UINT8, BASE_DEC,
        NULL, 0,
-       NULL, HFILL}},
+       "Time To Live (number of hops)", HFILL}},
     /* For Unicast-packets */
     {&hf_awds_unicast_dest_mac_addr,
-      {"Destination address", "awds.type.unicast.dest_mac_addr",
+      {"Destination address", "awds.unicast.da",
        FT_ETHER, BASE_NONE,
        NULL, 0,
        "Destination MAC adress", HFILL}},
     {&hf_awds_unicast_nexthop_mac_addr,
-      {"Nexthop address", "awds.type.unicast.nexthop_mac_addr",
+      {"Next-hop address", "awds.unicast.nexthop",
        FT_ETHER, BASE_NONE,
        NULL, 0,
-       "Nexthop MAC adress", HFILL}},
+       "Next-hop MAC adress", HFILL}},
     {&hf_awds_unicast_ttl,
-      {"TTL", "awds.type.unicast.ttl",
+      {"TTL", "awds.unicast.ttl",
        FT_UINT8, BASE_DEC,
        NULL, 0,
-       NULL, HFILL}},
+       "Time To Live (number of hops)", HFILL}},
     /* For Subtype-packets */
     {&hf_awds_subtype,
       {"SubType", "awds.subtype",
@@ -303,48 +303,48 @@ void proto_register_awds(void){
        NULL, HFILL}},
     /* For Topo-packets */
     {&hf_awds_topo_validity,
-      {"Validity", "awds.type.topo.validity",
+      {"Validity", "awds.topo.validity",
        FT_UINT32, BASE_DEC,
        NULL, 0,
        NULL, HFILL}},
     {&hf_awds_topo_link_cnt,
-      {"Link count", "awds.type.topo.link_cnt",
+      {"Link count", "awds.topo.link_cnt",
        FT_UINT8, BASE_DEC,
        NULL, 0,
        NULL, HFILL}},
     {&hf_awds_topo_link_lst,
-      {"Link list", "awds.type.topo.link_lst",
+      {"Link list", "awds.topo.link_lst",
       FT_NONE, BASE_NONE,
       NULL, 0,
-      NULL, HFILL}},
+      "List of neighbour nodes", HFILL}},
     {&hf_awds_topo_link_mac_addr,
-      {"Address", "awds.type.topo.link_mac_addr",
+      {"Address", "awds.topo.link_mac",
        FT_ETHER, BASE_NONE,
        NULL, 0,
        "MAC adress", HFILL}},
-    {&hf_awds_topo_link_quality,
-      {"Quality", "awds.type.topo.link_quality",
-       FT_UINT8, BASE_DEC,
+    {&hf_awds_topo_link_cost,
+      {"Link Cost", "awds.topo.link_cost",
+       FT_UINT16, BASE_DEC,
        NULL, 0,
        NULL, HFILL}},
     {&hf_awds_topo_node_name_len,
-      {"Node name length", "awds.type.topo.node_name_len",
+      {"Node name length", "awds.topo.node_name_len",
        FT_UINT8, BASE_DEC,
        NULL, 0,
        NULL, HFILL}},
     {&hf_awds_topo_node_name,
-      {"Node name", "awds.type.topo.node_name",
+      {"Node name", "awds.topo.node_name",
        FT_STRING, BASE_NONE,
        NULL, 0,
        NULL, HFILL}},
     /* For Crypto-packets */
     {&hf_awds_crypto_iv,
-      {"Initialisation vector", "awds.type.crypto.iv",
+      {"IV", "awds.crypto.iv",
        FT_UINT64, BASE_HEX,
        NULL, 0,
-       NULL, HFILL}},
+       "Initialization vector", HFILL}},
     {&hf_awds_crypto_nonce,
-      {"Nonce", "awds.type.crypto.nonce",
+      {"Nonce", "awds.crypto.nonce",
        FT_UINT64, BASE_HEX,
        NULL, 0,
        NULL, HFILL}}
@@ -468,7 +468,8 @@ static void dissect_awds_beacon(tvbuff_t *tvb, packet_info *pinfo, proto_tree *t
 } //of dissect_awds_beacon
 
 static void dissect_awds_topo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, gint offset){
-  guint8 link_cnt = 0, name_len = 0, quality = 0;
+  guint8 link_cnt = 0, name_len = 0;
+  guint16 cost = 0;
   guint8 address[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
   guint16 i;
   proto_item *awds_item_link = NULL, *awds_item_sublink = NULL;
@@ -485,7 +486,7 @@ static void dissect_awds_topo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tre
 
   /* Decode link list if it exists */
   if(link_cnt){
-    awds_item_link = proto_tree_add_item(tree, hf_awds_topo_link_lst, tvb, offset, 7 * link_cnt, FALSE);
+    awds_item_link = proto_tree_add_item(tree, hf_awds_topo_link_lst, tvb, offset, 8 * link_cnt, FALSE);
     awds_tree_link = proto_item_add_subtree(awds_item_link, ett_awds_topo_link_lst);
     for(i = 0; i < link_cnt; i++){
       address[0] = tvb_get_guint8(tvb, offset);
@@ -494,11 +495,11 @@ static void dissect_awds_topo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tre
       address[3] = tvb_get_guint8(tvb, offset + 3);
       address[4] = tvb_get_guint8(tvb, offset + 4);
       address[5] = tvb_get_guint8(tvb, offset + 5);
-      quality = tvb_get_ntohs(tvb, offset + 6);
-      awds_item_sublink = proto_tree_add_text(awds_tree_link, tvb, offset, 7, "(%02x:%02x:%02x:%02x:%02x:%02x) - %d", address[0], address[1], address[2], address[3], address[4], address[5], quality);
+      cost = tvb_get_ntohs(tvb, offset + 6);
+      awds_item_sublink = proto_tree_add_text(awds_tree_link, tvb, offset, 8, "%02x:%02x:%02x:%02x:%02x:%02x - %d", address[0], address[1], address[2], address[3], address[4], address[5], (int)cost);
       awds_tree_sublink = proto_item_add_subtree(awds_item_sublink, ett_awds_topo_link_entry);     
       proto_tree_add_item(awds_tree_sublink, hf_awds_topo_link_mac_addr, tvb, offset, 6, FALSE);
-      proto_tree_add_item(awds_tree_sublink, hf_awds_topo_link_quality, tvb, offset + 6, 1, FALSE);
+      proto_tree_add_item(awds_tree_sublink, hf_awds_topo_link_cost, tvb, offset + 6, 2, FALSE);
       offset += 8;
     } //of for
   } //of if
