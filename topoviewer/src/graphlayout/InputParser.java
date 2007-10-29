@@ -33,10 +33,10 @@ public class InputParser extends DefaultHandler implements Runnable{
       SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
       parser.parse(new File(path), this);
     } catch(Throwable t){
-      //System.out.println("Error/Exception in <InputParser.InputParser>");
-      //System.out.print("\"");
-      //t.printStackTrace();
-      //System.out.println("\"");
+      System.out.println("Error/Exception in <InputParser.InputParser>");
+      System.out.print("\"");
+      t.printStackTrace();
+      System.out.println("\"");
       System.out.println("Parsing Error");
     } //of try-catch
   } //of InputParser
@@ -56,10 +56,10 @@ public class InputParser extends DefaultHandler implements Runnable{
           SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
           parser.parse(is, this);
         } catch(Throwable t){
-          //System.out.println("Error/Exception in method <InputParser.run>");
-          //System.out.print("\"");
-          //t.printStackTrace();
-          //System.out.println("\"");
+          System.out.println("Error/Exception in method <InputParser.run>");
+          System.out.print("\"");
+          t.printStackTrace();
+          System.out.println("\"");
           System.out.println("Parsing Error");
         } //of try-catch
         is.close();
