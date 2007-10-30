@@ -2,15 +2,13 @@ CPPFLAGS += -I../../include
 
 bin_PROGRAMS = gea_start
 
-lib_LTLIBRARIES = libgea-utils.la
+lib_LTLIBRARIES = libgea2-utils.la
 
 gea_start_SOURCES = gea_start.cc
 gea_start_CPPFLAGS = $(LTDLINCL)
-gea_start_LDADD = ../libgea.la ../libgea-posix.la 
-gea_start_LDFLAGS = $(LIBLTDL) 
+gea_start_LDADD = ../libgea2.la ../libgea2-posix.la -ldl
 
-
-libgea_utils_la_SOURCES = \
+libgea2_utils_la_SOURCES = \
 	SingleShootEvent.cc \
 	MultiShootEvent.cc \
 	MultiShootTimerEvent.cc

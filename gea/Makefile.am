@@ -3,7 +3,7 @@
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = gea.pc
 
-SUBDIRS = libltdl src include test
+SUBDIRS = src include test
 
 
 # we distribute the stuff for building Debian packages with the source. 

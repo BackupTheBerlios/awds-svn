@@ -1,7 +1,8 @@
 libgea2 (2.2) unstable; urgency=low
 
   * renamed package to libgea2
-
+  * renamed library from libgea.so to libgea2.so
+  
  -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Tue, 09 Oct 2007 14:58:23 +0200
 
 libgea (2.1) unstable; urgency=low

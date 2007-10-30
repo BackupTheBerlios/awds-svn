@@ -6,7 +6,8 @@
 #include <cstdlib>
 
 #include <iostream>
-#include <ltdl.h>
+//#include <ltdl.h>
+#include <dlfcn.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -25,22 +26,22 @@ int run_gea_main(int argc, char **argv) {
     
     
     
-    lt_dlhandle handle = lt_dlopenext(argv[0]);
+    void *handle = dlopen(argv[0], RTLD_NOW);
     if (!handle) {
-	std::cerr << "Cannot open library: " << lt_dlerror() << '\n';
+	std::cerr << "Cannot open library: " << dlerror() << '\n';
 	return 1;
     }
 
-    gea_main_t gea_main = (gea_main_t) lt_dlsym(handle, "gea_main");
+    gea_main_t gea_main = (gea_main_t) dlsym(handle, "gea_main");
     
     if (gea_main == 0) {
       std::cerr  << "warning: trying C++ ABI resolution of gea_main" << std::endl;
-      gea_main = (gea_main_t) lt_dlsym(handle, "_Z8gea_mainiPKPKc");
+      gea_main = (gea_main_t) dlsym(handle, "_Z8gea_mainiPKPKc");
       
     }
 
     if (gea_main == 0) {
-      std::cerr << "Cannot load symbols: " << lt_dlerror() << '\n';
+      std::cerr << "Cannot load symbols: " << dlerror() << '\n';
       return 1;
     }
         
@@ -148,11 +149,11 @@ void interactive() {
 
 int main(int argc, char **argv) {
 
-    if (lt_dlinit() != 0) {
-	cerr << "cannot initialise libltdl:" << lt_dlerror() << endl;
-	return 1;
-    }
-    
+    /*    if (lt_dlinit() != 0) {
+	  cerr << "cannot initialise libltdl:" << lt_dlerror() << endl;
+	  return 1;
+	  }
+    */
 
     initPosixApiIface();
 
@@ -160,7 +161,7 @@ int main(int argc, char **argv) {
     if (argc==2 && !strcmp(argv[1],"-i")) {
 	
 	interactive();
-	lt_dlexit();
+	//lt_dlexit();
 	return 0;
 	
     } else if (argc==3 && !strcmp(argv[1],"-c")) {
@@ -172,7 +173,7 @@ int main(int argc, char **argv) {
 	}
 	interactive();
 	//close(conf_fd);
-	lt_dlexit();
+	//	lt_dlexit();
 	return 0;
 	
     } else    if(!(argc > 1)) {
@@ -189,7 +190,7 @@ int main(int argc, char **argv) {
     
     static_cast<ShadowEventHandler *>(gea::geaAPI().subEventHandler)->run();
 
-    lt_dlexit();
+    //    lt_dlexit();
     return ret;
 }
 

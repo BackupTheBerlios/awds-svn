@@ -14,14 +14,15 @@
 #define DLLLOCAL  __attribute__ ((visibility("hidden")))
 #endif
 
+#define GEA_MAIN(argc, argv)						\
+    extern "C" DLLEXPORT int gea_main(int argc, const char * const * argv) 
 
 #if defined PIC
-#  define GEA_MAIN(argc, argv)						\
-    extern "C" DLLEXPORT int gea_main(int argc, const char * const * argv) 
+#  define GEA_MAIN_2(modulename, argc, argv)				\
+     extern "C" DLLEXPORT int gea_main(int argc, const char * const * argv)
 #else
-#  define GEA_MAIN(argc, argv) GEA_MAIN_XXX(MODULE_NAME, argc, argv)
-#  define GEA_MAIN_XXX(modulename, argc, argv)				\
-    extern "C" int modulename##_gea_main(int argc, const char * const * argv)
+#  define GEA_MAIN_2(modulename, argc, argv)				\
+     extern "C" DLLEXPORT int modulename##_gea_main(int argc, const char * const * argv)
 
 #endif 
 
