@@ -1,3 +1,9 @@
+ns2-gea (2.30-7) unstable; urgency=low
+
+  * use GEA 2.2
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Tue, 30 Oct 2007 09:23:26 +0100
+
 ns2-gea (2.30-6) unstable; urgency=low
 
   * changed dependency to the new(renamed) libgea2

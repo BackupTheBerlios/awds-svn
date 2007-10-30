@@ -77,7 +77,7 @@ INCLUDES = \
 LIB	= \
 	@V_LIBS@ \
 	@V_LIB@ \
-	-lm @LIBS@ -lgea
+	-lm @LIBS@ -lgea2
 #	-L@libdir@ \
 
 CFLAGS	+= $(CCOPT) $(DEFINE) 
