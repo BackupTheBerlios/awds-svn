@@ -53,7 +53,7 @@ void dissect_awds(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree);
 static gint proto_awds = -1;
 static gint ett_awds = -1;
 static gint ett_awds_subtype = -1;
-static guint16 global_awds_id = 0x8333;
+static guint16 global_awds_id = 0x8334;
 static dissector_handle_t eth_handle;
 static dissector_handle_t awds_handle;
 //static dissector_handle_t data_handle;
