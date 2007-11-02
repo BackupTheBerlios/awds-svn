@@ -1,9 +1,9 @@
-/.cvsignore/1.1/Mon Jun 29 23:51:06 1998//
-/reno_no_slow_start_restart.Z/1.6/Fri Nov 30 22:35:27 2001/-kb/
-/reno_pacing.Z/1.7/Wed Jan 30 01:56:08 2002/-kb/
-/reno_slow_start_restart.Z/1.6/Fri Nov 30 22:35:27 2001/-kb/
-/vegas_no_slow_start_restart.Z/1.5/Fri Nov 30 22:35:27 2001/-kb/
-/vegas_pacing_cwnd.Z/1.6/Fri Nov 30 22:35:27 2001/-kb/
-/vegas_pacing_rate.Z/1.6/Fri Nov 30 22:35:27 2001/-kb/
-/vegas_slow_start_restart.Z/1.5/Fri Nov 30 22:35:27 2001/-kb/
+/.cvsignore/1.1/Tue Jan 16 16:29:05 2007//
+/reno_no_slow_start_restart.gz/1.1/Sun Jun 10 21:51:38 2007/-kb/
+/reno_pacing.gz/1.1/Sun Jun 10 21:51:39 2007/-kb/
+/reno_slow_start_restart.gz/1.1/Sun Jun 10 21:51:40 2007/-kb/
+/vegas_no_slow_start_restart.gz/1.1/Sun Jun 10 21:51:41 2007/-kb/
+/vegas_pacing_cwnd.gz/1.1/Sun Jun 10 21:51:42 2007/-kb/
+/vegas_pacing_rate.gz/1.1/Sun Jun 10 21:51:43 2007/-kb/
+/vegas_slow_start_restart.gz/1.1/Sun Jun 10 21:51:44 2007/-kb/
 D

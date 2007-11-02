@@ -57,7 +57,7 @@
 
 #ifndef lint
 static const char rcsid[] =
-     "@(#) $Header: /cvsroot/nsnam/ns-2/queue/red.cc,v 1.83 2006/12/17 15:21:59 mweigle Exp $ (LBL)";
+     "@(#) $Header: /cvsroot/nsnam/ns-2/queue/red.cc,v 1.88 2007/10/23 06:55:54 seashadow Exp $ (LBL)";
 #endif
 
 #include <math.h>
@@ -110,7 +110,7 @@ REDQueue::REDQueue(const char * trace) : link_(NULL), de_drop_(NULL), EDTrace(NU
 	bind("thresh_", &edp_.th_min_pkts);		    // minthresh
 	bind("thresh_queue_", &edp_.th_min);
 	bind("maxthresh_", &edp_.th_max_pkts);	    // maxthresh
-	bind("minthresh_queue_", &edp_.th_max);
+	bind("maxthresh_queue_", &edp_.th_max);
 	bind("mean_pktsize_", &edp_.mean_pktsize);  // avg pkt size
 	bind("idle_pktsize_", &edp_.idle_pktsize);  // avg pkt size for idles
 	bind("q_weight_", &edp_.q_w);		    // for EWMA
@@ -442,12 +442,18 @@ REDQueue::calculate_p_new(double v_ave, double th_max, int gentle, double v_a,
 		// p ranges from max_p to 1 as the average queue
 		// size ranges from th_max to twice th_max 
 		p = v_c * v_ave + v_d;
-	} else {
-		// p ranges from 0 to max_p as the average queue
-		// size ranges from th_min to th_max 
-		p = v_a * v_ave + v_b;
-		p *= max_p;
-	}
+        } else if (!gentle && v_ave >= th_max) { 
+                // OLD: p continues to range linearly above max_p as
+                // the average queue size ranges above th_max.
+                // NEW: p is set to 1.0 
+                p = 1.0;
+        } else {
+                // p ranges from 0 to max_p as the average queue
+                // size ranges from th_min to th_max 
+                p = v_a * v_ave + v_b;
+                // p = (v_ave - th_min) / (th_max - th_min)
+                p *= max_p; 
+        }
 	if (p > 1.0)
 		p = 1.0;
 	return p;
@@ -553,7 +559,8 @@ REDQueue::drop_early(Packet* pkt)
 		edv_.count = 0;
 		edv_.count_bytes = 0;
 		hdr_flags* hf = hdr_flags::access(pickPacketForECN(pkt));
-		if (edp_.setbit && hf->ect() && edv_.v_prob1 < edp_.mark_p) { 
+		if (edp_.setbit && hf->ect() && 
+                     (!edp_.use_mark_p || edv_.v_prob1 < edp_.mark_p)) { 
 			hf->ce() = 1; 	// mark Congestion Experienced bit
 			// Tell the queue monitor here - call emark(pkt)
 			return (0);	// no drop
@@ -684,8 +691,8 @@ void REDQueue::enque(Packet* pkt)
 
 	if (qavg >= edp_.th_min && qlen > 1) {
 		if (!edp_.use_mark_p && 
-			(!edp_.gentle && qavg >= edp_.th_max) ||
-			(edp_.gentle && qavg >= 2 * edp_.th_max)) {
+			((!edp_.gentle && qavg >= edp_.th_max) ||
+			(edp_.gentle && qavg >= 2 * edp_.th_max))) {
 			droptype = DTYPE_FORCED;
 		} else if (edv_.old == 0) {
 			/* 

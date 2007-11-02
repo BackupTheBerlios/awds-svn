@@ -30,13 +30,14 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# @(#) $Header: /cvsroot/nsnam/ns-2/tcl/test/test-suite-tcp.tcl,v 1.38 2006/01/25 22:02:05 sallyfloyd Exp $
+# @(#) $Header: /cvsroot/nsnam/ns-2/tcl/test/test-suite-tcp.tcl,v 1.41 2007/10/24 22:40:24 sallyfloyd Exp $
 #
 # To view a list of available tests to run with this script:
 # ns test-suite-tcp.tcl
 #
 
 source misc.tcl
+source topologies.tcl
 remove-all-packet-headers       ; # removes all except common
 add-packet-header Flags IP TCP  ; # hdrs reqd for TCP
 
@@ -60,7 +61,6 @@ Agent/TCP set windowInit_ 1
 # The default is being changed to 2.
 Agent/TCP set singledup_ 0
 # The default is being changed to 1
-source topologies.tcl
 Agent/TCP set minrto_ 0
 # The default is being changed to minrto_ 1
 Agent/TCP set syn_ false
@@ -87,7 +87,7 @@ TestSuite instproc finish file {
 TestSuite instproc printtimers { tcp time} {
 	global quiet
 	if {$quiet == "false"} {
-        	puts "time: $time sRTT(in ticks): [$tcp set srtt_]/8 RTTvar(in ticks): [$tcp set rttvar_]/4 backoff: [$tcp set backoff_]"
+        	puts "time: [format %.3f $time] sRTT(in ticks): [$tcp set srtt_]/8 RTTvar(in ticks): [$tcp set rttvar_]/4 backoff: [$tcp set backoff_]"
 	}
 }
 
@@ -119,6 +119,30 @@ Topology/net4 instproc init ns {
     if {[$class info instprocs config] != ""} {
 	$self config $ns
     }
+}
+
+TestSuite instproc set_lossylink {} {
+        $self instvar lossylink_ ns_ node_
+        set lossylink_ [$ns_ link $node_(r1) $node_(k1)]
+        set em [new ErrorModule Fid]
+        set errmodel [new ErrorModel/Periodic]
+        $errmodel unit pkt
+        $lossylink_ errormodule $em
+}
+
+TestSuite instproc emod {} {
+        $self instvar lossylink_
+        set errmodule [$lossylink_ errormodule]
+        return $errmodule
+}
+
+TestSuite instproc drop_pkts pkts {
+    $self instvar ns_
+    set emod [$self emod]
+    set errmodel1 [new ErrorModel/List]
+    $errmodel1 droplist $pkts
+    $emod insert $errmodel1
+    $emod bind $errmodel1 1
 }
 
 #
@@ -209,31 +233,25 @@ Test/timers instproc init topo {
 	set net_	$topo
 	set defNet_	net4
 	set test_	timers_(first_packet_dropped)
-	set guide_	\
-	"TCP's retransmit timers when first and second packets are droopped."
+	set guide_	"TCP's retransmit timers when first and second packets are dropped."
 	$self next
 }
 Test/timers instproc run {} {
 	global quiet
-	$self instvar ns_ node_ testName_ guide_
+	$self instvar ns_ node_ testName_ guide_ 
 	puts "Guide: $guide_"
+        $self set_lossylink
 
 	if {$quiet == "false"} {puts "tcpTICK: [Agent/TCP set tcpTick_]"}
 
 	# Set up TCP connection
-	set tcp2 [$ns_ create-connection TCP $node_(s2) TCPSink $node_(k1) 0]
-	$tcp2 set window_ 3
-	set ftp2 [$tcp2 attach-app FTP]
+	set tcp1 [$ns_ create-connection TCP $node_(s2) TCPSink $node_(k1) 1]
+	$tcp1 set window_ 3
+	set ftp2 [$tcp1 attach-app FTP]
 	$ns_ at 0.09 "$ftp2 start"
-	$ns_ at 1.0 "$self printtimersAll $tcp2 1.0 1.0" 
+	$ns_ at 1.0 "$self printtimersAll $tcp1 1.0 1.0" 
 
-	# Set up TCP connection
-	set tcp1 [$ns_ create-connection TCP $node_(s1) TCPSink $node_(k1) 1]
-	$tcp1 set window_ 5
-	set ftp1 [$tcp1 attach-app FTP]
-	$ns_ at 0.0 "$ftp1 produce 800"
-	$ns_ at 20.3 "$ftp1 producemore 5"
-	$ns_ at 20.7 "$ftp1 producemore 5" 
+	$self drop_pkts {0 1}
 
 	$self traceQueues $node_(r1) [$self openTrace 25.0 $testName_]
 	$ns_ run
@@ -245,8 +263,7 @@ Test/timersA instproc init topo {
 	set net_	$topo
 	set defNet_	net4
 	set test_	timersA_(early_packet_dropped)
-	set guide_	\
-	"TCP's retransmit timers when the third packet is droopped."
+	set guide_	"TCP's retransmit timers when the third packet is droopped."
 	Agent/TCP set timerfix_ false
 	$self next
 }
@@ -262,15 +279,9 @@ Test/timersA instproc run {} {
 	global quiet
 	$self instvar ns_ node_ testName_ guide_
 	puts "Guide: $guide_"
+        $self set_lossylink
 
 	if {$quiet == "false"} {puts "tcpTICK: [Agent/TCP set tcpTick_]"}
-
-	# Set up TCP connection
-	set tcp2 [$ns_ create-connection TCP $node_(s2) TCPSink $node_(k1) 0]
-	$tcp2 set window_ 3
-	set ftp2 [$tcp2 attach-app FTP]
-	$ns_ at 0.07 "$ftp2 start"
-	$ns_ at 0.1 "$self printtimersAll $tcp2 0.1 0.1" 
 
 	# Set up TCP connection
 	set tcp1 [$ns_ create-connection TCP $node_(s1) TCPSink $node_(k1) 1]
@@ -284,6 +295,8 @@ Test/timersA instproc run {} {
 	$ns_ at 26.9 "$ftp1 producemore 5" 
 	$ns_ at 28.8 "$ftp1 producemore 5" 
 
+	$self drop_pkts {2 7 9 10 11}
+
 	$self traceQueues $node_(r1) [$self openTrace 3.5 $testName_]
 	$ns_ run
 }
@@ -294,8 +307,7 @@ Test/timersAfix instproc init topo {
 	set net_	$topo
 	set defNet_	net4
 	set test_	timersAfix_(early_packet_dropped)
-	set guide_	"Agent/TCP, timerfix_ set to true, for updating
-	the timer *after* updating the round-trip time." 
+	set guide_	"Agent/TCP, timerfix_ set, for updating timer *after* updating the RTT." 
 	Agent/TCP set timerfix_ true
         Test/timersAfix instproc run {} [Test/timersA info instbody run]
 	$self next
@@ -444,8 +456,7 @@ Test/timers4 instproc init topo {
         set net_        $topo  
         set defNet_     net2
         set test_       timers4_(tcpTick_=0.001)
-	set guide_	\
-	"With timers5, shows that estimated RTT updated only once per RTT."
+	set guide_	"With timers5, shows that estimated RTT updated only once per RTT."
         $self next
 }
 
@@ -474,8 +485,7 @@ Test/timers5 instproc init topo {
         set net_        $topo  
         set defNet_     net2
         set test_       timers5_(tcpTick_=0.001)
-	set guide_	\
-	"With timers4, shows that estimated RTT updated only once per RTT."
+	set guide_	"With timers4, shows that estimated RTT updated only once per RTT."
         $self next
 }
 
@@ -500,12 +510,40 @@ Test/timers5 instproc run {} {
 
 TestSuite instproc printtcp { label tcp time } {
 	puts ""
-	puts "tcp: $label time: $time" 
+	puts "tcp: $label time: [format %.3f $time]" 
 	puts "total_data_packets_sent: [$tcp set ndatapack_] data_bytes_sent: [$tcp set ndatabytes_]" 
 	puts "packets_resent: [$tcp set nrexmitpack_] bytes_resent: [$tcp set nrexmitbytes_]" 
 	puts "ack_packets_received: [$tcp set nackpack_]"
 	puts "retransmit_timeouts: [$tcp set nrexmit_]" 
 
+}
+
+Class Test/timers_backoffs -superclass TestSuite
+Test/timers_backoffs instproc init topo {
+	$self instvar net_ defNet_ test_ guide_
+	set net_	$topo
+	set defNet_	net6
+	set test_	timers_backoffs
+	set guide_	"TCP's retransmit timer, max RTO of 60 seconds."
+	$self next
+}
+Test/timers_backoffs instproc run {} {
+	global quiet
+	$self instvar ns_ node_ testName_ guide_
+	puts "Guide: $guide_"
+	$self set_lossylink
+
+	if {$quiet == "false"} {puts "tcpTICK: [Agent/TCP set tcpTick_]"}
+
+	# Set up TCP connection
+	set tcp1 [$ns_ create-connection TCP $node_(s1) TCPSink $node_(k1) 1]
+	$tcp1 set window_ 1
+	set ftp1 [$tcp1 attach-app FTP]
+	$ns_ at 0.0 "$ftp1 produce 30"
+	$self drop_pkts {10 11 12 13 14 15 16 17 18 19}
+
+	$self traceQueues $node_(r1) [$self openTrace 400.0 $testName_]
+	$ns_ run
 }
 
 Class Test/stats1 -superclass TestSuite
@@ -552,30 +590,6 @@ Test/stats1 instproc run {} {
         $ns_ run
 }
 
-TestSuite instproc set_lossylink {} {
-    	$self instvar lossylink_ ns_ node_ guide_
-    	set lossylink_ [$ns_ link $node_(r1) $node_(k1)]
-   	set em [new ErrorModule Fid]
-    	set errmodel [new ErrorModel/Periodic]
-    	$errmodel unit pkt
-    	$lossylink_ errormodule $em
-}
-
-TestSuite instproc emod {} {
-	$self instvar lossylink_
-        set errmodule [$lossylink_ errormodule]
-        return $errmodule
-}
-
-TestSuite instproc drop_pkts pkts {
-	$self instvar ns_
-	set emod [$self emod]
-	set errmodel1 [new ErrorModel/List]
-	$errmodel1 droplist $pkts
-	$emod insert $errmodel1
-	$emod bind $errmodel1 1
-} 
-
 TestSuite instproc run1 { tcp0 {stoptime 30.1}} {
         $self instvar ns_ node_ testName_ guide_
 
@@ -616,8 +630,7 @@ Test/quiescentB instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       quiescentB
-	set guide_	\
-	"Tahoe TCP entering a quiescent period with a smaller cwnd."
+	set guide_	"Tahoe TCP entering a quiescent period with a smaller cwnd."
 	Agent/TCP set QOption_ 0
         $self next
 } 
@@ -639,8 +652,7 @@ Test/quiescentB_qoption instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       quiescentB_qoption
-	set guide_      \
-	"Tahoe TCP entering a quiescent period, TCP quiescence option set."
+	set guide_      "Tahoe TCP entering a quiescent period, TCP quiescence option set."
 	Agent/TCP set QOption_ 1
         $self next
 } 
@@ -680,8 +692,7 @@ Test/underutilized_100ms instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       underutilized_100ms
-	set guide_      \
-	"Tahoe TCP, underutilized, TCP quiescence option not set."
+	set guide_      "Tahoe TCP, underutilized, TCP quiescence option not set."
 	Agent/TCP set QOption_ 0
         $self next
 } 
@@ -701,8 +712,7 @@ Test/underutilized_100ms_control instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       underutilized_100ms_control
-	set guide_      \
-	"Tahoe TCP, underutilized, TCP quiescence option not set,
+	set guide_      "Tahoe TCP, underutilized, TCP quiescence option not set,
 	control_increase set."
         Agent/TCP set QOption_ 0
         Agent/TCP set control_increase_ 1
@@ -716,8 +726,7 @@ Test/underutilized_100ms_control_Q instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       underutilized_100ms_control_Q
-	set guide_      \
-	"Tahoe TCP, underutilized, TCP quiescence option set,
+	set guide_      "Tahoe TCP, underutilized, TCP quiescence option set,
 	control_increase set."
         Agent/TCP set QOption_ 1
         Agent/TCP set control_increase_ 1
@@ -731,8 +740,7 @@ Test/underutilized_100ms_Q instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       underutilized_100ms_Q
-	set guide_      \
-	"Tahoe TCP, underutilized, TCP quiescence option set,
+	set guide_      "Tahoe TCP, underutilized, TCP quiescence option set,
 	control_increase not set."
         Agent/TCP set QOption_ 1
         Agent/TCP set control_increase_ 0
@@ -746,8 +754,7 @@ Test/underutilized_100ms_control_Reno instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       underutilized_100ms_control_Reno
-        set guide_      \
-        "Reno TCP, underutilized, TCP quiescence option not set,
+        set guide_      "Reno TCP, underutilized, TCP quiescence option not set,
         control_increase set."
         Agent/TCP set QOption_ 0
         Agent/TCP set control_increase_ 1
@@ -761,8 +768,7 @@ Test/underutilized_100ms_control_Newreno instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       underutilized_100ms_control_Newreno
-        set guide_      \
-        "NewReno TCP, underutilized, TCP quiescence option not set,
+        set guide_      "NewReno TCP, underutilized, TCP quiescence option not set,
         control_increase set."
         Agent/TCP set QOption_ 0
         Agent/TCP set control_increase_ 1
@@ -776,8 +782,7 @@ Test/underutilized_100ms_control_Sack instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       underutilized_100ms_control_Sack
-        set guide_      \
-        "Sack TCP, underutilized, TCP quiescence option not set,
+        set guide_      "Sack TCP, underutilized, TCP quiescence option not set,
         control_increase set."
         Agent/TCP set QOption_ 0
         Agent/TCP set control_increase_ 1
@@ -791,8 +796,7 @@ Test/quiescent_100ms_fine instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       quiescent_100ms_fine(EnblRTTCtr__0)
-	set guide_      \
-	"Tahoe TCP after a quiescent period, fine-grained timer."
+	set guide_      "Tahoe TCP after a quiescent period, fine-grained timer."
 	Agent/TCP set QOption_ 1
 	Agent/TCP set control_increase_ 1
 	Agent/TCP set EnblRTTCtr_ 0
@@ -806,8 +810,7 @@ Test/quiescent_100ms_coarse instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       quiescent_100ms_coarse(EnblRTTCtr__1)
-	set guide_      \
-	"Tahoe TCP after a quiescent period, coarse-grained timer."
+	set guide_      "Tahoe TCP after a quiescent period, coarse-grained timer."
 	Agent/TCP set QOption_ 1
 	Agent/TCP set control_increase_ 1
 	Agent/TCP set EnblRTTCtr_ 1
@@ -821,8 +824,7 @@ Test/quiescent_1ms_fine instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       quiescent_1ms_fine(EnblRTTCtr__0)
-	set guide_      \
-	"Tahoe TCP after a quiescent period, fine-grained timer, tcpTick_ 0.001."
+	set guide_      "Tahoe TCP after a quiescent period, fine-grained timer, tcpTick_ 0.001."
 	Agent/TCP set QOption_ 1
 	Agent/TCP set tcpTick_ 0.001 
 	Agent/TCP set control_increase_ 1
@@ -837,8 +839,7 @@ Test/quiescent_1ms_coarse instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       quiescent_1ms_coarse(EnblRTTCtr__1)
-	set guide_      \
-	"Tahoe TCP after a quiescent period, coarse-grained timer, tcpTick_ 0.001."
+	set guide_      "Tahoe TCP after a quiescent period, coarse-grained timer, tcpTick_ 0.001."
 	Agent/TCP set QOption_ 1
 	Agent/TCP set tcpTick_ 0.001 
 	Agent/TCP set control_increase_ 1
@@ -853,8 +854,7 @@ Test/quiescent_500ms_fine instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       quiescent_500ms_fine(EnblRTTCtr__0)
-	set guide_      \
-	"Tahoe TCP after a quiescent period, fine-grained timer, tcpTick_ 0.5."
+	set guide_      "Tahoe TCP after a quiescent period, fine-grained timer, tcpTick_ 0.5."
 	Agent/TCP set QOption_ 1
 	Agent/TCP set tcpTick_ 0.500
 	Agent/TCP set control_increase_ 1
@@ -869,8 +869,7 @@ Test/quiescent_500ms_coarse instproc init topo {
         set net_        $topo
         set defNet_     net6
         set test_       quiescent_500ms_coarse(EnblRTTCtr__1)
-	set guide_      \
-	"Tahoe TCP after a quiescent period, coarse-grained timer, tcpTick_ 0.5."
+	set guide_      "Tahoe TCP after a quiescent period, coarse-grained timer, tcpTick_ 0.5."
 	Agent/TCP set QOption_ 1
 	Agent/TCP set tcpTick_ 0.500 
 	Agent/TCP set control_increase_ 1
@@ -884,7 +883,7 @@ Test/quiescent_500ms_coarse instproc init topo {
 TestSuite instproc printtimeouts { label tcp time } {
 	global quiet
 	if {$quiet == "false"} {
-	  puts "tcp: $label time: $time retransmit_timeouts: [$tcp set nrexmit_]" 
+	  puts "tcp: $label time: [format %.3f $time] retransmit_timeouts: [$tcp set nrexmit_]" 
 	}
 }
 
@@ -892,15 +891,17 @@ TestSuite instproc printtimeouts { label tcp time } {
 # for a path with a 9.6Kbps link, and 1500-byte packets.
 Class Test/dialup -superclass TestSuite
 Test/dialup instproc init topo {
-        $self instvar net_ defNet_ test_ 
+        $self instvar net_ defNet_ test_ guide_
 	set net_        $topo
 	set defNet_    	net8
+        set guide_	"1500-byte packets on a 9.6 Kbps link"
         set test_       dialup(9.6K-link,1500-byte-pkt)
         $self next
 }
 Test/dialup instproc run {} {
 	global quiet
-        $self instvar ns_ node_ testName_
+        $self instvar ns_ node_ testName_ guide_
+	puts "Guide: $guide_"
         Agent/TCP set syn_ true
         Agent/TCP set delay_growth_ true
         Agent/TCP set windowInitOption_ 2
@@ -924,9 +925,10 @@ Test/dialup instproc run {} {
 # But this one has rfc2988_ set to false.
 Class Test/dialup1 -superclass TestSuite
 Test/dialup1 instproc init topo {
-        $self instvar net_ defNet_ test_ 
+        $self instvar net_ defNet_ test_ guide_
 	set net_        $topo
 	set defNet_    	net8
+        set guide_	"1500-byte packets on a 9.6 Kbps link, rfc2988_ false"
         set test_       dialup1(9.6K-link,1500-byte-pkt)
 	Agent/TCP set rfc2988_ false
 	Test/dialup1 instproc run {} [Test/dialup info instbody run ]

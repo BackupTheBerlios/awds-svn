@@ -61,6 +61,7 @@ LDOUT	= -o $(BLANK)
 DEFINE	= -DTCP_DELAY_BIND_ALL -DNO_TK @V_DEFINE@ @V_DEFINES@ @DEFS@ -DNS_DIFFUSION -DSMAC_NO_SYNC -DCPP_NAMESPACE=@CPP_NAMESPACE@ -DUSE_SINGLE_ADDRESS_SPACE -Drng_test
 
 INCLUDES = \
+	-I. @V_INCLUDE_X11@ \
 	-I. \
 	@V_INCLUDES@ \
 	-I./tcp -I./sctp -I./common -I./link -I./queue \
@@ -76,6 +77,7 @@ INCLUDES = \
 
 LIB	= \
 	@V_LIBS@ \
+	@V_LIB_X11@ \
 	@V_LIB@ \
 	-lm @LIBS@ -lgea2
 #	-L@libdir@ \
@@ -101,6 +103,7 @@ LIB_DIR	= lib/
 NS	= ns
 NSX	= nsx
 NSE	= nse
+NSTK = nstk
 
 # To allow conf/makefile.win overwrite this macro
 # We will set these two macros to empty in conf/makefile.win since VC6.0
@@ -426,6 +429,7 @@ OBJ =	$(OBJ_C) $(OBJ_CC) $(OBJ_GEN) $(OBJ_COMPAT)
 
 CLEANFILES = ns nse nsx ns.dyn $(OBJ) $(OBJ_EMULATE_CC) \
 	$(OBJ_EMULATE_C) common/tclAppInit.o \
+	common/tkAppInit.o nstk \
 	$(GEN_DIR)* $(NS).core core core.$(NS) core.$(NSX) core.$(NSE) \
 	common/ptypes2tcl common/ptypes2tcl.o 
 
@@ -438,7 +442,7 @@ SUBDIRS=\
 
 BUILD_NSE = @build_nse@
 
-all: $(NS) $(BUILD_NSE) all-recursive
+all: $(NS) $(BUILD_NSE) $(NSTK) all-recursive
 
 
 all-recursive:
@@ -457,6 +461,10 @@ $(NSE): $(OBJ) common/tclAppInit.o $(OBJ_EMULATE_CC) $(OBJ_EMULATE_C)
 	$(LINK) $(LDFLAGS) $(LDOUT)$@ \
 		common/tclAppInit.o $(OBJ) \
 		$(OBJ_EMULATE_CC) $(OBJ_EMULATE_C)  $(LIB) 
+
+$(NSTK): $(OBJ) common/tkAppInit.o 
+	$(LINK) $(LDFLAGS) $(LDOUT)$@ \
+		common/tkAppInit.o $(OBJ) $(LIB)
 
 ns.dyn: $(OBJ) common/tclAppInit.o
 	$(LINK) $(LDFLAGS) -o $@ \
@@ -618,8 +626,8 @@ srctar:
 	    "(rm -f $$tar; cd .. ; ln -s $$dir $$name)" ; \
 	     (rm -f $$tar; cd .. ; ln -s $$dir $$name) ; \
 	    echo \
-	    "(cd .. ; tar cfh $$tar [lots of files])" ; \
-	     (cd .. ; tar cfh - $$list) | gzip -c > $$tar ; \
+	    "(cd .. ; tar cfhz $$tar [lots of files])" ; \
+	     (cd .. ; tar cfhz - $$list) > $$tar ; \
 	    echo \
 	    "rm ../$$name; chmod 444 $$tar" ;  \
 	     rm ../$$name; chmod 444 $$tar

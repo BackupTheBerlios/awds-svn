@@ -1,12 +1,3 @@
-/README/1.2/Sun Apr 29 21:21:37 2001//
-/helper.tcl/1.1/Thu Apr 12 20:08:32 2001//
-/monitoring.tcl/1.1/Thu Apr 12 20:08:32 2001//
-/plot.tcl/1.1/Thu Apr 12 20:08:32 2001//
-/red-pd.tcl/1.1/Thu Apr 12 20:08:32 2001//
-/runall.sh/1.2/Sun Apr 15 23:27:16 2001//
-/sources.tcl/1.1/Thu Apr 12 20:08:32 2001//
-/topology.tcl/1.2/Sun Apr 29 21:22:24 2001//
-/traffic.tcl/1.1/Thu Apr 12 20:08:32 2001//
 D/PIdent////
 D/allTCP////
 D/allUDP////
@@ -20,3 +11,12 @@ D/testFRp_tcp////
 D/tfrc////
 D/varying////
 D/web////
+/README/1.2/Tue Jan 16 16:29:30 2007//
+/helper.tcl/1.1/Tue Jan 16 16:29:30 2007//
+/monitoring.tcl/1.1/Tue Jan 16 16:29:30 2007//
+/plot.tcl/1.1/Tue Jan 16 16:29:30 2007//
+/red-pd.tcl/1.1/Tue Jan 16 16:29:30 2007//
+/runall.sh/1.2/Tue Jan 16 16:29:30 2007//
+/sources.tcl/1.1/Tue Jan 16 16:29:30 2007//
+/topology.tcl/1.2/Tue Jan 16 16:29:30 2007//
+/traffic.tcl/1.1/Tue Jan 16 16:29:30 2007//

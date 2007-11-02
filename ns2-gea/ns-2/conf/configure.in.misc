@@ -1,5 +1,5 @@
 dnl misc setup for vic/vat/etc. autoconf scripts.
-dnl $Header: /cvsroot/nsnam/conf/configure.in.misc,v 1.14 2007/01/01 19:17:54 tom_henderson Exp $ (LBL)
+dnl $Header: /cvsroot/nsnam/conf/configure.in.misc,v 1.15 2007/01/03 02:40:23 mweigle Exp $ (LBL)
 
 case "$target" in 
 *-dec-*)
@@ -11,7 +11,10 @@ case "$target" in
 	AC_DEFINE(_XOPEN_SOURCE_EXTENDED)
 	;;
 sparc-sun-solaris*)
-	V_DEFINE="$V_DEFINE -D__svr4__ -D__FUNCTION__=__func__ -features=extensions -DSOLARIS_MIN_MAX"
+	if test $CC != gcc ; then
+	        V_DEFINE="$V_DEFINE -D__FUNCTION__=__func__ -features=extensions"
+	fi
+        V_DEFINE="$V_DEFINE -D__svr4__ -DSOLARIS_MIN_MAX"
 	V_LIB="$V_LIB -ldl"
 	;;
 sparc-sun-sunos*)

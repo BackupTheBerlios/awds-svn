@@ -1,9 +1,9 @@
 dnl autoconf rules to find tcl
-dnl $Header: /cvsroot/nsnam/conf/configure.in.tcl,v 1.44 2005/10/07 04:38:22 tomh Exp $ (LBL)
+dnl $Header: /cvsroot/nsnam/conf/configure.in.tcl,v 1.46 2007/08/22 04:02:02 tom_henderson Exp $ (LBL)
 
 AC_ARG_WITH(tcl,	--with-tcl=path	specify a pathname for tcl, d=$withval, d="")
 
-AC_ARG_WITH(tcl-ver, --with-tcl-ver=path specify the version of tcl/tk, TCL_VERS=$withval, TCL_VERS=8.4.11)
+AC_ARG_WITH(tcl-ver, --with-tcl-ver=path specify the version of tcl/tk, TCL_VERS=$withval, TCL_VERS=8.4.15)
 
 dnl Truncate anything beyond and including the second decimal point
 

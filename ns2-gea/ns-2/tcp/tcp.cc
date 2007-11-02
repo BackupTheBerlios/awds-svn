@@ -34,7 +34,7 @@
 
 #ifndef lint
 static const char rcsid[] =
-    "@(#) $Header: /cvsroot/nsnam/ns-2/tcp/tcp.cc,v 1.172 2006/06/14 18:05:31 sallyfloyd Exp $ (LBL)";
+    "@(#) $Header: /cvsroot/nsnam/ns-2/tcp/tcp.cc,v 1.178 2007/10/24 19:10:29 sallyfloyd Exp $ (LBL)";
 #endif
 
 #include <stdlib.h>
@@ -67,19 +67,16 @@ public:
 
 TcpAgent::TcpAgent() 
 	: Agent(PT_TCP), 
-	  t_seqno_(0), t_rtt_(0), t_srtt_(0), t_rttvar_(0), 
-	  t_backoff_(0), ts_peer_(0), ts_echo_(0),
-	  tss(NULL), tss_size_(100), 
+	  t_seqno_(0), dupacks_(0), curseq_(0), highest_ack_(0), 
+          cwnd_(0), ssthresh_(0), maxseq_(0), count_(0), 
+          rtt_active_(0), rtt_seq_(-1), rtt_ts_(0.0), 
+          lastreset_(0.0), closed_(0), t_rtt_(0), t_srtt_(0), t_rttvar_(0), 
+	  t_backoff_(0), ts_peer_(0), ts_echo_(0), tss(NULL), tss_size_(100), 
 	  rtx_timer_(this), delsnd_timer_(this), burstsnd_timer_(this), 
-	  dupacks_(0), curseq_(0), highest_ack_(0), cwnd_(0), ssthresh_(0), 
-	  maxseq_(0), count_(0), rtt_active_(0), rtt_seq_(-1), rtt_ts_(0.0), 
-	  lastreset_(0.0), closed_(0), use_rtt_(0),
-	  first_decrease_(1), fcnt_(0), 
-	  nrexmit_(0), restart_bugfix_(1), cong_action_(0), 
-	  ecn_burst_(0), ecn_backoff_(0), ect_(0), 
-	  qs_requested_(0), qs_approved_(0),
+	  first_decrease_(1), fcnt_(0), nrexmit_(0), restart_bugfix_(1), 
+          cong_action_(0), ecn_burst_(0), ecn_backoff_(0), ect_(0), 
+          use_rtt_(0), qs_requested_(0), qs_approved_(0),
 	  qs_window_(0), qs_cwnd_(0), frto_(0)
-	
 {
 #ifdef TCP_DELAY_BIND_ALL
         // defined since Dec 1999.
@@ -118,6 +115,7 @@ TcpAgent::delay_bind_init_all()
         delay_bind_init_one("windowInitOption_");
 
         delay_bind_init_one("syn_");
+        delay_bind_init_one("max_connects_");
         delay_bind_init_one("windowOption_");
         delay_bind_init_one("windowConstant_");
         delay_bind_init_one("windowThresh_");
@@ -228,6 +226,7 @@ TcpAgent::delay_bind_dispatch(const char *varName, const char *localName, TclObj
         if (delay_bind(varName, localName, "windowInit_", &wnd_init_, tracer)) return TCL_OK;
         if (delay_bind(varName, localName, "windowInitOption_", &wnd_init_option_, tracer)) return TCL_OK;
         if (delay_bind_bool(varName, localName, "syn_", &syn_, tracer)) return TCL_OK;
+        if (delay_bind(varName, localName, "max_connects_", &max_connects_, tracer)) return TCL_OK;
         if (delay_bind(varName, localName, "windowOption_", &wnd_option_ , tracer)) return TCL_OK;
         if (delay_bind(varName, localName, "windowConstant_",  &wnd_const_, tracer)) return TCL_OK;
         if (delay_bind(varName, localName, "windowThresh_", &wnd_th_ , tracer)) return TCL_OK;
@@ -423,9 +422,10 @@ TcpAgent::trace(TracedVar* v)
 void
 TcpAgent::set_initial_window()
 {
-	if (syn_ && delay_growth_)
+	if (syn_ && delay_growth_) {
 		cwnd_ = 1.0; 
-	else
+		syn_connects_ = 0;
+	} else
 		cwnd_ = initial_window();
 }
 
@@ -609,8 +609,10 @@ void TcpAgent::rtt_update(double tao)
 
 void TcpAgent::rtt_backoff()
 {
-	if (t_backoff_ < 64)
-		t_backoff_ <<= 1;
+	if (t_backoff_ < 64 || rfc2988_)
+        	t_backoff_ <<= 1;
+        // RFC2988 allows a maximum for the backed-off RTO of 60 seconds.
+        // This is applied by maxrto_.
 
 	if (t_backoff_ > 8) {
 		/*
@@ -698,6 +700,17 @@ void TcpAgent::output(int seqno, int reason)
 			databytes = 0;
 			curseq_ += 1;
 			hdr_cmn::access(p)->size() = tcpip_base_hdr_size_;
+			++syn_connects_;
+			//fprintf(stderr, "TCPAgent: syn_connects_ %d max_connects_ %d\n",
+			//	syn_connects_, max_connects_);
+			if (max_connects_ > 0 &&
+                               syn_connects_ > max_connects_) {
+			      // Abort the connection.	
+			      // What is the best way to abort the connection?	
+			      curseq_ = 0;
+	                      rtx_timer_.resched(10000);
+                              return;
+                        }
 		}
 		if (ecn_) {
 			hf->ecnecho() = 1;
@@ -1647,8 +1660,10 @@ void TcpAgent::processQuickStart(Packet *pkt)
 		  double num1 = hdr_qs::rate_to_Bps(qsh->rate());
 		  double time = now - tcph->ts_echo();
 		  int size = size_ + headersize();
-		  printf("Quick Start approved, rate: %g Bps, window %d rtt: %4.2f pktsize: %d\n", 
-		     num1, app_rate, time, size);
+		  printf("Quick Start request, rate: %g Bps, encoded rate: %d\n", 
+		     num1, qsh->rate());
+		  printf("Quick Start request, window %d rtt: %4.2f pktsize: %d\n",
+		     app_rate, time, size);
 		}
                 if (app_rate > initial_window()) {
 			qs_cwnd_ = app_rate;
@@ -1727,9 +1742,8 @@ void TcpAgent::spurious_timeout()
 
 /*
  * Loss occurred in Quick-Start window.
- * If Quick-Start is enabled, packet loss in the QS phase should
- * trigger slow start instead of the regular fast retransmit,
- * see [draft-amit-quick-start-03.txt] (to appear).
+ * If Quick-Start is enabled, packet loss in the QS phase, during slow-start,
+ * should trigger slow start instead of the regular fast retransmit.
  * We use variable tcp_qs_recovery_ to toggle this behaviour on and off.
  * If tcp_qs_recovery_ is true, initiate slow start to probe for
  * a correct window size.

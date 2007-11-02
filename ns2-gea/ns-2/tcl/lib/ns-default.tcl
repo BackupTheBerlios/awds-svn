@@ -22,7 +22,7 @@
 #    specific prior written permission.
 # 
 
-# @(#) $Header: /cvsroot/nsnam/ns-2/tcl/lib/ns-default.tcl,v 1.369 2006/10/23 05:33:16 sallyfloyd Exp $
+# @(#) $Header: /cvsroot/nsnam/ns-2/tcl/lib/ns-default.tcl,v 1.376 2007/10/23 06:55:54 seashadow Exp $
 
 # THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -126,8 +126,8 @@ Queue/RED set maxthresh_ 0
 # Queue/RED/maxthresh_ was changed on 12/29/01, for automatic configuration.
 Queue/RED set thresh_queue_ [Queue set limit_]
 # Note from Sally: I don't see that thresh_queue_ is used for anything.
-Queue/RED set minthresh_queue_ [Queue set limit_]
-# Note from Sally: I don't see that minthresh_queue_ is used for anything.
+Queue/RED set maxthresh_queue_ [Queue set limit_]
+# Note from Sally: I don't see that maxthresh_queue_ is used for anything.
 Queue/RED set mean_pktsize_ 500
 Queue/RED set idle_pktsize_ 100
 # Queue/RED set q_weight_ 0.002
@@ -769,7 +769,6 @@ Agent/SCTP set associationMaxRetrans_ 10;# 10 attempts
 Agent/SCTP set pathMaxRetrans_ 5        ;# 5 attempts (per destination)
 Agent/SCTP set changePrimaryThresh_ -1  ;# infinite (ie, never change primary
 Agent/SCTP set maxInitRetransmits_ 8    ;# 8 attempts
-Agent/SCTP set oneHeartbeatTimer_ 1     ;# single heartbeat timer for all dests
 Agent/SCTP set heartbeatInterval_ 30    ;# 30 secs
 Agent/SCTP set mtu_ 1500                ;# MTU of ethernet (most common)
 Agent/SCTP set initialRwnd_ 65536       ;# default inital receiver window
@@ -817,10 +816,15 @@ Agent/SCTP/MfrTimestamp set mfrCount_ 0
 Agent/SCTP/CMT set useCmtReordering_ 1  ;# Turn ON CMT Reordering algo
 Agent/SCTP/CMT set useCmtCwnd_ 1        ;# Turn ON CMT cwnd growth algo
 Agent/SCTP/CMT set useCmtDelAck_ 1      ;# Turn ON CMT delayed ack algo
-Agent/SCTP/CMT set eCmtRtxPolicy_ 1     ;# Default policy = RTX_TO_SAME
+Agent/SCTP/CMT set eCmtRtxPolicy_ 4     ;# Default policy = RTX_CWND
 ## CMT-PF variables
 Agent/SCTP/CMT set useCmtPF_ 0          ;# CMT-PF turned off
-Agent/SCTP/CMT set cmtPFCwnd_ 1	        ;# Cwnd in MTUs after HB-ACK (1 or 2)
+Agent/SCTP/CMT set cmtPFCwnd_ 2	        ;# Cwnd in MTUs after HB-ACK (1 or 2)
+## CMT-PF trace variables
+Agent/SCTP/CMT set countPFToActiveNewData_ 0 ;# count of PF->Active changes
+                                              # for new data transfer
+Agent/SCTP/CMT set countPFToActiveRtxms_ 0;   # count of PF->Active changes
+                                              # for retransmissions
 
 Agent/TCP set seqno_ 0
 Agent/TCP set t_seqno_ 0
@@ -842,6 +846,8 @@ Agent/TCP set window_ 20
 Agent/TCP set windowInit_ 2 ;		# default changed on 2001/5/26.
 Agent/TCP set windowInitOption_ 1
 Agent/TCP set syn_ true ;		# default changed on 2001/5/17.
+Agent/TCP set max_connects_ -1 ;	# Variable added on 2007/9/25.
+					# Set to -1 for a no-op, 2007/9/28.
 Agent/TCP set windowOption_ 1
 Agent/TCP set windowConstant_ 4
 Agent/TCP set windowThresh_ 0.002
@@ -871,7 +877,8 @@ Agent/TCP set slow_start_restart_ true
 Agent/TCP set restart_bugfix_ true
 Agent/TCP set tcpTick_ 0.01 ;		# default changed on 2002/03/07
 					# to reflect a changing reality.
-Agent/TCP set maxrto_ 100000
+Agent/TCP set maxrto_ 60 ; 		# default changed on 2007/03/28
+					#  to reflect RFC2988.
 Agent/TCP set minrto_ 0.2 ;		# Default changed to 200ms on 
 					#  2004/10/14, to match values
 					#  used by many implementations.
@@ -1055,7 +1062,12 @@ Agent/TFRC set voip_max_pkt_rate_ 100 ;  # Max rate in pps, for voip mode.
 Agent/TFRC set fsize_ 1460 ;	# Default size for large TCP packets. 
 				# Used for VoIP mode.
 Agent/TFRC set headersize_ 32 ; # Size for packet headers.
+# End of VoIP mode.
 # Variants in the TFRC algorithms:
+# Agent/TFRC set standard_ 0 ;	# Added on 4/19/2007
+				# Set to 1 for RFC 3448 algorithms.
+				# Set to 2 for RFC 4342 algorithms.
+				# Set to 3 for RFC 3448bis algorithms.
 Agent/TFRC set rate_init_option_ 2 ;	# Added on 10/20/2004
 				# Set to 1 for backward compatibility. 
 				# Set to 2 for RFC 3390 initial rates
@@ -1064,14 +1076,17 @@ Agent/TFRC set slow_increase_ 1 ;	# Added on 10/20//2004
 				# Set to 1 for gradual rate changes.  
 				# This also gives backward compatibility.
 # Agent/TFRC set ss_changes_ 1 ;	# Deleted on 3/14//2006. 
-Agent/TFRC set maxHeavyRounds_ 1; # Number of rounds for sending rate allowed
+Agent/TFRC set maxHeavyRounds_ 0; # Number of rounds for sending rate allowed
 				  #  to be greater than twice receiving rate.
+				  # Default changed on 3/27/2007, to conform
+				  # to RFC3448 and CCID 3.
 Agent/TFRC set conservative_ 0 ;  # Set to true for a conservative 
 				  # response to heavy congestion.
 Agent/TFRC set scmult_ 1.5 ;	# self clocking parameter for conservative_
 Agent/TFRC set oldCode_ false ; # Set to 1 to use old code for datalimited
 				#   applications.
 				# Parameter added on 12/18/02.
+# End of Variands.
 # Parameters:
 Agent/TFRC set packetSize_ 1000 
 Agent/TFRC set df_ 0.95 ;	# decay factor for accurate RTT estimate
@@ -1100,6 +1115,7 @@ Agent/TFRCSink set NumFeedback_ 1
 Agent/TFRCSink set AdjustHistoryAfterSS_ 1
 Agent/TFRCSink set NumSamples_ -1
 Agent/TFRCSink set discount_ 1;	# History Discounting
+Agent/TFRCSink set minDiscountRatio_ 0.5; # Minimum for history discounting.
 Agent/TFRCSink set printLoss_ 0
 Agent/TFRCSink set smooth_ 1 ;	# smoother Average Loss Interval
 Agent/TFRCSink set ShortIntervals_ 0 ; #  For calculating loss event rates 
@@ -1141,6 +1157,7 @@ if [TclObject is-class Agent/TCP/FullTcp] {
 	Agent/TCP/FullTcp set nopredict_ false; # disable header prediction code?
         Agent/TCP/FullTcp set ecn_syn_ false; # Make SYN/ACK packet ECN-Capable?
         Agent/TCP/FullTcp set ecn_syn_wait_ false; # Wait after marked SYN/ACK? 
+        Agent/TCP/FullTcp set debug_ false;  # Added Sept. 16, 2007.
 
 	Agent/TCP/FullTcp/Newreno set recov_maxburst_ 2; # max burst dur recov
 

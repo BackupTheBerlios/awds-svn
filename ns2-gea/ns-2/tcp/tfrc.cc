@@ -99,6 +99,7 @@ TfrcAgent::TfrcAgent() : Agent(PT_TFRC), send_timer_(this),
 	bind("scmult_", &scmult_);
 	bind_bool("oldCode_", &oldCode_);
 	bind("rate_init_", &rate_init_);
+//	bind("standard_", &standard_);
 	bind("rate_init_option_", &rate_init_option_);
 	bind_bool("slow_increase_", &slow_increase_); 
 	bind_bool("voip_", &voip_);
@@ -257,9 +258,6 @@ void TfrcAgent::nextpkt()
 	
 	// If slow_increase_ is set, then during slow start, we increase rate
 	// slowly - by amount delta per packet 
-	// SALLY
-    //    double now = Scheduler::instance().clock(); //notused
-	// SALLY
 	if (slow_increase_ && round_id > 2 && (rate_change_ == SLOW_START) 
 		       && (oldrate_+SMALLFLOAT< rate_)) {
 		oldrate_ = oldrate_ + delta_;

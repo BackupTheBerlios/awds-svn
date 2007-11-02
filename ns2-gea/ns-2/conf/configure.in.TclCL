@@ -1,5 +1,5 @@
 dnl autoconf rules to find tclcl
-dnl $Header: /cvsroot/nsnam/conf/configure.in.TclCL,v 1.29 2006/09/28 06:18:20 tom_henderson Exp $ (LBL)
+dnl $Header: /cvsroot/nsnam/conf/configure.in.TclCL,v 1.30 2007/02/18 22:42:36 tom_henderson Exp $ (LBL)
 
 dnl This next line is to fix old invocations.
 AC_ARG_WITH(Tcl,	--with-Tcl: old command now replaced by --with-tclcl,
@@ -8,7 +8,7 @@ Please insure you have an up-to-date copy of TclCL and re-run your configuration
 
 AC_ARG_WITH(tclcl,	--with-tclcl=path	specify a pathname for TclCL (the ex-libTcl), d=$withval, d="")
 
-TCLCL_VERS=1.18
+TCLCL_VERS=1.19
 TCLCL_ALT_VERS=1.0
 
 TCLCL_H_PLACES="\

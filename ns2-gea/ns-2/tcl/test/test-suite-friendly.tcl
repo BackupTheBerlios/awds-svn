@@ -30,7 +30,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# @(#) $Header: /cvsroot/nsnam/ns-2/tcl/test/test-suite-friendly.tcl,v 1.76 2006/10/23 06:32:48 sallyfloyd Exp $
+# @(#) $Header: /cvsroot/nsnam/ns-2/tcl/test/test-suite-friendly.tcl,v 1.78 2007/09/16 17:15:07 sallyfloyd Exp $
 #
 
 source misc_simple.tcl
@@ -47,13 +47,14 @@ Queue/RED set q_weight_ 0.002
 Queue/RED set thresh_ 5 
 Queue/RED set maxthresh_ 15
 # The RED parameter defaults are being changed for automatic configuration.
+
 ##########################
 Agent/TFRCSink set numPkts_ 1
 # The default for numPkts_ might be changed to 3, at some point.
 # But right now, the code for numPkts does not work, except for numPkts_ 1.
 # With numPkts set to 1, TFRCSink is not robust to reordering.
 ##########################
-
+Agent/TFRC set maxHeavyRounds_ 0
 Agent/TCP set window_ 100
 
 # Uncomment the line below to use a random seed for the
@@ -293,8 +294,7 @@ Test/slowStartDiscount instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	slowStartDiscount
-    set guide_  \
-    "TFRC with discount_ true, for discounting older loss intervals."
+    set guide_  "TFRC with discount_ true, for discounting older loss intervals."
     Agent/TFRCSink set discount_ 1
     Agent/TFRCSink set smooth_ 0
     Agent/TFRC set df_ 0.25
@@ -304,13 +304,28 @@ Test/slowStartDiscount instproc init {} {
     $self next pktTraceFile
 }
 
+Class Test/slowStartDiscount1 -superclass TestSuite
+Test/slowStartDiscount1 instproc init {} {
+    $self instvar net_ test_ guide_
+    set net_	net2
+    set test_	slowStartDiscount1
+    set guide_  "TFRC with minDiscountRatio_ set to 0.25, for stronger discounting."
+    Agent/TFRCSink set discount_ 1
+    Agent/TFRCSink set smooth_ 0
+    Agent/TFRCSink set minDiscountRatio_ 0.25
+    Agent/TFRC set df_ 0.25
+    Agent/TFRC set ca_ 0
+    Queue/RED set gentle_ false
+    Test/slowStartDiscount1 instproc run {} [Test/slowStart info instbody run ]
+    $self next pktTraceFile
+}
+
 Class Test/slowStartDiscountCA -superclass TestSuite
 Test/slowStartDiscountCA instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	slowStartDiscountCA
-    set guide_  \
-    "TFRC with ca_ true, for Sqrt(RTT) based congestion avoidance mode."
+    set guide_  "TFRC with ca_ true, for Sqrt(RTT) based congestion avoidance mode."
     Agent/TFRCSink set discount_ 1
     Agent/TFRC set df_ 0.95
     Agent/TFRC set ca_ 1
@@ -326,8 +341,7 @@ Test/smooth instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	smooth
-    set guide_  \
-    "TFRC with smooth_ true, for smoothly incorporating new loss intervals."
+    set guide_  "TFRC with smooth_ true, for smoothly incorporating new loss intervals."
     Agent/TFRCSink set discount_ 1
     Agent/TFRCSink set smooth_ 1
     Agent/TFRC set df_ 0.25
@@ -341,8 +355,7 @@ Test/smoothCA instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	smoothCA
-    set guide_  \
-    "TFRC with smooth_, discount_, and ca_ all true." 
+    set guide_  "TFRC with smooth_, discount_, and ca_ all true." 
     Agent/TFRCSink set discount_ 1
     Agent/TFRCSink set smooth_ 1
     Agent/TFRC set df_ 0.95
@@ -356,8 +369,7 @@ Test/slowStart instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	slowStart
-    set guide_  \
-    "TFRC with smooth_, discount_, and ca_ all false."
+    set guide_  "TFRC with smooth_, discount_, and ca_ all false."
     Agent/TFRCSink set discount_ 0
     Agent/TFRCSink set smooth_ 0
     Agent/TFRC set df_ 0.25
@@ -371,8 +383,7 @@ Test/slowStartCA instproc init {} {
     $self instvar net_ test_ guide_ 
     set net_	net2
     set test_	slowStartCA
-    set guide_  \
-    "TFRC with discount_ false and ca_ true."
+    set guide_  "TFRC with discount_ false and ca_ true."
     Agent/TFRCSink set discount_ 0
     Agent/TFRC set df_ 0.95
     Agent/TFRC set ca_ 1
@@ -426,8 +437,7 @@ Test/slowStartEWMA instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	slowStartEWMA
-    set guide_  \
-    "TFRC with EWMA for estimating the loss event rate."
+    set guide_  "TFRC with EWMA for estimating the loss event rate."
     Agent/TFRCSink set algo_ 2
     Test/slowStartEWMA instproc run {} [Test/slowStart info instbody run ]
     $self next pktTraceFile
@@ -439,8 +449,7 @@ Test/slowStartFixed instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	slowStartFixed
-    set guide_  \
-    "TFRC with Fixed Windows for estimating the loss event rate."
+    set guide_  "TFRC with Fixed Windows for estimating the loss event rate."
     Agent/TFRCSink set algo_ 3
     Test/slowStartFixed instproc run {} [Test/slowStart info instbody run ]
     $self next pktTraceFile
@@ -451,8 +460,7 @@ Test/ecn instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	ecn
-    set guide_  \
-    "TFRC with ECN."
+    set guide_  "TFRC with ECN."
     Agent/TFRC set ecn_ 1
     Queue/RED set setbit_ true
     Test/ecn instproc run {} [Test/slowStart info instbody run ]
@@ -464,8 +472,7 @@ Test/slowStartTcp instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	slowStartTcp
-    set guide_  \
-    "TCP"
+    set guide_  "TCP"
     $self next pktTraceFile
 }
 Test/slowStartTcp instproc run {} {
@@ -513,8 +520,7 @@ Test/impulseDiscount instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	impulseDiscount
-    set guide_  \
-    "TFRC with discount_ true, for discounting older loss intervals."
+    set guide_  "TFRC with discount_ true, for discounting older loss intervals."
     Agent/TFRCSink set discount_ 1
     Agent/TFRC set df_ 0.25
     Agent/TFRC set ca_ 0
@@ -528,8 +534,7 @@ Test/impulseDiscountCA instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	impulseDiscountCA
-    set guide_  \
-    "TFRC with discount_ and ca_ true, smooth_ false."
+    set guide_  "TFRC with discount_ and ca_ true, smooth_ false."
     Agent/TFRCSink set discount_ 1
     Agent/TFRC set df_ 0.95
     Agent/TFRC set ca_ 1
@@ -543,8 +548,7 @@ Test/impulse instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	impulse
-    set guide_  \
-    "TFRC with smooth_, discount_, and ca_ all false."
+    set guide_  "TFRC with smooth_, discount_, and ca_ all false."
     Agent/TFRCSink set discount_ 0
     Agent/TFRC set df_ 0.25
     Agent/TFRC set ca_ 0
@@ -558,8 +562,7 @@ Test/impulseCA instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	impulseCA
-    set guide_  \
-    "TFRC with ca_ true, for Sqrt(RTT) based congestion avoidance mode."
+    set guide_  "TFRC with ca_ true, for Sqrt(RTT) based congestion avoidance mode."
     Agent/TFRCSink set discount_ 0
     Agent/TFRCSink set smooth_ 0
     Agent/TFRC set df_ 0.95
@@ -611,8 +614,7 @@ Test/impulseMultReport instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	impulseMultReport
-    set guide_  \
-    "TFRC with feedback four times per RTT, discount_ and ca_ false." 
+    set guide_  "TFRC with feedback four times per RTT, discount_ and ca_ false." 
     Agent/TFRCSink set NumFeedback_ 4
     Agent/TFRCSink set discount_ 0
     Agent/TFRC set df_ 0.25
@@ -662,8 +664,7 @@ Test/impulseMultReportDiscount instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	impulseMultReportDiscount
-    set guide_  \
-    "TFRC with feedback four times per round-trip time, discount_ true, ca_ false."
+    set guide_  "TFRC with feedback four times per round-trip time, discount_ true, ca_ false."
     Agent/TFRCSink set NumFeedback_ 4
     Agent/TFRCSink set discount_ 1
     Agent/TFRC set df_ 0.25
@@ -678,8 +679,7 @@ Test/impulseMultReportDiscountCA instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	impulseMultReportDiscountCA
-    set guide_  \
-    "TFRC with feedback four times per RTT, discount_ and ca_ true."
+    set guide_  "TFRC with feedback four times per RTT, discount_ and ca_ true."
     Agent/TFRCSink set NumFeedback_ 4
     Agent/TFRCSink set discount_ 1
     Agent/TFRC set df_ 0.95
@@ -693,8 +693,7 @@ Test/impulseMultReportCA instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	impulseMultReportCA
-    set guide_  \
-    "TFRC with feedback four times per RTT, discount_ false, ca_ true." 
+    set guide_  "TFRC with feedback four times per RTT, discount_ false, ca_ true." 
     Agent/TFRCSink set NumFeedback_ 4
     Agent/TFRCSink set discount_ 0
     Agent/TFRC set df_ 0.95
@@ -708,8 +707,7 @@ Test/impulseTcp instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	impulseTcp
-    set guide_  \
-    "TFRC with discount_, smooth_, and ca_ false."
+    set guide_  "TFRC with discount_, smooth_, and ca_ false."
     $self next pktTraceFile
 }
 Test/impulseTcp instproc run {} {
@@ -757,8 +755,7 @@ Test/two-friendly instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	two-friendly
-    set guide_  \
-    "Two TFRC and three TCP connections, ca_ false."
+    set guide_  "Two TFRC and three TCP connections, ca_ false."
     Agent/TFRC set df_ 0.25
     Agent/TFRC set ca_ 0
     Agent/TCP set timerfix_ false
@@ -773,8 +770,7 @@ Test/two-friendlyCA instproc init {} {
     set net_	net2
     set test_	two-friendlyCA
     Agent/TFRCSink set discount_ 0
-    set guide_  \
-    "Two TFRC and three TCP connections, ca_ true."
+    set guide_  "Two TFRC and three TCP connections, ca_ true."
     Agent/TFRC set df_ 0.95
     Agent/TFRC set ca_ 1
     Agent/TCP set timerfix_ false
@@ -820,8 +816,7 @@ Test/OnlyTcp instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	OnlyTcp
-    set guide_  \
-    "Five TCP connections."
+    set guide_  "Five TCP connections."
     Agent/TCP set timerfix_ false
     # The default is being changed to true.
     $self next pktTraceFile
@@ -863,8 +858,7 @@ Test/randomized instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	randomized
-    set guide_  \
-    "Random delay added to sending times, ca_ false."
+    set guide_  "Random delay added to sending times, ca_ false."
     Agent/TFRC set overhead_ 0.5
     Agent/TFRC set df_ 0.25
     Agent/TFRC set ca_ 0
@@ -878,8 +872,7 @@ Test/randomizedCA instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	randomizedCA
-    set guide_  \
-    "Random delay added to sending times, with ca_."
+    set guide_  "Random delay added to sending times, with ca_."
     Agent/TFRC set overhead_ 0.5
     Agent/TFRC set df_ 0.95
     Agent/TFRC set ca_ 1
@@ -893,8 +886,7 @@ Test/randomized1 instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	randomized1
-    set guide_  \
-    "Smaller random delay added to sending times, ca_ false."
+    set guide_  "Smaller random delay added to sending times, ca_ false."
     Agent/TFRC set overhead_ 0.1
     Agent/TFRC set df_ 0.25
     Agent/TFRC set ca_ 0
@@ -908,8 +900,7 @@ Test/randomized1CA instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	randomized1CA
-    set guide_  \
-    "Smaller random delay added to sending times, with ca_."
+    set guide_  "Smaller random delay added to sending times, with ca_."
     Agent/TFRC set overhead_ 0.1
     Agent/TFRC set df_ 0.95
     Agent/TFRC set ca_ 1
@@ -922,8 +913,7 @@ Test/slow instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2a
     set test_	slow
-    set guide_  \
-    "Very slow path."
+    set guide_  "Very slow path."
     Agent/TFRCSink set discount_ 1
     Agent/TFRCSink set smooth_ 1
     Agent/TFRC set df_ 0.95
@@ -971,8 +961,7 @@ Test/twoDrops instproc init {} {
     $self instvar net_ test_ guide_ drops_ stopTime1_
     set net_	net2
     set test_	twoDrops
-    set guide_  \
-    "TFRC, with two packets dropped near the beginning."
+    set guide_  "TFRC, with two packets dropped near the beginning."
     Agent/TFRCSink set discount_ 1
     Agent/TFRCSink set smooth_ 1
     Agent/TFRC set df_ 0.95
@@ -987,8 +976,7 @@ Test/manyDrops instproc init {} {
     $self instvar net_ test_ guide_ drops_ stopTime1_
     set net_    net2
     set test_   manyDrops 
-    set guide_  \
-    "TFRC, with many packets dropped in the beginning."
+    set guide_  "TFRC, with many packets dropped in the beginning."
     Agent/TFRCSink set discount_ 1
     Agent/TFRCSink set smooth_ 1
     Agent/TFRC set df_ 0.95
@@ -1051,8 +1039,7 @@ Test/HighLoss instproc init {} {
     $self instvar net_ test_ guide_ stopTime1_
     set net_	net2
     set test_ HighLoss	
-    set guide_  \
-    "TFRC competing against a CBR flow, with high loss."
+    set guide_  "TFRC competing against a CBR flow, with high loss."
     Agent/TFRCSink set discount_ 1
     Agent/TFRCSink set smooth_ 1
     Agent/TFRC set df_ 0.95
@@ -1104,8 +1091,7 @@ Test/HighLossShort instproc init {} {
     $self instvar net_ test_ guide_ stopTime1_
     set net_	net2
     set test_ HighLossShort	
-    set guide_  \
-    "TFRC competing against a CBR flow, with high loss, ShortIntervals_."
+    set guide_  "TFRC competing against a CBR flow, with high loss, ShortIntervals_."
     Agent/TFRCSink set discount_ 1
     Agent/TFRCSink set smooth_ 1
     Agent/TFRCSink set ShortIntervals_ 1
@@ -1122,8 +1108,7 @@ Test/HighLossImprecise instproc init {} {
     $self instvar net_ test_ guide_ stopTime1_
     set net_	net2
     set test_ HighLossImprecise	
-    set guide_  \
-    "TFRC competing against a CBR flow, with PreciseLoss_ off."
+    set guide_  "TFRC competing against a CBR flow, with PreciseLoss_ off."
     Agent/TFRCSink set discount_ 1
     Agent/TFRCSink set smooth_ 1
     Agent/TFRC set df_ 0.95
@@ -1176,8 +1161,7 @@ Test/HighLossMinRTO instproc init {} {
     $self instvar net_ test_ guide_ stopTime1_
     set net_	net2
     set test_ HighLossMinRTO	
-    set guide_  \
-    "TFRC competing against a CBR flow, with high loss, high MinRTO."
+    set guide_  "TFRC competing against a CBR flow, with high loss, high MinRTO."
     Agent/TFRCSink set discount_ 1
     Agent/TFRCSink set smooth_ 1
     Agent/TFRC set df_ 0.95
@@ -1194,8 +1178,7 @@ Test/HighLossConservative instproc init {} {
     $self instvar net_ test_ guide_ stopTime1_
     set net_	net2
     set test_ HighLossConservative	
-    set guide_  \
-    "TFRC and CBR, with a conservative_ response to heavy congestion."
+    set guide_  "TFRC and CBR, with a conservative_ response to heavy congestion."
     Agent/TFRCSink set discount_ 1
     Agent/TFRCSink set smooth_ 1
     Agent/TFRC set df_ 0.95
@@ -1250,8 +1233,7 @@ Test/HighLossTCP instproc init {} {
     $self instvar net_ test_ guide_ stopTime1_
     set net_	net2
     set test_ HighLossTCP	
-    set guide_  \
-    "TCP competing against a CBR flow."
+    set guide_  "TCP competing against a CBR flow."
     Agent/TFRCSink set discount_ 1
     Agent/TFRCSink set smooth_ 1
     Agent/TFRC set df_ 0.95
@@ -1302,8 +1284,7 @@ Test/TFRC_FTP instproc init {} {
     $self instvar net_ test_ guide_ stopTime1_
     set net_	net2
     set test_ TFRC_FTP	
-    set guide_  \
-    "TFRC with a data source with limited, bursty data."
+    set guide_  "TFRC with a data source with limited, bursty data."
     Agent/TFRC set SndrType_ 1 
     Agent/TFRCSink set smooth_ 1
     Agent/TFRC set df_ 0.95
@@ -1354,8 +1335,7 @@ Test/TFRC_CBR instproc init {} {
     $self instvar net_ test_ guide_ stopTime1_
     set net_	net2
     set test_ TFRC_CBR	
-    set guide_  \
-    "TFRC with a data source with CBR data."
+    set guide_  "TFRC with a data source with CBR data."
     Agent/TFRC set SndrType_ 1 
     Agent/TFRCSink set smooth_ 1
     Agent/TFRC set df_ 0.95
@@ -1405,8 +1385,7 @@ Test/printLosses instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	printLosses
-    set guide_  \
-    "One TFRC flow, with the loss intervals from the TFRC receiver."
+    set guide_  "One TFRC flow, with the loss intervals from the TFRC receiver."
     Agent/TFRCSink set printLosses_ 1
     Agent/TFRCSink set printLoss_ 1
     $self next pktTraceFile
@@ -1453,8 +1432,7 @@ Test/printLossesShort instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	printLossesShort
-    set guide_  \
-    "A TFRC-SP flow with ShortIntervals_, loss intervals from the TFRC receiver."
+    set guide_  "A TFRC-SP flow with ShortIntervals_, loss intervals from the TFRC receiver."
     $self next pktTraceFile
 }
 Test/printLossesShort instproc run {} {
@@ -1515,8 +1493,7 @@ Test/printLossesShort3 instproc init {} {
     $self instvar net_ test_ guide_
     set net_	net2
     set test_	printLossesShort3
-    set guide_  \
-    "A TFRC-SP flow with ShortIntervals_ 3, loss intervals from the TFRC receiver."
+    set guide_  "A TFRC-SP flow with ShortIntervals_ 3, loss intervals from the TFRC receiver."
     $self next pktTraceFile
 }
 Test/printLossesShort3 instproc run {} {
@@ -1586,8 +1563,7 @@ Test/goodTFRC instproc init {} {
     $self instvar net_ test_ guide_ period_
     set net_	net2
     set test_	goodTFRC
-    set guide_  \
-    "One TFRC flow, no reordering and no extra drops."
+    set guide_  "One TFRC flow, no reordering and no extra drops."
     set period_ 10000.0
     $self next pktTraceFile
 }
@@ -1632,8 +1608,7 @@ Test/droppedTFRC instproc init {} {
     $self instvar net_ test_ guide_ list_ period_
     set net_    net2
     set test_   droppedTFRC
-    set guide_  \
-    "One TFRC flow, with extra dropped packets."
+    set guide_  "One TFRC flow, with extra dropped packets."
     set period_ 40.0
     Test/droppedTFRC instproc run {} [Test/goodTFRC info instbody run ]
     $self next pktTraceFile
@@ -1644,8 +1619,7 @@ Test/delayedTFRC instproc init {} {
     $self instvar net_ test_ guide_ list_ period_
     set net_    net2
     set test_   delayedTFRC
-    set guide_  \
-    "One TFRC flow, with some packets delayed 0.03 seconds, numPkts_ 1."
+    set guide_  "One TFRC flow, with some packets delayed 0.03 seconds, numPkts_ 1."
     set period_ 40.0
     ErrorModel set delay_pkt_ true
     ErrorModel set drop_ false
@@ -1660,8 +1634,7 @@ Test/delayedTFRC1 instproc init {} {
     $self instvar net_ test_ guide_ list_ period_
     set net_    net2
     set test_   delayedTFRC1
-    set guide_  \
-    "One TFRC flow, with some packets delayed 0.03 seconds, numPkts_ 5."
+    set guide_  "One TFRC flow, with some packets delayed 0.03 seconds, numPkts_ 5."
     set period_ 40.0
     ErrorModel set delay_pkt_ true
     ErrorModel set drop_ false
@@ -1676,8 +1649,7 @@ Test/delayedTFRC2 instproc init {} {
     $self instvar net_ test_ guide_ list_ period_
     set net_    net2
     set test_   delayedTFRC2
-    set guide_  \
-    "One TFRC flow, with some packets delayed 0.01 seconds, numPkts_ 3."
+    set guide_  "One TFRC flow, with some packets delayed 0.01 seconds, numPkts_ 3."
     set period_ 40.0
     ErrorModel set delay_pkt_ true
     ErrorModel set drop_ false
@@ -1692,8 +1664,7 @@ Test/goodTCP instproc init {} {
     $self instvar net_ test_ guide_ list_ period_
     set net_	net2
     set test_	goodTCP
-    set guide_  \
-    "One TCP flow, no reordering and no extra drops."
+    set guide_  "One TCP flow, no reordering and no extra drops."
     set list_ {50000 50001}
     set period_ 1000.0
     $self next pktTraceFile
@@ -1739,8 +1710,7 @@ Test/droppedTCP instproc init {} {
     $self instvar net_ test_ guide_ list_ period_
     set net_    net2
     set test_   droppedTCP
-    set guide_  \
-    "One TCP flow, with extra dropped packets."
+    set guide_  "One TCP flow, with extra dropped packets."
     set period_ 40.0
     Test/droppedTCP instproc run {} [Test/goodTCP info instbody run ]
     $self next pktTraceFile
@@ -1751,8 +1721,7 @@ Test/delayedTCP instproc init {} {
     $self instvar net_ test_ guide_ list_ period_
     set net_    net2
     set test_   delayedTCP
-    set guide_  \
-    "One TCP flow, with some packets delayed 0.03 seconds."
+    set guide_  "One TCP flow, with some packets delayed 0.03 seconds."
     set period_ 40.0
     ErrorModel set delay_pkt_ true
     ErrorModel set drop_ false
@@ -1766,8 +1735,7 @@ Test/delayedTCP2 instproc init {} {
     $self instvar net_ test_ guide_ list_ period_
     set net_    net2
     set test_   delayedTCP2
-    set guide_  \
-    "One TCP flow, with some packets delayed 0.01 seconds."
+    set guide_  "One TCP flow, with some packets delayed 0.01 seconds."
     set period_ 40.0
     ErrorModel set delay_pkt_ true
     ErrorModel set drop_ false
@@ -1781,8 +1749,7 @@ Test/initRate instproc init {} {
     $self instvar net_ test_ guide_ period_
     set net_	net2
     set test_	initRate
-    set guide_  \
-    "One TFRC flow, initial rate of one packet per RTT."
+    set guide_  "One TFRC flow, initial rate of one packet per RTT."
     set period_ 10000.0
     Agent/TFRC set rate_init_ 1 
     Agent/TFRC set rate_init_option_ 1
@@ -1834,8 +1801,7 @@ Test/initRateLarge instproc init {} {
     $self instvar net_ test_ guide_ period_
     set net_	net2
     set test_	initRateLarge
-    set guide_  \
-    "One TFRC flow, initial rate of 4 packets per RTT."
+    set guide_  "One TFRC flow, initial rate of 4 packets per RTT."
     set period_ 10000.0
     Agent/TFRC set rate_init_ 4.0 
     Agent/TFRC set rate_init_option_ 1
@@ -1848,8 +1814,7 @@ Test/initRateLarger instproc init {} {
     $self instvar net_ test_ guide_ period_
     set net_	net2
     set test_	initRateLarger
-    set guide_  \
-    "One TFRC flow, initial rate of 8 packets per RTT."
+    set guide_  "One TFRC flow, initial rate of 8 packets per RTT."
     set period_ 10000.0
     Agent/TFRC set rate_init_ 8.0 
     Agent/TFRC set rate_init_option_ 1
@@ -1862,8 +1827,7 @@ Test/initRateRFC3390 instproc init {} {
     $self instvar net_ test_ guide_ period_
     set net_	net2
     set test_	initRateRFC3390
-    set guide_  \
-    "One TFRC flow, initial rate from RFC 3390."
+    set guide_  "One TFRC flow, initial rate from RFC 3390."
     set period_ 10000.0
     Agent/TFRC set rate_init_option_ 2
     Test/initRateRFC3390 instproc run {} [Test/initRate info instbody run ]
@@ -1883,8 +1847,7 @@ Test/tfrcOnly instproc init {} {
     $self instvar net_ test_ guide_ 
     set net_	net2d
     set test_	tfrcOnly
-    set guide_  \
-    "One VoIP TFRC flow."
+    set guide_  "One VoIP TFRC flow."
     Agent/TFRC set voip_ 1
     Agent/TFRCSink set ShortIntervals_ 1
     $self next pktTraceFile
@@ -2021,8 +1984,7 @@ Test/voip instproc init {} {
     $self instvar net_ test_ guide_ 
     set net_	net2d
     set test_	voip
-    set guide_  \
-    "One VoIP TFRC flow and one TCP flow, different packet sizes."
+    set guide_  "One VoIP TFRC flow and one TCP flow, different packet sizes."
     Agent/TFRC set voip_ 1
     Agent/TFRCSink set ShortIntervals_ 1
     $self next pktTraceFile
@@ -2088,8 +2050,7 @@ Test/voipHeader instproc init {} {
     $self instvar net_ test_ guide_ 
     set net_	net2d
     set test_	voip
-    set guide_  \
-    "One VoIP TFRC flow with headers, and one TCP flow."
+    set guide_  "One VoIP TFRC flow with headers, and one TCP flow."
     Agent/TFRC set useHeaders_ true ; 
     Agent/TFRC set headersize_ 32;
     Agent/TFRC set voip_ 1
@@ -2103,8 +2064,7 @@ Test/voipNoHeader instproc init {} {
     $self instvar net_ test_ guide_ 
     set net_	net2d
     set test_	voip
-    set guide_  \
-    "One VoIP TFRC flow without headers, and one TCP flow."
+    set guide_  "One VoIP TFRC flow without headers, and one TCP flow."
     Agent/TFRC set useHeaders_ false ; 
     Agent/TFRC set headersize_ 32;
     Agent/TFRC set voip_ 1
@@ -2118,8 +2078,7 @@ Test/voipEcn instproc init {} {
     $self instvar net_ test_ guide_ 
     set net_	net2d
     set test_	voipEcn
-    set guide_  \
-    "One ECN VoIP TFRC flow and one TCP flow, different packet sizes."
+    set guide_  "One ECN VoIP TFRC flow and one TCP flow, different packet sizes."
     Agent/TFRC set useHeaders_ false ; 
     Agent/TFRC set ecn_ 1
     Agent/TFRC set voip_ 1
@@ -2135,8 +2094,7 @@ Test/noVoip instproc init {} {
     $self instvar net_ test_ guide_ 
     set net_	net2d
     set test_	noVoip
-    set guide_  \
-    "One TFRC flow (not voip) and one TCP flow, different packet sizes."
+    set guide_  "One TFRC flow (not voip) and one TCP flow, different packet sizes."
     Agent/TFRC set voip_ 0
     Test/noVoip instproc run {} [Test/voip info instbody run ]
     $self next pktTraceFile
@@ -2359,6 +2317,114 @@ Test/idleTcp1 instproc run {} {
     $self dropPktsPeriodic [$ns_ link $node_(r2) $node_(s3)] 0 1000.0 $period_
 
     $self pktsDump 1 $tcp1 $interval_ $dumpfile_
+
+    $ns_ at $stopTime0 "close $dumpfile_; $self finish_1 $testName_"
+    $ns_ at $stopTime "$self cleanupAll $testName_" 
+    if {$quiet == "false"} {
+	$ns_ at $stopTime2 "close $tracefile"
+    }
+    $ns_ at $stopTime2 "exec cp temp2.rands temp.rands; exit 0"
+
+    $ns_ run
+}
+
+Class Test/shortIdleTcp superclass TestSuite
+Test/shortIdleTcp instproc init {} {
+    $self instvar net_ test_ guide_ period_
+    set net_	net3
+    set test_	shortIdleTcp
+    set guide_  "TCP with two short idle periods during slow-start."
+    set period_ 10000.0
+    $self next pktTraceFile
+}
+Test/shortIdleTcp instproc run {} {
+    global quiet
+    $self instvar ns_ node_ testName_ interval_ dumpfile_ guide_ period_
+    puts "Guide: $guide_"
+    $self setTopo
+    Agent/TCP set packetSize_ 160
+    Agent/TCP set window_ 30
+    set interval_ 1.0
+    set start_time 0.0
+    set stopTime 25.0
+    set stopTime0 [expr $stopTime - 0.001]
+    set stopTime2 [expr $stopTime + 0.001]
+
+    set dumpfile_ [open temp.s w]
+    if {$quiet == "false"} {
+        set tracefile [open all.tr w]
+        $ns_ trace-all $tracefile
+    }
+
+    set tcp1 [$ns_ create-connection TCP $node_(s1) TCPSink $node_(s3) 0]
+    set ftp [new Application/FTP]
+    $ftp attach-agent $tcp1
+    $ns_ at 0 "$ftp produce 280"
+    $ns_ at 9.2 "$ftp producemore 280"
+    $ns_ at 15.8 "$ftp producemore 280"
+
+    $self dropPktsPeriodic [$ns_ link $node_(r2) $node_(s3)] 0 1000.0 $period_
+
+    $self pktsDump 1 $tcp1 $interval_ $dumpfile_
+
+    $ns_ at $stopTime0 "close $dumpfile_; $self finish_1 $testName_"
+    $ns_ at $stopTime "$self cleanupAll $testName_" 
+    if {$quiet == "false"} {
+	$ns_ at $stopTime2 "close $tracefile"
+    }
+    $ns_ at $stopTime2 "exec cp temp2.rands temp.rands; exit 0"
+
+    $ns_ run
+}
+
+Class Test/idleTfrc1 superclass TestSuite
+Test/idleTfrc1 instproc init {} {
+    $self instvar net_ test_ guide_ period_
+    set net_	net3
+    set test_	idleTfrc1
+    set guide_  "TFRC with only one idle period during slow-start."
+    set period_ 10000.0
+    $self next pktTraceFile
+}
+Test/idleTfrc1 instproc run {} {
+    global quiet
+    $self instvar ns_ node_ testName_ interval_ dumpfile_ guide_ period_
+    puts "Guide: $guide_"
+    $self setTopo
+    Agent/TFRC set SndrType_ 1
+    Agent/TFRC set datalimited_ 1
+    Agent/TFRC set voip_ 1
+    Agent/TFRCSink set ShortIntervals_ 1
+    Agent/TFRC set packetSize_ 160
+    Agent/TFRC set voip_max_pkt_rate_ 50
+    set interval_ 1.0
+    set start_time 0.0
+    set stopTime 60.0
+    set stopTime0 [expr $stopTime - 0.001]
+    set stopTime2 [expr $stopTime + 0.001]
+
+    set dumpfile_ [open temp.s w]
+    if {$quiet == "false"} {
+        set tracefile [open all.tr w]
+        $ns_ trace-all $tracefile
+    }
+
+    set tf1 [$ns_ create-connection TFRC $node_(s1) TFRCSink $node_(s3) 0]
+    set cbr0 [new Application/Traffic/CBR]
+    $cbr0 set packetSize_ 160
+    $cbr0 set interval_ 0.02
+    $cbr0 attach-agent $tf1
+
+    $ns_ at $start_time "$cbr0 start"
+    $ns_ at 10.0 "$cbr0 stop"
+    $ns_ at 20.0 "$cbr0 start"
+    $ns_ at 30.0 "$cbr0 stop"
+    $ns_ at 40.0 "$cbr0 start"
+    $ns_ at $stopTime "$cbr0 stop"
+
+    $self dropPktsPeriodic [$ns_ link $node_(r2) $node_(s3)] 0 1000.0 $period_
+
+    $self tfccDump 1 $tf1 $interval_ $dumpfile_
 
     $ns_ at $stopTime0 "close $dumpfile_; $self finish_1 $testName_"
     $ns_ at $stopTime "$self cleanupAll $testName_" 

@@ -1,11 +1,11 @@
 dnl autoconf rules to find tk 
-dnl $Header: /cvsroot/nsnam/conf/configure.in.tk,v 1.32 2006/09/28 06:18:21 tom_henderson Exp $ (LBL)
+dnl $Header: /cvsroot/nsnam/conf/configure.in.tk,v 1.34 2007/08/22 04:02:03 tom_henderson Exp $ (LBL)
 
 
 AC_ARG_WITH(tk,	--with-tk=path	specify a pathname for tk, d=$withval, d="")
 
 dnl library version defaults to 8.0
-AC_ARG_WITH(tk-ver, --with-tk-ver=path specify the version of tcl/tk, TK_VERS=$withval, TK_VERS=8.4.11)
+AC_ARG_WITH(tk-ver, --with-tk-ver=path specify the version of tcl/tk, TK_VERS=$withval, TK_VERS=8.4.15)
 
 
 dnl Truncate anything beyond and including the second decimal point
