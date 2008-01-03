@@ -6,8 +6,6 @@ AbsTime and Duration
 The first one defines a fix point in time. The latter represents the difference of
 two absolute times. 
 
-
-
 How it works:
 
 There is a class for the event handling: 
@@ -23,3 +21,4 @@ descriptor. For every waiting you have to define a timeout. This timeout is an a
 Whe the event or the timout occurs the eventhandler e is called with the handle, the time of
 the event and the data as parameters. 
 
+TODO ... Maybe we should use doxygen for this.
