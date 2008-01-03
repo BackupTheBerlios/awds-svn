@@ -23,7 +23,7 @@
     \section gea_api The GEA Programming Interface
 
     The programming interfaces of GEA consists of only a small set of classes, which can 
-    be found in the documentatation module \link GEA_API \endlink.
+    be found in the documentation module \link GEA_API \endlink.
     
     \section build_modules Building a Modular Architecture with GEA
     
