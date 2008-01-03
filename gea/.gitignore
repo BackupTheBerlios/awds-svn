@@ -12,3 +12,17 @@ Makefile.in
 .libs
 configure
 libtool
+autom4te.cache
+config.guess
+config.log
+config.status
+config.sub
+depcomp
+doc/html
+gea.pc
+include/gea/config.h
+include/gea/stamp-h1
+install-sh
+ltmain.sh
+missing
+src/utils/gea_start
