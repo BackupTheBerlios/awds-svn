@@ -1,5 +1,5 @@
-#ifndef _EVENTS_H__
-#define _EVENTS_H__
+#ifndef _HANDLE_H__
+#define _HANDLE_H__
 
 
 namespace gea {
@@ -50,7 +50,7 @@ namespace gea {
     
 } // end namespace gea
 
-#endif //EVENTS_H__
+#endif //HANDLE_H__
 /* This stuff is for emacs
  * Local variables:
  * mode:c++

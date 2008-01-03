@@ -1,5 +1,5 @@
-#ifndef _TIMER_H__
-#define _TIMER_H__
+#ifndef _BLOCKER_H__
+#define _BLOCKER_H__
 
 #include <gea/Handle.h>
 
@@ -57,7 +57,7 @@ namespace gea {
     
 }
 
-#endif //TIMER_H__
+#endif //BLOCKER_H__
 /* This stuff is for emacs
  * Local variables:
  * mode:c++
