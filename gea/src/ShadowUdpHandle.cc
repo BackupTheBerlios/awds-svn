@@ -105,8 +105,8 @@ void PosixApiIface::destroySubUdpHandle(UdpHandle *handle)
 
 ShadowUdpHandle::ShadowUdpHandle(gea::UdpHandle::Mode mode, const gea::UdpAddress& addr) :
     UnixFdHandle(-1, ( mode == gea::UdpHandle::Send )
-		 ? gea::ShadowHandle::Write 
-		 : gea::ShadowHandle::Read ),
+		 ? gea::PosixModeWrite 
+		 : gea::PosixModeRead ),
     addr(addr),
     src(UdpAddress::IPADDR_ANY, 0),
     already_bound(false)
@@ -122,7 +122,7 @@ ShadowUdpHandle::ShadowUdpHandle(gea::UdpHandle::Mode mode, const gea::UdpAddres
 	return;
     }
     
-    if (this->shadowHandle->unixMode == gea::ShadowHandle::Read)
+    if (this->shadowHandle->unixMode == gea::PosixModeRead)
 	this->setSrc(addr);
 
 }
@@ -165,7 +165,7 @@ if (already_bound) {
 }
 
 int ShadowUdpHandle::write(const char *buf, int size) {
-    assert(this->shadowHandle->unixMode == gea::ShadowHandle::Write);    
+    assert(this->shadowHandle->unixMode == gea::PosixModeWrite);    
     
     ssize_t ret;
 
@@ -188,8 +188,8 @@ int ShadowUdpHandle::write(const char *buf, int size) {
 }
 
 int ShadowUdpHandle::read(char *buf, int size) {
-    assert ( this->shadowHandle->unixMode == gea::ShadowHandle::Read);
-
+    assert ( this->shadowHandle->unixMode == gea::PosixModeRead);
+    
     ssize_t ret;
     recvfrom_lastarg_t src_size /* type defined in gea/compat.h */
 	= sizeof(struct sockaddr_in);

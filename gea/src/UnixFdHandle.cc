@@ -8,7 +8,7 @@
 using namespace gea;
 
 
-DLLEXPORT UnixFdHandle::UnixFdHandle(int fd, gea::ShadowHandle::UnixMode mode) 
+DLLEXPORT UnixFdHandle::UnixFdHandle(int fd, gea::PosixHandleMode mode) 
 {
     this->shadowHandle->handleType = ShadowHandle::TypeUnixFdHandle;
     this->shadowHandle->unixMode = mode;

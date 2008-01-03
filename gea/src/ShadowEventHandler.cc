@@ -77,14 +77,13 @@ static void fill_fd_sets(gea::ShadowEventHandler::EventList::const_iterator from
 		uh = dynamic_cast<gea::UnixFdHandle *>(static_cast<gea::UdpHandle *>(i->second.h)->subUdpHandle);
 	    
 	    switch ( uh->shadowHandle->unixMode ) {
-	    case gea::ShadowHandle::Read:
-
+	    case gea::PosixModeRead :
 		FD_SET(uh->shadowHandle->unixFd, set[0]);
 		break;
-	    case gea::ShadowHandle::Write:
+	    case gea::PosixModeWrite :
 		FD_SET(uh->shadowHandle->unixFd, set[1]);
 		break;
-	    case gea::ShadowHandle::Exception:
+	    case gea::PosixModeException :
 		FD_SET(uh->shadowHandle->unixFd, set[2]);
 		break;
 	    default:
@@ -356,6 +355,7 @@ long gea::PosixApiIface::getCurrentNode() {
 DLLEXPORT void gea::initPosixApiIface() {
     GEA_apiIface = new gea::PosixApiIface();
     GEA_apiIface->createSubEventHandler(&GEA);
+    GEA.lastEventTime = gea::AbsTime::now();
 }
 
 

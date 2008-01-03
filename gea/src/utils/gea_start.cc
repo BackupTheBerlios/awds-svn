@@ -138,7 +138,7 @@ void new_input(Handle *h, AbsTime t, void *data) {
 
 void interactive() {
     
-    UnixFdHandle unixfd(conf_fd, ShadowHandle::Read);
+    UnixFdHandle unixfd(conf_fd, gea::PosixModeRead);
     
     gea::geaAPI().waitFor(&unixfd, AbsTime::now() + Duration(1.), new_input, 0);
     
