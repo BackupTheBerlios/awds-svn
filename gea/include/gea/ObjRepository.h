@@ -4,9 +4,11 @@
 #include <map>
 #include <string>
 
+/** \defgroup ObjRepository */
 
-
-/** \brief global object repository
+/** \brief global object repository.
+ *  \ingroup ObjRepository
+ *  
  *  This class provides a global repository for named objects. 
  *  Pointer to objects can be stored with a given name. These can 
  *  later be retrieved by other code, especially but other GEA applications. 
@@ -29,6 +31,7 @@ private:
 public:    
     
     /** \brief get the object repository.
+     * 
      *  There exists only one repository per process. That's why 
      *  the constructor is private and thus no new instances can be
      *  created. Instead this function is used for getting the one and
@@ -43,6 +46,7 @@ public:
     
         
     /** \brief insert an object
+     *
      *  This method inserts a pointer to an object in the object
      *  repository. The given pointer must be ensured to be valid 
      *  as long a the object is registered. 
@@ -68,6 +72,7 @@ public:
 
     
     /** \brief get an object by its name
+     *
      *  This methods returns a pointer to the object, stored with a name.
      *  \param name The name of the object.
      *  \returns pointer to the object, or 0 if not found.
@@ -89,6 +94,7 @@ public:
 
     
     /** \brief get type of a stored object
+     *
      *  This method is used for retrieving the type of a stored object.
      *  It should be used to check type before casting the void *-pointer 
      *  into a specific type. 
@@ -111,6 +117,7 @@ public:
     
 
     /** \brief remove an object from the repository. 
+     *
      *  This is used for removeing objects from the repository.
      *  \param name the name of the object
      *  \returns true, if successfully removed, false otherwise. 
@@ -129,12 +136,39 @@ public:
 // helper macros:
 // ---------------------------------------- 
 
+/** 
+ *  \def REP_INSERT_OBJ(type, name, val)
+ *  \ingroup  ObjRepository
+ *  \brief insert object into object repository 
+ *  
+ *  \param type The type of the variable. Should be a pointer type.
+ *  \param name The name of the object in the repository.
+ *  \param val  The value of the object in the repository.
+ *
+ *  Use this macro to insert objects in the repository. 
+ *  \code
+ *  Foo *foo_x = new Foo();
+ *  REP_INSERT_OBJ(Foo *, foo, foo_x);
+ *  \endcode
+ */
+
 #define REP_INSERT_OBJ(type, name, val) do {	\
 	type __value = val;			\
 	ObjRepository::instance().insertObj(#name, #type, (void *)__value); \
     } while(0)
 
-#define REP_MAP_OBJ(type, name) type name = (type)ObjRepository::instance().getObj(#name)
+
+/** \def REP_MAP_OBJ(type, name)
+ *  \ingroup  ObjRepository
+ *  \brief insert object into object repository 
+ *  
+ *  \param type The type of the variable. Should be a pointer type.
+ *  \param name The name of the object in the repository.
+ *
+ */
+ 
+#define REP_MAP_OBJ(type, name) \
+type name = (type)ObjRepository::instance().getObj(#name)
 
 
 

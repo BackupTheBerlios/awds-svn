@@ -7,12 +7,14 @@
 
 namespace gea {
     
+    /** \brief class for representing a UDP address 
+     */
     class UdpAddress {
 
     public:	
 	
-	uint32_t ip;
-	uint16_t port;
+	uint32_t ip;    ///< the IP address 
+	uint16_t port;  ///< the port number
 	bool     isBroadcast;
 		
 	static const uint32_t IPADDR_ANY;
@@ -48,6 +50,9 @@ namespace gea {
 	virtual ~SubUdpHandle() {};
     };
     
+    
+    /** \brief class for representing a UDP socket.
+     */
     class UdpHandle : public gea::Handle{
 	
     public:

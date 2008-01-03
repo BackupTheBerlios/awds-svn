@@ -6,7 +6,10 @@
 #include <gea/Handle.h>
 
 namespace gea {
-
+    
+    /** \brief handle for Unix file descriptors 
+     * 
+     */
     class UnixFdHandle : public Handle {
 	
     public:

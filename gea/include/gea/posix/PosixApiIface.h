@@ -6,6 +6,9 @@
 
 namespace gea {
 
+    /** \brief POSIX implementation of the GEA API 
+     *
+     */
     class PosixApiIface : public gea::ApiIface 
     {
     public:

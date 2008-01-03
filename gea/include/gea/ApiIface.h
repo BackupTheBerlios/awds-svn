@@ -4,7 +4,8 @@
 #include <stdint.h>
 
 namespace gea {
-    
+
+    /* some forward declarations so that we don't have to include all the headers */
     class AbsTime;
     class Handle;
     class UdpHandle;
@@ -13,6 +14,12 @@ namespace gea {
     class UdpAddress;
     class EventHandler;
     
+    /** \brief class for implementing pluggable implementations of the 
+     *         GEA API
+     *
+     *  This class is pure virtual and should be implemented by the 
+     *  actual system. 
+     */
     struct ApiIface {
 	
 	virtual void getCurrentTime(AbsTime *p_now) = 0;
