@@ -1,4 +1,3 @@
-
 #ifndef _GEATIME_H__
 #define _GEATIME_H__
 
@@ -28,8 +27,22 @@ namespace gea {
 	 */
 	static const unsigned size = sizeof(StoreType);
 
+	/** \brief defaul contructor
+	 *
+	 *  The default constuctor will NOT initialise the object. This is
+	 *  efficient and allows us to detect uninitialised values with tools like valgrind.
+	 */
 	FixNum() {}
+
+	/** \brief initialise value from storage type.
+	 */
 	explicit FixNum(StoreType v) : v(v) {}
+
+
+	/** \brief copy constructor
+	 *
+	 *  This implements the default semantics of a copy constructor.
+	 */
 	FixNum(const FixNum& fn) { this->v = fn.v; }
 
 	/** \brief assignment operator with standard semantics
@@ -94,9 +107,9 @@ namespace gea {
 	 *        different runs of your program.
 	 */
 	static inline AbsTime t0() {
-            AbsTime retval(0);
-            return retval;
-        }
+	    AbsTime retval(0);
+	    return retval;
+	}
 
 	/** \brief Get the current time.
 	 *
@@ -117,8 +130,12 @@ namespace gea {
 	AbsTime(StoreType v) :
 	    FixNum(v) {}
 
+	/** \brief copy constructor
+	 */
 	AbsTime(const AbsTime& other) : FixNum(other) {}
 
+	/** \brief assignment operator
+	 */
 	AbsTime& operator =(const AbsTime& other) { FixNum::operator =(other); return *this; }
 
     }; // end class AbsTime
@@ -126,51 +143,94 @@ namespace gea {
     /**
      *  \brief class representing the delta of two AbsTime objects.
      *  \ingroup GEA_API
+     *
+     *  The duration class is used to represent time spans. It defines operators
+     *  to use it in a convinient way with the class gea::AbsTime. 
      */
     class Duration : public FixNum {
 
     public:
 
+	/** \brief default constructor
+	 *  
+	 *  The default value of the object is undefined. This way we can detect 
+	 *  uninitialised values with tools like valgrind.
+	 */
 	Duration() :
-	    FixNum(0)
+	    FixNum()
 	{}
 
+
+	/** \brief copy constructor */
 	Duration(const Duration& d) :
 	    FixNum(d.v) {}
 
+	/** \brief initialise from double
+	 *
+	 *  The duration will have the value of \a t seconds.
+	 */
 	Duration(double t) :
 	    FixNum( static_cast<StoreType>( t * this->offset + .5 ) )
 	{}
 
+
+	/** \brief Initialise from a rational number
+	 *
+	 *  The duration will have the value of a/b seconds.
+	 *  \code
+	 *  Duration one_third(1,4);
+	 *  \endcode
+	 *  will create a duration of 0.25 second. This avoids the use of floating point operations.
+	 */
 	Duration(long a, long b) :
 	    FixNum( static_cast<StoreType>(a) * this->offset /  static_cast<StoreType>(b) )
 	{}
 
+	/** \brief convert the Duration to a double type
+	 */
 	operator double() const{
 	    return double(this->v) / double(this->offset);
 	}
 
     }; // end class Duration
 
+
+    /** \brief calculate the difference between two absolute times.
+     *  \ingroup GEA_API
+     */
     static inline Duration operator -(const AbsTime& a, const AbsTime& b) {
 	Duration ret(0);
 	ret.v = a.v - b.v;
 	return ret;
     }
 
+    /** \brief add a duration to an absolute time.
+     *  \ingroup GEA_API
+     */
     static inline AbsTime operator +(const AbsTime& a, const Duration b) {
 	return AbsTime(a.v + b.v);
     }
 
+    /** \brief substract a duration from an absolute time.
+     *  \ingroup GEA_API
+     *
+     */
     static inline AbsTime operator -(const AbsTime& a, const Duration b) {
 	return AbsTime(a.v - b.v);
     }
 
+    /** \brief add a duration to an absolute time.
+     *  \ingroup GEA_API
+     */
     static inline AbsTime& operator +=(AbsTime& a, const Duration b) {
 	a.v += b.v;
 	return a;
     }
 
+    /** \brief substract a duration from an absolute time.
+     *  \ingroup GEA_API
+     *
+     */
     static inline AbsTime& operator -=(AbsTime& a, const Duration b) {
 	a.v -= b.v;
 	return a;

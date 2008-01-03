@@ -1,2 +1,2 @@
 m4_define([MAJOR_VERSION_NUMBER], [2])
-m4_define([MINOR_VERSION_NUMBER], [2])
+m4_define([MINOR_VERSION_NUMBER], [3])
