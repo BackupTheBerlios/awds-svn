@@ -1,13 +1,13 @@
 Source: libgea2
 Priority: optional
 Maintainer: Andre Herms <aherms@ivs.cs.uni-magdeburg.de>
-Build-Depends: debhelper (>= 4.0.0), autoconf (>= 2.3), automaken, libtool (>= 1.5), c++-compiler, libltdl3-dev
+Build-Depends: debhelper (>= 4.0.0), autoconf (>= 2.3), automake1.9|automaken, libtool (>= 1.5), c++-compiler
 Standards-Version: 3.7.2
 
 Package: libgea2-dev
 Section: libdevel
 Architecture: any
-Depends: libgea2 (= ${Source-Version})
+Depends: libgea2 (= ${binary:Version})
 Description: GEA - an abstraction layer for developing network protocols
  The GEA libray provides an abstraction layer for network protocols.
  Functions , e.g. like sending packets, are provided and mapped to the
@@ -23,7 +23,7 @@ Description: GEA - an abstraction layer for developing network protocols
 Package: libgea2
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}
 Conflicts: libgea
 Description: GEA - an abstraction layer for developing network protocols
  The GEA libray provides an abstraction layer for network protocols.
@@ -35,4 +35,3 @@ Description: GEA - an abstraction layer for developing network protocols
  the same implementation can be used in the ns-2 network simulator. By
  this the protocol implementation can be tested in large simulated
  networks.
-
