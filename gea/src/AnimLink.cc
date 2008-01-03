@@ -8,4 +8,3 @@ std::ostream& operator<<(std::ostream& os, const gea::AnimAddLink&) {
 std::ostream& operator<<(std::ostream& os, const gea::AnimDelLink&) {
   return os;
 }
-

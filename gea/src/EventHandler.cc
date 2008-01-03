@@ -8,14 +8,14 @@ using namespace gea;
 
 gea::EventHandler::EventHandler() {
     //    GEA_apiIface->createSubEventHandler(this);
-    // this should be done with initPosixApiIface(); 
+    // this should be done with initPosixApiIface();
 }
 
 gea::EventHandler::~EventHandler() {
     GEA_apiIface->destroySubEventHandler(this);
 }
 
-void gea::EventHandler::waitFor( class Handle *h, 
+void gea::EventHandler::waitFor( class Handle *h,
 				 AbsTime timeout,
 				 Event e,
 				 void *data)
@@ -34,5 +34,3 @@ std::ostream& EventHandler::dbg(unsigned level) {
  * c-basic-offset: 4
  * End:
  */
-
-

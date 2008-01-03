@@ -18,4 +18,3 @@ DLLEXPORT long ObjRepository::whichNode() const {
  * c-basic-offset: 4
  * End:
  */
-

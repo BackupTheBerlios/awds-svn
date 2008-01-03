@@ -8,7 +8,7 @@
 using namespace gea;
 
 
-DLLEXPORT UnixFdHandle::UnixFdHandle(int fd, gea::PosixHandleMode mode) 
+DLLEXPORT UnixFdHandle::UnixFdHandle(int fd, gea::PosixHandleMode mode)
 {
     this->shadowHandle->handleType = ShadowHandle::TypeUnixFdHandle;
     this->shadowHandle->unixMode = mode;
@@ -23,7 +23,7 @@ DLLEXPORT UnixFdHandle::~UnixFdHandle() {
 // const char * UnixFdHandle::TypeName = "UnixFdHandler";
 
 // const char *UnixFdHandle::getType() const {
-//     return UnixFdHandle::TypeName; 
+//     return UnixFdHandle::TypeName;
 // }
 
 DLLEXPORT int UnixFdHandle::write(const char *buf, int size) {
@@ -35,9 +35,9 @@ DLLEXPORT int UnixFdHandle::write(const char *buf, int size) {
 DLLEXPORT int UnixFdHandle::read (char *buf, int size) {
     assert (status == Ready);
     return ::read(this->shadowHandle->unixFd, buf, size);
-    
+
 }
-  
+
 
 /* This stuff is for emacs
  * Local variables:
@@ -45,4 +45,3 @@ DLLEXPORT int UnixFdHandle::read (char *buf, int size) {
  * c-basic-offset: 4
  * End:
  */
-

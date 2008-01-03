@@ -6,11 +6,11 @@
 
 struct Test {
     int val;
-    
+
     Test(int v): val(v) {}
-  
+
     int get() {return val;}
-    
+
 };
 
 

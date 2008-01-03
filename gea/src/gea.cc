@@ -12,4 +12,3 @@ DLLEXPORT gea::ApiIface *GEA_apiIface;
 DLLEXPORT gea::EventHandler& gea::geaAPI() {
   return ::GEA;
 }
-

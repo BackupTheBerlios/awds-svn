@@ -5,7 +5,7 @@ using namespace gea;
 
 void MultiShootTimerEvent::event(Handle *h, AbsTime t, void* data) {
   MultiShootTimerEvent *self = reinterpret_cast<MultiShootTimerEvent *>(data);
-  
+
   self->alive = false;
   self->handle(h, t);
   if (!self->alive) delete self;

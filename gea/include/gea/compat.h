@@ -27,4 +27,3 @@ bool closeSocketLayer();
  * c-basic-offset: 4
  * End:
  */
-

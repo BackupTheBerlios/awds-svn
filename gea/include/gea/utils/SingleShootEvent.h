@@ -13,9 +13,9 @@ namespace gea {
 	SingleShootEvent(Handle &handle, AbsTime timeout) : wh(&handle) {};
 
 	virtual ~SingleShootEvent()  {};
-	
+
 	virtual void handle(Handle *h, AbsTime t) = 0;
-	
+
     protected:
 	static void event(Handle *h, AbsTime t, void *data);
 	void wait(AbsTime timeout);

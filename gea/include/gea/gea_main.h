@@ -15,7 +15,7 @@
 #endif
 
 #define GEA_MAIN(argc, argv)						\
-    extern "C" DLLEXPORT int gea_main(int argc, const char * const * argv) 
+    extern "C" DLLEXPORT int gea_main(int argc, const char * const * argv)
 
 #if defined PIC
 #  define GEA_MAIN_2(modulename, argc, argv)				\
@@ -24,7 +24,7 @@
 #  define GEA_MAIN_2(modulename, argc, argv)				\
      extern "C" DLLEXPORT int modulename##_gea_main(int argc, const char * const * argv)
 
-#endif 
+#endif
 
 /** \def GEA_MAIN_2(modulename, argc, argv)
  *  \brief define the entry point of a GEA module

@@ -4,7 +4,7 @@
 #include <gea/posix/ShadowHandle.h>
 
 void gea::ShadowDepend::complied() {
-    
+
     //  this->shadowDepend->pendList.moveTo(GEA.shadow->pendList);
     this->triggered = true;
     this->master->status = Handle::Ready;

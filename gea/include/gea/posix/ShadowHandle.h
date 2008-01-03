@@ -9,9 +9,9 @@
 #endif // HAVE_WINSOCK2_H
 
 namespace gea {
-    
 
-    /** \brief define mode for GEA Posix handle 
+
+    /** \brief define mode for GEA Posix handle
      *  \ingroup PosixAPI
      */
     enum PosixHandleMode {
@@ -19,12 +19,12 @@ namespace gea {
 	PosixModeWrite     = 1, ///< event notification for 'is writeable'
 	PosixModeException = 2  ///< event notification for 'has OOB data'
     };
-    
-    
+
+
     class ShadowHandle {
-	
+
     public:
-	
+
 	/* --- only for UnixFdHandles and UdpHandles --- */
 
 
@@ -35,23 +35,23 @@ namespace gea {
 #endif // _GNU_H_WINDOWS32_SOCKETS
 	fd_handle_t unixFd;
 	enum PosixHandleMode unixMode;
-	
+
 	enum HandleType {
 	    TypeUnixFdHandle = 14,
 	    TypeBlocker,
 	    TypeDepend,
 	    TypeUdpHandle
 	};
-	
+
 	HandleType handleType;
-	
+
 	bool isUnixFdHandle() const { return this->handleType == TypeUnixFdHandle; }
 	bool isUdpHandle() const    { return this->handleType == TypeUdpHandle; }
 	bool isBlocker() const      { return this->handleType == TypeBlocker; }
 	bool isDepend() const       { return this->handleType == TypeDepend; }
-    
+
     };
-    
+
 }
 
 #endif //SHADOWHANDLE_H__

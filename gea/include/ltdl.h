@@ -160,7 +160,7 @@ LT_SCOPE	int	    lt_dlexit		LT_PARAMS((void));
 LT_SCOPE	int	    lt_dladdsearchdir	 LT_PARAMS((const char *search_dir));
 LT_SCOPE	int	    lt_dlinsertsearchdir LT_PARAMS((const char *before,
 						    const char *search_dir));
-LT_SCOPE	int 	    lt_dlsetsearchpath	 LT_PARAMS((const char *search_path));
+LT_SCOPE	int	    lt_dlsetsearchpath	 LT_PARAMS((const char *search_path));
 LT_SCOPE	const char *lt_dlgetsearchpath	 LT_PARAMS((void));
 LT_SCOPE	int	    lt_dlforeachfile	 LT_PARAMS((
 			const char *search_path,
@@ -227,7 +227,7 @@ LT_SCOPE	int	lt_dlpreload	LT_PARAMS((const lt_dlsymlist *preloaded));
 LT_SCOPE	int	lt_dlpreload_default
 				LT_PARAMS((const lt_dlsymlist *preloaded));
 
-#define LTDL_SET_PRELOADED_SYMBOLS() 		LT_STMT_START{	\
+#define LTDL_SET_PRELOADED_SYMBOLS()		LT_STMT_START{	\
 	extern const lt_dlsymlist lt_preloaded_symbols[];		\
 	lt_dlpreload_default(lt_preloaded_symbols);			\
 						}LT_STMT_END

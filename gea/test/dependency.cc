@@ -16,10 +16,10 @@ using namespace gea;
 
 struct FreqDiv : public DependHandle {
 
-    const unsigned div; 
+    const unsigned div;
     unsigned cur;
     FreqDiv(unsigned div=3) : div(div), cur(0) {}
-    
+
     void beep() {
 	if (++cur == div) {
 	    cur = 0;
@@ -32,12 +32,12 @@ struct FreqDiv : public DependHandle {
 
 
 class DepTest {
-    
+
 public:
     Blocker      blocker;
     DependHandle dep1, dep2;
     FreqDiv      freqDiv;
-    
+
     DepTest();
 
     static void blocker_ready(Handle *h, AbsTime t, void *data);
@@ -50,13 +50,13 @@ public:
 void DepTest::blocker_ready(Handle *h, AbsTime t, void *data) {
 
     DepTest *self = static_cast<DepTest *>(data);
-    
+
     static int blocker_nr = 0;
-    GEA.dbg() << "blocker ready " << ++blocker_nr << endl; 
-    
+    GEA.dbg() << "blocker ready " << ++blocker_nr << endl;
+
     // reschedule ...
     GEA.waitFor(h, t + Duration(PERIOD), DepTest::blocker_ready, data);
-    
+
     self->freqDiv.beep();
 }
 
@@ -71,7 +71,7 @@ void DepTest::freq_ready(Handle *h, AbsTime t, void *data) {
 }
 
 void DepTest::dep1_ready(Handle *h, AbsTime t, void *data) {
-    if (h->status == Handle::Timeout) 
+    if (h->status == Handle::Timeout)
 	GEA.dbg() << "dep1 timeout "<< endl;
     else
 	GEA.dbg() << "dep1 okay" << endl;
@@ -79,7 +79,7 @@ void DepTest::dep1_ready(Handle *h, AbsTime t, void *data) {
 
 
 void DepTest::dep2_ready(Handle *h, AbsTime t, void *data) {
-    if (h->status == Handle::Timeout) 
+    if (h->status == Handle::Timeout)
 	GEA.dbg() << "dep2 timeout "<< endl;
     else
 	GEA.dbg() << "dep2 okay" << endl;
@@ -87,8 +87,8 @@ void DepTest::dep2_ready(Handle *h, AbsTime t, void *data) {
 
 
 DepTest::DepTest() {
-    
-    GEA.waitFor(&(this->blocker),  AbsTime::now() + Duration(PERIOD), 
+
+    GEA.waitFor(&(this->blocker),  AbsTime::now() + Duration(PERIOD),
 		DepTest::blocker_ready, this);
     GEA.waitFor(&(this->freqDiv), AbsTime::now() + Duration(4.), DepTest::freq_ready, this);
     GEA.waitFor(&(this->dep1), AbsTime::now() + Duration(5.), DepTest::dep1_ready, this);
@@ -101,7 +101,7 @@ extern "C" int gea_main(int argc, const char * const *argv);
 int gea_main(int argc, const char * const *argv) {
 
     new DepTest();
-    
+
     return 0;
 }
 
@@ -113,7 +113,3 @@ int gea_main(int argc, const char * const *argv) {
  * c-basic-offset: 4
  * End:
  */
-
-
-
-

@@ -6,7 +6,7 @@
 
 #include <cassert>
 
-DLLEXPORT gea::Handle::Handle() 
+DLLEXPORT gea::Handle::Handle()
 {
   GEA_apiIface->createShadowHandle(this);
 }
@@ -14,4 +14,3 @@ DLLEXPORT gea::Handle::Handle()
 DLLEXPORT gea::Handle::~Handle() {
   GEA_apiIface->destroyShadowHandle(this);
 }
-

@@ -13,17 +13,17 @@ bool initSocketLayer() {
     WORD wVersionRequested;
     WSADATA wsaData;
     int err;
-    
+
     wVersionRequested = MAKEWORD( 2, 2 );
-    
+
     err = WSAStartup( wVersionRequested, &wsaData );
     if ( err != 0 ) {
 	/* Tell the user that we could not find a usable */
 	/* WinSock DLL.                                  */
 	return false;
     }
-    
-    
+
+
 #endif
     return true;
 }
@@ -35,4 +35,3 @@ bool closeSocketLayer() {
 #endif
   return true;
 }
-

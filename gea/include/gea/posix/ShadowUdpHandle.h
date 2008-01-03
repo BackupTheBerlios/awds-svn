@@ -27,22 +27,22 @@
 namespace gea {
     /*
     class ShadowUdpAddress {
-	
-    public:	
-	
+
+    public:
+
 	bool broadcast;
-	
+
 	struct sockaddr_in addr;
-		
+
 	ShadowUdpAddress(int port, const char * ip_addr = gea::UdpAddress::IP_ANY);
 	ShadowUdpAddress(const ShadowUdpAddress& a);
-	ShadowUdpAddress& operator=(const ShadowUdpAddress &a); 
+	ShadowUdpAddress& operator=(const ShadowUdpAddress &a);
     };
     */
 
-    
+
     class ShadowUdpHandle : public SubUdpHandle, public UnixFdHandle {
-    
+
     protected:
 	UdpAddress addr;
 	UdpAddress src; // only needed for reading
@@ -51,16 +51,16 @@ namespace gea {
 	ShadowUdpHandle(gea::UdpHandle::Mode mode, const gea::UdpAddress& addr);
 
 	virtual ~ShadowUdpHandle();
-    
+
 	virtual int setSrc(const UdpAddress& src_addr);
 	virtual void setDest(const UdpAddress &dest_addr);
 	virtual int write(const char *buf, int size);
-        
+
 	virtual int read (char *buf, int size);
 	virtual UdpAddress getSrc() const;
 	virtual UdpAddress getDest() const;
     };
-    
+
 }
 
 #endif //SHADOWUDPHANDLE_H__

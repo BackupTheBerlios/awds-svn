@@ -27,7 +27,7 @@ DLLEXPORT const uint32_t UdpAddress::IPADDR_ANY = 0;
 DLLEXPORT const uint32_t UdpAddress::IPADDR_BROADCAST = 0xffffffffUL;
 
 
-DLLEXPORT UdpAddress::UdpAddress(u_int32_t ip, u_int16_t port) 
+DLLEXPORT UdpAddress::UdpAddress(u_int32_t ip, u_int16_t port)
 {
     setIP(ip);
     setPort(port);
@@ -58,11 +58,11 @@ DLLEXPORT unsigned long UdpHandle::getIP() {
 
 DLLEXPORT std::ostream &operator <<(std::ostream &s,
 			  const gea::UdpAddress &a) {
-    
+
     struct in_addr ip_addr;
-    
+
     ip_addr.s_addr = a.ip;
-    
+
     s << inet_ntoa(ip_addr)
       << ":"
       << ntohs(a.port);

@@ -9,7 +9,7 @@
 #include <gea/gea_main.h>
 
 DLLEXPORT gea::DependHandle::DependHandle() :
-    Handle() 
+    Handle()
 {
     GEA_apiIface->createSubDepend(this);
 }

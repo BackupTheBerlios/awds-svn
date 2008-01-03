@@ -81,7 +81,7 @@ void fsplit(const std::string line, const char *sep, std::vector<std::string> &w
 
 // evaluate command line arguments
 void do_getopt(int argc, const char * const *argv) {	// Extract Station Mode and List of IPs from Args
-    
+
   int a = 2;	// argument counter
   struct in_addr *tmp_bin_addr = (struct in_addr *)malloc(sizeof(struct in_addr));
   char *tmp_addr_str;
@@ -122,7 +122,7 @@ void do_getopt(int argc, const char * const *argv) {	// Extract Station Mode and
     cout << "DO_GETOPT -- No IP List specified! terminating" << endl;
     exit(EXIT_FAILURE);
   }
-    
+
   roundpkt.num_addr = argc-2;	// number of given ip:port arguments
   roundpkt.cur_addr = 0;	// for initiating station point to first IP in list
   while (a < argc) {		// extract IPs and ports
@@ -157,7 +157,7 @@ void udp_send(Handle *h, AbsTime t, void *data) {
   if (h->status == Handle::Ready) {
     h->write(static_cast<char *>(data), sizeof(struct packet_fmt));
 //    cout << "UDP_SEND -- Packet sent!" <<endl;
-  } 
+  }
   else cout << "UDP_SEND -- cannot send: status = " << h->status << endl;
 }
 
@@ -252,7 +252,7 @@ void test_io() {
     eh.waitFor(&blocker, AbsTime::now() + Duration(.5), xmit_initial, &hSend);
     eh.waitFor(&hRecv, AbsTime::now() + Duration(10.), recv_event, 0);
   }
-  
+
   if(stationMode == true) {
     {
       UdpAddress addr(Station_Port_Num, Station_Addr_String);
@@ -262,15 +262,15 @@ void test_io() {
     }
     eh.waitFor(&hRecv, AbsTime::now() + Duration(10.), recv_event, 0);
   }
-  
+
       eh.shadow->run();
 
-  
+
 }
 
 extern "C"
 int gea_main(int argc, const char * const *argv) {
-    
+
     do_getopt(argc, argv);
     cout << (stationMode?"MAIN -- station":"MAIN -- initiator") << endl;
     test_io();
@@ -279,9 +279,9 @@ int gea_main(int argc, const char * const *argv) {
 }
 
 int main(int argc, char **argv) {
-  
+
   int ret = gea_main(argc, argv);
-  
+
   GEA.shadow->run();
   return ret;
 }

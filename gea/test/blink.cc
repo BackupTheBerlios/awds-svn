@@ -20,9 +20,9 @@ public:
     gea::Blocker blocker;
     gea::UdpHandle *udp;
     gea::UdpHandle *udpRecv;
-    
+
     int nr;
-    
+
     Blink(int argc , const char*const* argv);
     static void blink_event(gea::Handle *h, gea::AbsTime t, void *data);
     static void write_ready_event(gea::Handle *h, gea::AbsTime t, void *data);
@@ -35,24 +35,24 @@ Blink::Blink(int argc , const char*const* argv) :
     nr(10)
 {
 
-    
+
     this->udp = new gea::UdpHandle( gea::UdpHandle::Write,
-				    gea::UdpAddress(gea::UdpAddress::IPADDR_BROADCAST, 
+				    gea::UdpAddress(gea::UdpAddress::IPADDR_BROADCAST,
 						    PORT)
 				    );
-    
+
     this->udpRecv = new gea::UdpHandle(gea::UdpHandle::Read,
-				       gea::UdpAddress(gea::UdpAddress::IPADDR_ANY, 
+				       gea::UdpAddress(gea::UdpAddress::IPADDR_ANY,
 						       PORT)
 				       );
 
-     GEA.waitFor(this->udpRecv, 
- 		gea::AbsTime::now() + gea::Duration(1.) ,
- 		Blink::recv_event,
- 		this);
-    
+     GEA.waitFor(this->udpRecv,
+		gea::AbsTime::now() + gea::Duration(1.) ,
+		Blink::recv_event,
+		this);
 
-    GEA.waitFor(&blocker, 
+
+    GEA.waitFor(&blocker,
 		gea::AbsTime::now() + 0.01,
 		Blink::blink_event,
 		this);
@@ -60,70 +60,70 @@ Blink::Blink(int argc , const char*const* argv) :
 
 
 void Blink::blink_event(gea::Handle *h, gea::AbsTime t, void *data) {
-    
-    
-     
+
+
+
     Blink *self = reinterpret_cast<class Blink *>(data);
 
     if (self->nr > 0)
-    GEA.waitFor( &( self->blocker ), 
+    GEA.waitFor( &( self->blocker ),
 		 t + gea::Duration(1),
 		 Blink::blink_event,
 		 data);
-    
-    GEA.waitFor( self->udp, 
+
+    GEA.waitFor( self->udp,
 		 t + gea::Duration(0.09),
- 		 Blink::write_ready_event,
- 		 data);
-    
-    
+		 Blink::write_ready_event,
+		 data);
+
+
     GEA.dbg() << "blink " << self->nr-- << " at " << ( t - t0 ) << endl;
-    
+
 }
 
 void Blink::write_ready_event(gea::Handle *h, gea::AbsTime t, void *data) {
-  
+
     //  cout << ( t - gea::AbsTime::t0()) << ": trying to send  " <<  endl;
-    
-    Blink *self = reinterpret_cast<class Blink *>(data);    
-    
+
+    Blink *self = reinterpret_cast<class Blink *>(data);
+
     const char buf[1024] = "Hallo Welt";
     if ( self->udp->write(buf,1000) == -1)
 	GEA.dbg() << "cannot send" << endl;;
 }
-    
+
 
 
 void Blink::recv_event(gea::Handle *h, gea::AbsTime t, void *data) {
-    
+
     Blink *self = reinterpret_cast<Blink *>(data);
-    
+
     char buf[2000];
     if (h->status == gea::UdpHandle::Ready) {
 	h->read(buf, 2000);
 	GEA.dbg() << " recv_event:  "<< buf << endl;
-    
+
     } else  {
-	
+
 	GEA.dbg() << " timeout " << endl;
-	
+
     }
 
-    if (self->nr > 0)    
+    if (self->nr > 0)
     GEA.waitFor(h, t + gea::Duration(2.),
 		Blink::recv_event,
 		self);
-    
-    
+
+
 }
 
 
 
 extern "C"
 int gea_main(int argc, const char * const *argv) {
-    
+
     new Blink(argc,argv);
-    
+
     return 0;
 }
 

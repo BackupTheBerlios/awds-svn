@@ -4,21 +4,21 @@
 #include <iostream>
 
 namespace gea {
-  
+
   struct AnimAddLink {
-    
+
     const int dest;
     const char * const color;
 
     AnimAddLink(int dest, const char *color = "black") :
       dest(dest) ,color(color) {}
-  
+
   };
 
   struct AnimDelLink {
 
     const int dest;
-  
+
     AnimDelLink(int dest) :
       dest(dest) {}
   };

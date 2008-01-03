@@ -21,10 +21,10 @@ void dot(Handle *h, AbsTime t, void *data) {
 
 extern "C"
 int gea_main(int argc, const char * const *argv) {
-  
+
   UnixFdHandle *h = new UnixFdHandle(0, gea::PosixModeRead);
-  
+
   GEA.waitFor(h, AbsTime::now() + Duration(1.0), dot, 0);
-  
+
   return 0;
 }

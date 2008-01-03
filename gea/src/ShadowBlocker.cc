@@ -11,7 +11,7 @@ void PosixApiIface::createSubBlocker(Blocker *b) {
 }
 
 void PosixApiIface::destroySubBlocker(Blocker *b) {
-    
+
 }
 
 /* This stuff is for emacs

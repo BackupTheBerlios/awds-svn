@@ -6,43 +6,43 @@
 
 
 /**
-   \defgroup PosixAPI 
+   \defgroup PosixAPI
 
-   \brief This part of the API is specific to the posix implementation. 
-   
-   The Posix API contains the platform specific part of the programming interface. 
+   \brief This part of the API is specific to the posix implementation.
+
+   The Posix API contains the platform specific part of the programming interface.
 */
 
 
 namespace gea {
 
-    /** \brief POSIX implementation of the GEA API 
+    /** \brief POSIX implementation of the GEA API
      *
      */
-    class PosixApiIface : public gea::ApiIface 
+    class PosixApiIface : public gea::ApiIface
     {
     public:
 	uint32_t ipAddr;
-	
+
 	PosixApiIface() : ipAddr(0) {}
-	
+
 	virtual ~PosixApiIface() {}
-	
+
 	virtual void getCurrentTime(AbsTime *p_now);
 	virtual long getCurrentNode();
-	
+
 	virtual void createSubEventHandler(EventHandler *eh);
 	virtual void destroySubEventHandler(EventHandler *eh);
 
 	virtual void createShadowHandle(Handle *p_handle);
 	virtual void destroyShadowHandle(Handle *p_handle);
-	
+
 	virtual uint32_t getIpAddr();
-	virtual void createSubUdpHandle(UdpHandle *handle, 
-					bool receiveMode, 
+	virtual void createSubUdpHandle(UdpHandle *handle,
+					bool receiveMode,
 					const UdpAddress& addr);
 	virtual void destroySubUdpHandle(UdpHandle *handle);
-	
+
 	virtual void createSubBlocker(Blocker *b);
 	virtual void destroySubBlocker(Blocker *b);
 
@@ -50,9 +50,9 @@ namespace gea {
 	virtual void destroySubDepend(DependHandle *dh);
 
     };
-    
+
     void initPosixApiIface();
-    
+
 }
 
 

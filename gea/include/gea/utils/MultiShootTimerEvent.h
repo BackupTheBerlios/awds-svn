@@ -4,7 +4,7 @@
 #include "gea/utils/MultiShootEvent.h"
 
 namespace gea {
-    
+
     class MultiShootTimerEvent : public MultiShootEvent {
     protected:
 	Blocker blocker;

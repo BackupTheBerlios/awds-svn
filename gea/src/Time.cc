@@ -6,13 +6,13 @@
 #ifdef HAVE_WINDOWS_H
 #include <windows.h>
 #endif // HAVE_WINDOWS_H
- 
+
 #include <gea/Time.h>
 #include <gea/posix/PosixApiIface.h>
 
 
 void gea::PosixApiIface::getCurrentTime(gea::AbsTime *p_now) {
-    
+
 #if HAVE_WINDOWS_H
     p_now->v = GetTickCount() * ( FixNum::offset / 1000L );
 #else
@@ -21,7 +21,7 @@ void gea::PosixApiIface::getCurrentTime(gea::AbsTime *p_now) {
     p_now->v = AbsTime::StoreType(tv.tv_sec) * FixNum::offset;
     p_now->v += AbsTime::StoreType(tv.tv_usec) * ( FixNum::offset / 1000000L );
 #endif // HAVE_WINDOWS_H
-    
+
 }
 
 
