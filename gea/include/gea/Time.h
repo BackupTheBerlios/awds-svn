@@ -79,7 +79,9 @@ namespace gea {
 	
     };
     
-    /** \brief Type for representing a fixed point in time */
+    /** \brief Type for representing a fixed point in time 
+     *  \ingroup GEA_API
+     */
     class AbsTime : public FixNum {
 	
     public:
@@ -123,6 +125,7 @@ namespace gea {
 
     /**
      *  \brief class representing the delta of two AbsTime objects. 
+     *  \ingroup GEA_API
      */
     class Duration : public FixNum {
 	

@@ -8,7 +8,8 @@
 namespace gea {
     
     /** \brief class for representing a UDP address 
-     */
+     *  \ingroup GEA_API
+     */ 
     class UdpAddress {
 
     public:	
@@ -52,6 +53,7 @@ namespace gea {
     
     
     /** \brief class for representing a UDP socket.
+     *  \ingroup GEA_API
      */
     class UdpHandle : public gea::Handle{
 	

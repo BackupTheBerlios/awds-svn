@@ -8,7 +8,7 @@
 namespace gea {
     
     /** \brief handle for Unix file descriptors 
-     * 
+     *  \ingroup PosixAPI
      */
     class UnixFdHandle : public Handle {
 	

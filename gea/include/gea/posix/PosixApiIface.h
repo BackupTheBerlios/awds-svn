@@ -4,6 +4,16 @@
 #include <gea/ApiIface.h>
 #include <stdint.h>
 
+
+/**
+   \defgroup PosixAPI 
+
+   \brief This part of the API is specific to the posix implementation. 
+   
+   The Posix API contains the platform specific part of the programming interface. 
+*/
+
+
 namespace gea {
 
     /** \brief POSIX implementation of the GEA API 

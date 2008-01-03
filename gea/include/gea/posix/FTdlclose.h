@@ -1,6 +1,7 @@
 #ifndef __FTdlclose_H_
 #define __FTdlclose_H_
 
+/* unused ..... 
 #include <gea/FlowTracker.h>
 
 #include <dlfcn.h>
@@ -18,7 +19,7 @@ namespace gea {
   };
 
 }
-
+*/
 #endif // __FTdlclose_H_
 
 /* This stuff is for emacs

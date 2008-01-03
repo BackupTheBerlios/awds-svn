@@ -26,6 +26,16 @@
 
 #endif 
 
+/** \def GEA_MAIN_2(modulename, argc, argv)
+ *  \brief define the entry point of a GEA module
+ *  \param modulename the name of the module
+ *  \param argc       will be the first parameter of the entry funtion, of type int.
+ *  \param argv       will be the second parameter of the entry funtion, of type const * const * char.
+ *  \ingroup GEA_API
+ */
+
+
+
 #endif //GEA_MAIN_H__
 /* This stuff is for emacs
  * Local variables:

@@ -5,7 +5,7 @@
 namespace gea {
     
     /** \brief Base class for all real handles
-     *
+     *  \ingroup GEA_API
      */
     class Handle {
 	
