@@ -1,4 +1,3 @@
-
 ** time representation **
 
 The time is represented by two classes:
