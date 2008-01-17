@@ -45,6 +45,7 @@ TCL_TCL_PLACES="../lib/tcl$TCL_HI_VERS \
 		/usr/lib/tcl$TCL_HI_VERS \
 		/usr/lib/tcl$TCL_ALT_VERS \
 		/usr/lib/tcl \
+		/usr/share/tcltk/tcl8.4/ \
 		/usr/share/tcl$TCL_VERS \
 		/usr/share/tcl$TCL_HI_VERS \
 		/usr/share/tcl$TCL_ALT_VERS \
@@ -166,6 +167,7 @@ TCL_LIB_PLACES=" \
                 /usr/local/lib/tcl$TCL_HI_VERS \
                 /usr/local/lib/tcl$TCL_ALT_VERS \
 		/usr/lib/tcl$TCL_VERS \
+		/usr/share/tcltk/tcl8.4 \
 		/usr/lib/tcl$TCL_HI_VERS \
 		/usr/lib/tcl$TCL_ALT_VERS \
 		../tcl$TCL_OLD_VERS/unix \
@@ -191,6 +193,7 @@ NS_CHECK_HEADER_PATH(tcl.h,$TCL_H_PLACES,$d,$TCL_H_PLACES_D,V_INCLUDE_TCL,tcl)
 NS_CHECK_HEADER_PATH(tclInt.h,$TCL_H_PLACES,$d,$TCL_H_PLACES_D,V_INCLUDE_TCL,tcl)
 NS_CHECK_LIB_PATH(tcl$TCL_HI_VERS,$TCL_LIB_PLACES,$d,$TCL_LIB_PLACES_D,V_LIB_TCL,tcl)
 NS_CHECK_ANY_PATH(init.tcl,$TCL_TCL_PLACES,$d,$TCL_TCL_PLACES_D,V_LIBRARY_TCL,tcl)
+#NS_CHECK_ANY_PATH(init.tcl,$TCL_TCL_PLACES,$d,$TCL_TCL_PLACES_D,V_LIBRARY_TCL,tcl)
 
 dnl find the pesky http library
 tcl_http_library_dir=/dev/null
@@ -202,6 +205,7 @@ tcl_http_places=" \
 	$V_LIBRARY_TCL/http2.1 \
 	$V_LIBRARY_TCL/http2.0 \
 	$V_LIBRARY_TCL/http1.0 \
+	/usr/share/tcltk/tcl8.4/http1.0 \
 	"
 NS_CHECK_ANY_PATH(http.tcl,$tcl_http_places,"","",tcl_http_library_dir,tcl)
 AC_MSG_CHECKING(Tcl http.tcl library)

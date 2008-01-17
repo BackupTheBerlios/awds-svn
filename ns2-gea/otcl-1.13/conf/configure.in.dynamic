@@ -146,6 +146,7 @@ case $system in
     Linux*)
 	SHLIB_CFLAGS="-fPIC"
 	SHLIB_LD_LIBS=""
+	echo this is linux
 	SHLIB_SUFFIX=".so"
 	if test "$have_dl" = yes; then
 	    SHLIB_LD="${CC} -shared"

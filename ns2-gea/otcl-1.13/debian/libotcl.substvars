@@ -1,0 +1,1 @@
+shlibs:Depends=tcl8.4 (>= 8.4.5), libc6 (>= 2.7-1)

@@ -36,10 +36,22 @@ major=2
 #major=`ls src/.libs/lib*.so.* | \
 # awk '{if (match($$0,/\.so\.[0-9]+$$/)) print substr($$0,RSTART+4)}'`
 
-config.status: configure
+
+config.status: configure ltmain.sh Makefile.in depcomp
 	dh_testdir
 	# Add here commands to configure the package.
-	CFLAGS="$(CFLAGS)" ./configure --with-tk-ver=8.4 --with-tcl-ver=8.4 --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info
+	CFLAGS="$(CFLAGS)" ./configure --with-tcl-ver=8.4 --with-tk-ver=8.4 \
+	--host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info
+
+ltmain.sh: 
+	libtoolize -c -f
+
+configure: configure.in
+	autoconf
+
+missing depcomp Makefile.in: Makefile.am
+	automake --foreign -a
+
 
 
 build: build-stamp
@@ -57,7 +69,9 @@ clean:
 	rm -f build-stamp 
 
 	# Add here commands to clean up after the build process.
-	-$(MAKE) distclean
+	rm -rf .libs Makefile owish otclsh *.o *.la *.so *.lo .deps depcomp
+	rm -rf config.status config.cache config.log *.a missing compile ./so_locations
+	# -$(MAKE) distclean
 ifneq "$(wildcard /usr/share/misc/config.sub)" ""
 	cp -f /usr/share/misc/config.sub config.sub
 endif
@@ -106,7 +120,7 @@ binary-arch: build install
 	dh_fixperms
 #	dh_perl
 #	dh_python
-#	dh_makeshlibs
+	dh_makeshlibs
 	dh_installdeb
 	dh_shlibdeps
 	dh_gencontrol

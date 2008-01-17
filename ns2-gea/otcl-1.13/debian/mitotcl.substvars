@@ -1,1 +1,1 @@
-shlibs:Depends=libc6 (>= 2.5-5), libx11-6, libxext6, tcl8.4 (>= 8.4.5), tk8.4 (>= 8.4.5)
+shlibs:Depends=tk8.4 (>= 8.4.5), tcl8.4 (>= 8.4.5), libxext6, libx11-6, libc6 (>= 2.7-1)

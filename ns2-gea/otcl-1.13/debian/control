@@ -4,20 +4,33 @@ Maintainer: Andre Herms <aherms@ivs.cs.uni-magdeburg.de>
 Build-Depends: debhelper (>= 4.0.0), tcl8.4-dev, tk8.4-dev, tk8.4, tcl8.4 
 Standards-Version: 3.7.2
 
-Package: mitotcl-dev
-Section: libdev
+Package: libotcl-dev
+Section: libdevel
 Architecture: any
-Depends: mitotcl (= ${Source-Version}), tcl8.4-dev, tk8.4-dev
+Depends: libotcl1 (= ${binary:Version}), tcl8.4-dev, tk8.4-dev
+Conflicts: mitotcl, mitotcl-dev
 Description: The MIT object oriented extension for Tcl -- header file
  OTcl, short for MIT Object Tcl, is an extension to Tcl/Tk for
  object-oriented programming. It shouldn't be confused with the IXI
  Object Tcl extension by Dean Sheenan. (Sorry, but we both like the
  name and have been using it for a while.)
 
-Package: mitotcl
+Package: libotcl1
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, tk8.4, tcl8.4
+Conflicts: mitotcl, mitotcl-dev
+Description: The MIT object oriented extension for Tcl 
+ OTcl, short for MIT Object Tcl, is an extension to Tcl/Tk for
+ object-oriented programming. It shouldn't be confused with the IXI
+ Object Tcl extension by Dean Sheenan. (Sorry, but we both like the
+ name and have been using it for a while.)
+
+Package: libotcl-bin
+Section: interpreters
+Architecture: any
+Depends: ${shlibs:Depends}, tk8.4, tcl8.4
+Conflicts: mitotcl, mitotcl-dev
 Description: The MIT object oriented extension for Tcl 
  OTcl, short for MIT Object Tcl, is an extension to Tcl/Tk for
  object-oriented programming. It shouldn't be confused with the IXI

@@ -1,2 +1,3 @@
-mitotcl-dev_1.13-1_i386.deb libdev optional
-mitotcl_1.13-1_i386.deb libs optional
+libotcl-dev_1.13-2_i386.deb libdevel optional
+libotcl1_1.13-2_i386.deb libs optional
+libotcl-bin_1.13-2_i386.deb interpreters optional
