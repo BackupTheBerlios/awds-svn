@@ -47,6 +47,7 @@ TK_TCL_PLACES=" \
                 /usr/src/local/tk$TK_ALT_VERS/library \
                 /usr/src/local/tk$TK_HI_VERS/library \
                 /usr/contrib/include \
+		/usr/share/tcltk/tk8.4 \
                 /usr/local/lib/tk$TK_VERS \
                 /usr/local/lib/tk$TK_ALT_VERS \
                 /usr/local/lib/tk$TK_HI_VERS \

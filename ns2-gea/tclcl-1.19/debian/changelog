@@ -1,3 +1,10 @@
+tclcl (1.19-2) unstable; urgency=low
+
+  * switch to renamed libotcl
+  * fixed bug in finding tcl and tk in new debian standard paths
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Thu, 17 Jan 2008 08:08:30 +0100
+
 tclcl (1.19-1) unstable; urgency=low
 
   * new upstream version

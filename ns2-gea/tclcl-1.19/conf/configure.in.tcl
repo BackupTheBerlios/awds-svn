@@ -31,6 +31,7 @@ TCL_TCL_PLACES_D="$d \
 		/usr/local/lib/tcl$TCL_HI_VERS \
 		/usr/local/lib/tcl$TCL_VERS \
 		/usr/local/lib/tcl$TCL_ALT_VERS \
+		/usr/share/tcltk/tcl8.4 \
 		$d/lib \
 		$d/library \
 		"
@@ -45,6 +46,7 @@ TCL_TCL_PLACES="../lib/tcl$TCL_HI_VERS \
 		/usr/lib/tcl$TCL_HI_VERS \
 		/usr/lib/tcl$TCL_ALT_VERS \
 		/usr/lib/tcl \
+                /usr/share/tcltk/tcl8.4 \
 		/usr/share/tcl$TCL_VERS \
 		/usr/share/tcl$TCL_HI_VERS \
 		/usr/share/tcl$TCL_ALT_VERS \
