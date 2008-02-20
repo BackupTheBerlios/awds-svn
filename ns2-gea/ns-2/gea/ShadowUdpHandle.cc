@@ -169,7 +169,7 @@ int gea::ShadowUdpHandle::write(const char *buf, int size) {
 	return -1;
 
     this->send(size, buf);
-    return 0;
+    return size;
 }
 
 gea::UdpAddress gea::ShadowUdpHandle::getSrc() const {

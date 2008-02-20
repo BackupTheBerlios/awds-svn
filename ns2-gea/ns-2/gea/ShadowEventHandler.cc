@@ -21,7 +21,6 @@ using namespace gea;
 
 /* ---- the shadow object -------- */
 
-
 ::TclObject *gea::ShadowEventHandler::currentNode = 0;
 
 int gea::ShadowEventHandler::getCurrentNodeID() {
@@ -59,7 +58,7 @@ void gea::ShadowEventHandler::waitFor(gea::Handle *h,
 				void *data) {
     
     h->status = Handle::Blocked;
-
+    
     if (h->shadowHandle->isBlocker()) {
 	::Event *e = new GeaNsEvent(this, h, timeout, event, data);
 
