@@ -32,7 +32,7 @@ config.status: configure Makefile.in
 	# Add here commands to configure the package.
 	CFLAGS="$(CFLAGS)" ./configure --with-tcl-ver=8.4 \
 		--disable-devel --enable-release \
-		--with-tk=no --host=$(DEB_HOST_GNU_TYPE) \
+		--with-tk-ver=8.4 --host=$(DEB_HOST_GNU_TYPE) \
 		--build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr \
 		--mandir=\$${prefix}/share/man \
 		--infodir=\$${prefix}/share/info
@@ -58,6 +58,8 @@ clean:
 	-$(MAKE) distclean || true
 	rm -f indep-utils/cmu-scen-gen/setdest/calcdest
 	rm -f config.sub config.guess config.status config.log
+	find -name "*.o" -exec rm -f {} \;
+	rm -f ns nse
 ifneq "$(wildcard /usr/share/misc/config.sub)" ""
 	cp -f /usr/share/misc/config.sub config.sub
 endif
