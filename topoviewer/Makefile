@@ -10,14 +10,17 @@ batik-1.6.zip:
 
 xerces-2_9_0/xercesImpl.jar: Xerces-J-bin.2.9.0.zip
 	jar xvf Xerces-J-bin.2.9.0.zip xerces-2_9_0/xercesImpl.jar
+	touch $@
 
 org/apache/xerces/parsers/SAXParser.class: xerces-2_9_0/xercesImpl.jar
 	jar xf xerces-2_9_0/xercesImpl.jar
+	touch $@
 
 org/apache/batik/swing/JSVGCanvas.class: batik-1.6/lib/batik-swing.jar \
 		batik-1.6/lib/batik-gvt.jar
 	jar xf batik-1.6/lib/batik-swing.jar
 	jar xf batik-1.6/lib/batik-gvt.jar 
+	touch $@
 
 TopologyViewer.jar:  org/apache/batik/util/HaltingThread.class \
 org/apache/xerces/parsers/SAXParser.class \
@@ -34,57 +37,75 @@ compile-stamp
 
 batik-1.6/lib/batik-gvt.jar : batik-1.6.zip
 	jar xf $^ $@
+	touch $@
 
 batik-1.6/lib/batik-swing.jar : batik-1.6.zip
 	jar xf $^ $@
+	touch $@
 
 batik-1.6/lib/batik-svggen.jar: batik-1.6.zip
 	jar xf $^ $@
+	touch $@
 
 batik-1.6/lib/batik-dom.jar: batik-1.6.zip
 	jar xf $^ $@
+	touch $@
 
 batik-1.6/lib/batik-util.jar: batik-1.6.zip
 	jar xf $^ $@
+	touch $@
 
 batik-1.6/lib/batik-bridge.jar: batik-1.6.zip
 	jar xf $^ $@
+	touch $@
 
 batik-1.6/lib/batik-awt-util.jar: batik-1.6.zip
 	jar xf $^ $@
+	touch $@
 
 batik-1.6/lib/batik-svg-dom.jar: batik-1.6.zip
 	jar xf $^ $@
+	touch $@
 
 batik-1.6/lib/batik-ext.jar: batik-1.6.zip
 	jar xf $^ $@
+	touch $@
 
 batik-1.6/lib/batik-css.jar: batik-1.6.zip
 	jar xf $^ $@
+	touch $@
 
 org/apache/batik/bridge/UserAgent.class: batik-1.6/lib/batik-bridge.jar
 	jar xf $^
+	touch $@
 
 org/apache/batik/util/HaltingThread.class: batik-1.6/lib/batik-util.jar 
 	jar xf $^
+	touch $@
 
 org/apache/batik/svggen/SVGGraphics2D.class: batik-1.6/lib/batik-svggen.jar
 	jar xf $^
+	touch $@
 
 org/apache/batik/dom/svg/SVGGraphicsElement.class: batik-1.6/lib/batik-svg-dom.jar
 	jar xf $^
+	touch $@
 
 org/apache/batik/dom/GenericDOMImplementation.class: batik-1.6/lib/batik-dom.jar
 	jar xf $^
+	touch $@
 
 org/apache/batik/ext/awt/g2d/AbstractGraphics2D.class: batik-1.6/lib/batik-awt-util.jar
 	jar xf $^
+	touch $@
 
 org/w3c/dom/svg/SVGSVGElement.class: batik-1.6/lib/batik-ext.jar
 	jar xf $^
+	touch $@
 
 org/apache/batik/css/engine/CSSContext.class: batik-1.6/lib/batik-css.jar
 	jar xf $^
+	touch $@
 
 compile-stamp: src/graphlayout/*.java src/graphlayout/*/*.java
 	javac -d . src/graphlayout/*.java src/graphlayout/*/*.java
