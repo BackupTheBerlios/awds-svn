@@ -623,7 +623,7 @@ public class TopologyViewer extends JFrame{
     item.setForeground(FOREGROUND);
     item.setOpaque(true);
     item.addActionListener(menuAction);
-    item.setAccelerator(KeyStroke.getKeyStroke('E', Event.CTRL_MASK));
+    item.setAccelerator(KeyStroke.getKeyStroke('V', Event.CTRL_MASK));
     menu.add(item);
 
     item = new JMenuItem(menu_text[8]);
