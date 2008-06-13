@@ -138,7 +138,7 @@ private:
 	 * table.
 	 */
 	Trace		*logtarget;
-	void trace(char* fmt, ...);
+	void trace(const char* fmt, ...);
 	virtual void reset();
 
         /*

@@ -70,6 +70,7 @@ static const char rcsid[] =
 #endif /* !OLD_RNG */
 #include "rng.h"
 
+
 #ifdef OLD_RNG
 /*
  * RNGImplementation

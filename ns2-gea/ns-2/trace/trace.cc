@@ -190,7 +190,7 @@ void Trace::write_annotation(const char*s)
 }
 // end of RealChannelPropagation -------------------------------
 
-char* srm_names[] = {
+const char* srm_names[] = {
         SRM_NAMES
 };
 

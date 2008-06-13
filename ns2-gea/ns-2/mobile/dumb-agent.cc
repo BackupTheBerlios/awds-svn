@@ -92,7 +92,7 @@ void DumbAgent::recv(Packet *p, Handler *h=0)
   hdr_ip *iph = HDR_IP(p);
   
   if (ch->direction() == hdr_cmn::UP) { // in-coming pkt
-    if ((u_int32_t)iph->daddr() == IP_BROADCAST) {
+    if (iph->daddr() == IP_BROADCAST) {
 //      printf("Recvd brdcast pkt\n");
       dmux_->recv(p, 0);
     

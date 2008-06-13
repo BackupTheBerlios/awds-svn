@@ -320,10 +320,15 @@ Mac802_11::trace_pkt(Packet *p)
 {
 	struct hdr_cmn *ch = HDR_CMN(p);
 	struct hdr_mac802_11* dh = HDR_MAC802_11(p);
-	u_int16_t *t = (u_int16_t*) &dh->dh_fc;
+	union { 
+		u_int16_t t16;
+		struct frame_control fc;
+	} t;
+	t.fc = dh->dh_fc;
+	//u_int16_t *t = (u_int16_t*) &dh->dh_fc;
 
 	fprintf(stderr, "\t[ %2x %2x %2x %2x ] %x %s %d\n",
-		*t, dh->dh_duration,
+		t.t16, dh->dh_duration,
 		 ETHER_ADDR(dh->dh_ra), ETHER_ADDR(dh->dh_ta),
 		index_, packet_info.name(ch->ptype()), ch->size());
 }
@@ -709,7 +714,7 @@ Mac802_11::beaconHandler()
 {
 	sendBEACON();
 	
-	double rTime;
+	double rTime = -12.; // generate a runtime error, when not reinitilized.
 	struct hdr_mac802_11* dh = HDR_MAC802_11(pktBEACON_);
 
 //	fprintf(stdout, "Beacon uid %d\n", pktBEACON_->uid_);

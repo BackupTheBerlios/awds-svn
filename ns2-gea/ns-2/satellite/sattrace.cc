@@ -67,7 +67,7 @@ public:
 } sat_trace_class;
 
 // XXX this should be moved from trace.cc to trace.h 
-char* srm_names_[] = {
+const char* srm_names_[] = {
 	SRM_NAMES
 };
 

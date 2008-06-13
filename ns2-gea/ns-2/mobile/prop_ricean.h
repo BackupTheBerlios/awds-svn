@@ -68,7 +68,7 @@ protected:
 
 	Trace  *trtarget_;
 
-	void trace(char *fmt, ...);
+	void trace(const char *fmt, ...);
 };
 
 

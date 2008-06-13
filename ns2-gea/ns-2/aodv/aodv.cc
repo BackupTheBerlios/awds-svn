@@ -308,7 +308,7 @@ nsaddr_t broken_nbr = ch->next_hop_;
   * Non-data packets and Broadcast Packets can be dropped.
   */
   if(! DATA_PACKET(ch->ptype()) ||
-     (u_int32_t) ih->daddr() == IP_BROADCAST) {
+     ih->daddr() == IP_BROADCAST) {
     drop(p, DROP_RTR_MAC_CALLBACK);
     return;
   }
@@ -580,7 +580,7 @@ if((ih->saddr() == index) && (ch->num_forwards() == 0)) {
   */
    ch->size() += IP_HDR_LEN;
    // Added by Parag Dadhania && John Novatnack to handle broadcasting
-   if ( (u_int32_t)ih->daddr() != IP_BROADCAST)
+   if ( ih->daddr() != IP_BROADCAST)
      ih->ttl_ = NETWORK_DIAMETER;
 }
  /*
@@ -604,7 +604,7 @@ else if(ih->saddr() == index) {
    }
  }
 // Added by Parag Dadhania && John Novatnack to handle broadcasting
- if ( (u_int32_t)ih->daddr() != IP_BROADCAST)
+ if ( ih->daddr() != IP_BROADCAST)
    rt_resolve(p);
  else
    forward((aodv_rt_entry*) 0, p, NO_DELAY);
@@ -1010,7 +1010,7 @@ struct hdr_ip *ih = HDR_IP(p);
  }
 
  if (ch->ptype() != PT_AODV && ch->direction() == hdr_cmn::UP &&
-	((u_int32_t)ih->daddr() == IP_BROADCAST)
+     (ih->daddr() == IP_BROADCAST)
 		|| (ih->daddr() == here_.addr_)) {
 	dmux_->recv(p,0);
 	return;

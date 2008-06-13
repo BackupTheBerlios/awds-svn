@@ -446,14 +446,8 @@ Simulator instproc node-config args {
 
         $self instvar addressType_  routingAgent_ propType_  macTrace_ \
 	    routerTrace_ agentTrace_ movementTrace_ channelType_ channel_ \
-<<<<<<< ns-lib.tcl
-	    #//ModLart 05/19/06 11:46
 	    chan topoInstance_ propInstance_ mobileIP_ isAp_ \
 	    rxPower_ txPower_ idlePower_ sleepPower_ transitionPower_ \
-=======
-	    chan topoInstance_ propInstance_ mobileIP_ \
-	    rxPower_ txPower_ idlePower_ sleepPower_ sleepTime_ transitionPower_ \
->>>>>>> 1.274
 	    transitionTime_ satNodeType_ eotTrace_
 
         if [info exists macTrace_] {
@@ -611,13 +605,8 @@ Simulator instproc create-wireless-node args {
         $self instvar routingAgent_ wiredRouting_ propInstance_ llType_ \
 	    macType_ ifqType_ ifqlen_ phyType_ chan antType_ \
 	    energyModel_ initialEnergy_ txPower_ rxPower_ \
-<<<<<<< ns-lib.tcl
-	    idlePower_ sleepPower_ transitionPower_ transitionTime_ \
-	    topoInstance_ level1_ level2_ inerrProc_ outerrProc_ FECProc_ isAp_
-=======
 	    idlePower_ sleepPower_ sleepTime_ transitionPower_ transitionTime_ \
-	    topoInstance_ level1_ level2_ inerrProc_ outerrProc_ FECProc_
->>>>>>> 1.274
+	    topoInstance_ level1_ level2_ inerrProc_ outerrProc_ FECProc_ isAp_
 
 	Simulator set IMEPFlag_ OFF
 	

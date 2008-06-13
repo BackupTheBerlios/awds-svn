@@ -65,7 +65,7 @@ public:
 
 
 // Added by Sushmita to support event tracing (singal@nunki.usc.edu).
-void MacSimple::trace_event(char *eventtype, Packet *p)
+void MacSimple::trace_event(const char *eventtype, Packet *p)
 {
 	if (et_ == NULL) return;
 	char *wrk = et_->buffer();

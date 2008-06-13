@@ -249,10 +249,15 @@ void MacTdma::trace_pkt(Packet *p)
 {
 	struct hdr_cmn *ch = HDR_CMN(p);
 	struct hdr_mac_tdma* dh = HDR_MAC_TDMA(p);
-	u_int16_t *t = (u_int16_t*) &dh->dh_fc;
+	union {
+		u_int16_t t16;
+		struct frame_control fc;
+	} t;
+	t.fc = dh->dh_fc;
+	//	u_int16_t *t = (u_int16_t*) &dh->dh_fc;
 
 	fprintf(stderr, "\t[ %2x %2x %2x %2x ] %x %s %d\n",
-		*t, dh->dh_duration,
+		t.t16, dh->dh_duration,
 		ETHER_ADDR(dh->dh_da), ETHER_ADDR(dh->dh_sa),
 		index_, packet_info.name(ch->ptype()), ch->size());
 }

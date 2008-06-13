@@ -41,7 +41,7 @@ static const char rcsid[] =
 #include "flags.h"
 
 p_info packet_info;
-char* p_info::name_[PT_NTYPE+1];
+const char* p_info::name_[PT_NTYPE+1];
 
 int Packet::hdrlen_ = 0;		// size of a packet's header
 Packet* Packet::free_;			// free list

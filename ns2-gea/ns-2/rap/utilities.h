@@ -75,7 +75,7 @@
 extern FILE * DebugEnable(unsigned int nodeid);
 
 // Print debug message if flag is enabled
-extern void Debug (int debugFlag, FILE *log, char* format, ...); 
+extern void Debug (int debugFlag, FILE *log, const char* format, ...); 
 
 
 

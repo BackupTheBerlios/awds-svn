@@ -224,7 +224,7 @@ void TracePagePool::change_time()
 ServerPage* TracePagePool::load_page(FILE *fp)
 {
 	static char buf[TRACEPAGEPOOL_MAXBUF];
-	char *delim = " \t\n";
+	const char *delim = " \t\n";
 	char *tmp1, *tmp2;
 	ServerPage *pg;
 

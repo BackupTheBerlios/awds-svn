@@ -52,14 +52,16 @@
 
 /* CMT rtx policies
  */
-typedef enum CmtRtxPolicy_E
+enum CmtRtxPolicy_E_xxx
 {
   RTX_ASAP,
   RTX_TO_SAME,
   RTX_SSTHRESH,
   RTX_LOSSRATE,
   RTX_CWND
-};
+} ;
+
+typedef int CmtRtxPolicy_E;
 
 class SctpCMTAgent : public virtual SctpAgent 
 {
@@ -110,7 +112,7 @@ protected:
    */
   SctpDest_S* SelectRtxDest(SctpSendBufferNode_S*, SctpRtxLimit_E);
   void        SetSharedCCParams(SctpDest_S*);
-  char*       PrintDestStatus(SctpDest_S*);
+  const char*       PrintDestStatus(SctpDest_S*);
 
   /* new CMT-PF function
    */

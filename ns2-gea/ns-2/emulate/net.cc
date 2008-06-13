@@ -151,7 +151,7 @@ Network::parsemode(const char *mname)
 	return (::atoi(mname));
 }
 
-char *
+const char *
 Network::modename(int mode)
 {
 	switch (mode) {

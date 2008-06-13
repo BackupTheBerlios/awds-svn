@@ -42,7 +42,7 @@
 #include <prop_ricean.h>
 
 void
-PropRicean::trace(char* fmt, ...)
+PropRicean::trace(const char* fmt, ...)
 {
 	char tmp_Trace[2048];   // Added by Wu Xiuchao
 	va_list ap;

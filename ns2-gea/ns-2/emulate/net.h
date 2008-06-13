@@ -71,7 +71,7 @@ public:
 	int mode() { return mode_; }
 	static int nonblock(int fd);
 	static int parsemode(const char*);  // strings to mode bits
-	static char* modename(int);	    // and the reverse
+	static const char* modename(int);   // and the reverse
 protected:
 	int mode_;	// read/write bits (from fcntl.h)
 };

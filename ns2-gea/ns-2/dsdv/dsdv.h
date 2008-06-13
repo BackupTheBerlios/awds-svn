@@ -79,7 +79,7 @@ protected:
   void helper_callback(Event *e);
   Packet* rtable(int);
   virtual void recv(Packet *, Handler *);
-  void trace(char* fmt, ...);
+  void trace(const char* fmt, ...);
   void tracepkt(Packet *, double, int, const char *);
   void needTriggeredUpdate(rtable_ent *prte, Time t);
   // if no triggered update already pending for route prte, make one so

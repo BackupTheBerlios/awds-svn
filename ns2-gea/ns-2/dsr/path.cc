@@ -303,12 +303,14 @@ Path::reverse() const
 {
   if (len == 0) return *this;
   Path p;
-
+  p.path_owner = this->path_owner;
+  
   int from, to;
   for (from = 0, to = (len-1) ; from < len ; from++,to--)
     p.path[to] = path[from];
   p.len = len;
   p.cur_index = (len - 1) - cur_index;
+  
   return p;
 }
 

@@ -83,7 +83,7 @@ void TagFilter::recv(Message *msg, handle h)
 
 void TagFilter::ProcessMessage(Message *msg)
 {
-  char *original_route;
+  const char *original_route;
   char *new_route;
   int len, total_len;
   NRSimpleAttribute<char *> *route = NULL;

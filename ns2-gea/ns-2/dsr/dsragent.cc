@@ -626,7 +626,7 @@ DSRAgent::recv(Packet* packet, Handler*)
   assert(logtarget != 0);
 
   if (srh->valid() != 1) {
-    unsigned int dst = cmh->next_hop();
+    nsaddr_t dst = cmh->next_hop();
     if (dst == IP_BROADCAST) {
       // extensions for mobileIP --Padma, 04/99.
       // Brdcast pkt - treat differently
@@ -2241,7 +2241,7 @@ DSRAgent::sendRouteShortening(SRPacket &p, int heard_at, int xmit_at)
   debug and trace output
 ------------------------------------------------------------*/
 void
-DSRAgent::trace(char* fmt, ...)
+DSRAgent::trace(const char* fmt, ...)
 {
   va_list ap;
   

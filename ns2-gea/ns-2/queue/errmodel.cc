@@ -96,7 +96,7 @@ public:
 	}
 } class_traceerrormodel;
 
-static char* eu_names[] = { EU_NAMES };
+static const char* eu_names[] = { EU_NAMES };
 
 inline double comb(int n, int k) {
 	int i;
@@ -551,7 +551,7 @@ int ComplexTwoStateErrorModel::corruptPkt(Packet* p)
 
 
 
-static char * st_names[]={ST_NAMES};
+static const char * st_names[]={ST_NAMES};
 
 /*
 // MultiState ErrorModel:

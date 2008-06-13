@@ -136,7 +136,7 @@ RouteCache::command(int argc, const char*const* argv)
 }
 
 void
-RouteCache::trace(char* fmt, ...)
+RouteCache::trace(const char* fmt, ...)
 {
   va_list ap;
   

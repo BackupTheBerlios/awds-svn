@@ -2171,7 +2171,7 @@ void TcpAgent::process_qoption_after_ack (int seqno)
 	}
 }
 
-void TcpAgent::trace_event(char *eventtype)
+void TcpAgent::trace_event(const char *eventtype)
 {
 	if (et_ == NULL) return;
 	int seqno = t_seqno_;

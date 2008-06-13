@@ -114,7 +114,7 @@ public:
 	MemTrace() {
 		start_.checkpoint();
 	}
-	void diff(char* prompt) {
+	void diff(const char* prompt) {
 		now_.checkpoint();
 		fprintf (stdout, "%s: utime/stime: %ld %ld \tstack/heap: %ld %ld\n",
 			 prompt, 

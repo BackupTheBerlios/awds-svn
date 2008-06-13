@@ -73,7 +73,7 @@ public:
 	double txtime(Packet *p);
 
 	// Added by Sushmita to support event tracing (singal@nunki.usc.edu)
-	void trace_event(char *, Packet *);
+	void trace_event(const char *, Packet *);
 	int command(int, const char*const*);
 	EventTrace *et_;
 

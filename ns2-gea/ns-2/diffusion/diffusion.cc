@@ -87,9 +87,9 @@ void XmitFailedCallback(Packet *pkt, void *data)
   agent->xmitFailed(pkt);
 }
 
-char *MsgStr[]= {"", "INTEREST", "DATA", "DATA_READY", "DATA_REQUEST",
-		"POS_REINFORCE", "NEG_REINFORCE", "INHIBIT", "TX_FAILED",
-		"DATA_STOP" };
+const char *MsgStr[]= {"", "INTEREST", "DATA", "DATA_READY", "DATA_REQUEST",
+			      "POS_REINFORCE", "NEG_REINFORCE", "INHIBIT", "TX_FAILED",
+			      "DATA_STOP" };
 
 int hdr_cdiff::offset_;
 static class DiffHeaderClass : public PacketHeaderClass {

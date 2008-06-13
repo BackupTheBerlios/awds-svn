@@ -621,8 +621,8 @@ void GAFPartner::recv(Packet* p, Handler *h)
 	/* own ip address */	
 	if ( hdrc->ptype() == PT_GAF ) {
 	  if (gafagent_ == 1) {
-	    if (((u_int32_t)hdr->daddr()) == IP_BROADCAST) {
-		hdr->daddr() = here_.addr_;
+	    if ((hdr->daddr()) == IP_BROADCAST) {
+	      hdr->daddr() = here_.addr_;
 	    }	    
 	  } else {
 	    /* if gafagent is not installed, drop the packet */

@@ -130,7 +130,7 @@ CMUPriQueue::log_stats()
 }
 
 void
-CMUPriQueue::trace(char* fmt, ...)
+CMUPriQueue::trace(const char* fmt, ...)
 {
 	va_list ap;
   

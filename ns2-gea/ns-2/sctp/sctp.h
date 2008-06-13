@@ -62,11 +62,12 @@
 #define RTO_BETA              0.25   // RTO.Beta is 1/4
 
 #define MAX_BURST             4
-enum MaxBurstUsage_E
+enum MaxBurstUsage_E_old
 {
   MAX_BURST_USAGE_OFF,      // 0
   MAX_BURST_USAGE_ON        // 1
 };
+typedef int MaxBurstUsage_E; // it must be an int, for the delay_bind stuff.
 
 /* Let us use OUR typedef'd enum for FALSE and TRUE. It's much better this way.
  * ...why? because NOW all boolean variables can be explicitly declared as
@@ -75,11 +76,23 @@ enum MaxBurstUsage_E
  */
 #undef FALSE
 #undef TRUE
-enum Boolean_E
-{
-  FALSE,
-  TRUE
-};
+/* enum Boolean_E */
+/* { */
+/*   FALSE, */
+/*   TRUE */
+/* }; */
+
+/* Onjo says: This is buggy! Later you map pointers to Boolean_E to pointers of int. 
+ * However, maybe they do not match in size. We do not know. So we make it an 
+ * alias again.
+ */
+enum Boolean_E_old
+{ 
+  FALSE, 
+  TRUE 
+}; 
+typedef int Boolean_E;
+
 
 /* Each time the sender retransmits marked chunks, how many can be sent? Well,
  * immediately after a timeout or when the 4 missing report is received, only
@@ -100,22 +113,25 @@ enum MarkedForRtx_E
   TIMEOUT_RTX
 };
 
-enum RtxToAlt_E
+enum RtxToAlt_E_old
 {
   RTX_TO_ALT_OFF,
   RTX_TO_ALT_ON,
   RTX_TO_ALT_TIMEOUTS_ONLY
 };
 
+typedef int RtxToAlt_E; // must be an int for delay_bind.
+
 /* What behavior is used during dormant state (ie, all destinations have
  * failed) when timeouts persist?
  */
-enum DormantAction_E
+enum DormantAction_E_old
 {
   DORMANT_HOP,        // keep hopping to another destination
   DORMANT_PRIMARY,    // goto primary and stay there
   DORMANT_LASTDEST    // stay at the last destination used before dormant state
 };
+typedef int DormantAction_E; // must be an int for delay_bind()
 
 /* Who controls the data sending, app layer or the transport layer 
  * (as in the case of infinite data)

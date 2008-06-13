@@ -87,7 +87,7 @@ FILE * DebugEnable(unsigned int nodeid)
 //      Print a debug message if debugFlag is enabled. Like printf.
 //----------------------------------------------------------------------
 
-void Debug(int debugFlag, FILE *log, char *format, ...)
+void Debug(int debugFlag, FILE *log, const char *format, ...)
 {
   if (debugFlag) 
     {

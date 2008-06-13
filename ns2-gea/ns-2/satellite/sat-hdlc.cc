@@ -499,7 +499,7 @@ void HDLC::sendDown(Packet* p)
 
 	case NS_AF_INET:
 	case NS_AF_NONE:
-		if (IP_BROADCAST == (u_int32_t) dst)
+		if (IP_BROADCAST == dst)
 			{
 			mac_->hdr_dst((char*) HDR_MAC(p), MAC_BROADCAST);
 			break;

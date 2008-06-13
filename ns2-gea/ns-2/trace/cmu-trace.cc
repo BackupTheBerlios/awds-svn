@@ -124,8 +124,8 @@ CMUTrace::format_mac_common(Packet *p, const char *why, int offset)
 {
 	struct hdr_cmn *ch = HDR_CMN(p);
 	struct hdr_ip *ih = HDR_IP(p);
-	struct hdr_mac802_11 *mh;
-	struct hdr_smac *sh;
+	struct hdr_mac802_11 *mh = 0;
+	struct hdr_smac *sh = 0;
 	char mactype[SMALL_LEN];
 
 	strcpy(mactype, Simulator::instance().macType());
@@ -1094,8 +1094,9 @@ CMUTrace::nam_format(Packet *p, int offset)
 //<zheng: ns 2.27 removed the following part, but we need it to control the broadcast radius>
 if (Nam802_15_4::Nam_Status)
 {
-	if ((strcmp(tracename, "AGT") != 0) || ((u_int32_t)(ih->daddr()) == IP_BROADCAST))		//<zheng: add: next_hop info not available at agent level>
-											//(doesn't really matter -- seems agent level has no effect on nam)
+	if ((strcmp(tracename, "AGT") != 0) || ((ih->daddr()) == IP_BROADCAST))
+		//<zheng: add: next_hop info not available at agent level>
+		//(doesn't really matter -- seems agent level has no effect on nam)
 	if (next_hop == -1 && op == 'h') {
 		// print extra fields for broadcast packets
 

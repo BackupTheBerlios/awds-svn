@@ -205,7 +205,7 @@ imepAgent::removeObjectResponse(Packet *p, nsaddr_t index)
 
 	if(INT32_T(r0->resp_ipaddr) != index) {
 	  if (verbose) 
-	    trace("T %.9f _%d_ dup ack(?) from %d", CURRENT_TIME, ipaddr, index);
+		  trace("T %.9f _%d_ dup ack(?) from %d", CURRENT_TIME, ipaddr, index);
 	  return;
 	}
 
@@ -1008,7 +1008,7 @@ imepAgent::log_neighbor_list()
 }
 
 void
-imepAgent::trace(char* fmt, ...)
+imepAgent::trace(const char* fmt, ...)
 {
   va_list ap;
   

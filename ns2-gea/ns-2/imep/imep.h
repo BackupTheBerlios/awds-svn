@@ -242,7 +242,7 @@ class imepAgent : public Agent {
 
 	void imep_dump_header(Packet *p);
 public:
-	void trace(char* fmt, ...);
+	void trace(const char* fmt, ...);
 private:
 
 	void log_neighbor_list(void);

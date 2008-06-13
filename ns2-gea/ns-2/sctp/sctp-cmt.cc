@@ -4008,7 +4008,7 @@ void SctpCMTAgent::SackGenTimerExpiration() // section 6.2
 /* New CMT function:
  * Function returns dest status as string for printing
  */
-char* SctpCMTAgent::PrintDestStatus(SctpDest_S* spDest)
+const char* SctpCMTAgent::PrintDestStatus(SctpDest_S* spDest)
 {
   switch(spDest->eStatus)
     {

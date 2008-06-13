@@ -692,7 +692,7 @@ toraAgent::recvCLR(Packet *p)
 }
 
 void
-toraAgent::trace(char* fmt, ...)
+toraAgent::trace(const char* fmt, ...)
 {
   va_list ap;
   

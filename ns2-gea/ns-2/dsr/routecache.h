@@ -97,7 +97,7 @@ public:
   // the returned route
 
   virtual int command(int argc, const char*const* argv);
-  void trace(char* fmt, ...);
+  void trace(const char* fmt, ...);
 
   // *******************************************************
 

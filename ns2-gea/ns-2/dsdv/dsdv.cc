@@ -74,7 +74,7 @@ jitter (double max, int be_random_)
 }
 
 void DSDV_Agent::
-trace (char *fmt,...)
+trace (const char *fmt,...)
 {
   va_list ap;
 
@@ -114,7 +114,7 @@ DSDV_Agent::tracepkt (Packet * p, double now, int me, const char *type)
   // Now do trigger handling.
   //trace("VTU %.5f %d", now, me);
   if (verbose_)
-    trace ("%s", buf);
+	  trace ("%s", buf);
 }
 
 // Prints out an rtable element.

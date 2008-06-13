@@ -56,13 +56,6 @@
 
 #include "diffusion/diff_header.h"
 
-<<<<<<< wireless-phy.cc
-//#define MAX(a,b) (((a)<(b))?(b):(a))
-
-
-
-=======
->>>>>>> 1.28
 void Sleep_Timer::expire(Event *) {
 	a_->UpdateSleepEnergy();
 }

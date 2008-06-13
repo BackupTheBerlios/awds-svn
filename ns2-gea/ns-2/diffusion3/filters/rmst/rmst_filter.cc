@@ -42,10 +42,10 @@
 
 #include "rmst_filter.hh"
 
-char *rmstmsg_types[] = {"INTEREST", "POSITIVE REINFORCEMENT",
-                     "NEGATIVE REINFORCEMENT", "DATA",
-                     "EXPLORATORY DATA", "PUSH EXPLORATORY DATA",
-                     "CONTROL", "REDIRECT"};
+const char *rmstmsg_types[] = { "INTEREST", "POSITIVE REINFORCEMENT",
+				"NEGATIVE REINFORCEMENT", "DATA",
+				"EXPLORATORY DATA", "PUSH EXPLORATORY DATA",
+				"CONTROL", "REDIRECT"};
 
 #ifdef NS_DIFFUSION
 class DiffAppAgent;

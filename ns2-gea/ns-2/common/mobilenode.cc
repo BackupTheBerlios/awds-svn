@@ -426,7 +426,7 @@ MobileNode::set_destination(double x, double y, double s)
 	dY_ = destY_ - Y_;
 	dZ_ = 0.0;		// this isn't used, since flying isn't allowed
 
-	double len;
+	double len = 0;
 	
 	if (destX_ != X_ || destY_ != Y_) {
 		// normalize dx, dy to unit len
