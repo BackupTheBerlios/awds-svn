@@ -70,16 +70,16 @@ public class GraphicExporter{
   } //of createJPGFile
 
   //--Simple JPG Exporter--//
-  public void createJPGFile(String path, int quality) throws Throwable{
-    float qual = quality / 100.0f;
-    BufferedImage bufImg = new BufferedImage(tg_panel.getWidth(), tg_panel.getHeight(), BufferedImage.TYPE_INT_RGB);
-    tg_panel.createGraphic(bufImg.createGraphics(), true);
-    JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(new FileOutputStream(path));
-    JPEGEncodeParam param = enc.getDefaultJPEGEncodeParam(bufImg);
-    param.setQuality(qual, false);
-    enc.setJPEGEncodeParam(param);
-    enc.encode(bufImg);
-  } //of createJPGFile
+//     public void createJPGFile(String path, int quality) throws Throwable{
+// 	float qual = quality / 100.0f;
+// 	BufferedImage bufImg = new BufferedImage(tg_panel.getWidth(), tg_panel.getHeight(), BufferedImage.TYPE_INT_RGB);
+// 	tg_panel.createGraphic(bufImg.createGraphics(), true);
+// 	JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(new FileOutputStream(path));
+// 	JPEGEncodeParam param = enc.getDefaultJPEGEncodeParam(bufImg);
+//     param.setQuality(qual, false);
+//     enc.setJPEGEncodeParam(param);
+//     enc.encode(bufImg);
+//   } //of createJPGFile
 
   //--Simple PNG Exporter--//
   public void createPNGFile(String path) throws Throwable{

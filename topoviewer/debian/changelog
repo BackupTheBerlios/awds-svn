@@ -1,3 +1,9 @@
+awds-topoviewer (7.5) unstable; urgency=low
+
+  * latest svn version
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Thu, 24 Jan 2008 17:55:23 +0100
+
 awds-topoviewer (0.5) unstable; urgency=low
 
   * fixed awds-topoviewer.sh

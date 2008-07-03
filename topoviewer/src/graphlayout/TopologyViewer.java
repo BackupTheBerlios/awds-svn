@@ -431,7 +431,7 @@ public class TopologyViewer extends JFrame{
               try{
                 if(path.toLowerCase().endsWith(".bmp"))exp.createBMPFile(path);
                 else if(path.toLowerCase().endsWith(".gif"))exp.createGIFFile(path);
-                else if(path.toLowerCase().endsWith(".jpg"))exp.createJPGFile(path, 100);
+                //else if(path.toLowerCase().endsWith(".jpg"))exp.createJPGFile(path, 100);
                 else if(path.toLowerCase().endsWith(".png"))exp.createPNGFile(path);
                 else if(path.toLowerCase().endsWith(".svg"))exp.createSVGFile(path);
               } catch(java.io.IOException eio){

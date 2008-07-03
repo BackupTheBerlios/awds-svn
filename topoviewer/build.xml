@@ -3,8 +3,8 @@
     <path id="classpath">
         <pathelement location="." />
         <pathelement location="build" />
-        <pathelement location="/usr/share/java/batik-all.jar" />
-
+<!--         <pathelement location="/usr/share/java/batik-all.jar" /> -->
+        <pathelement location="batik-1.7/batik.jar" />
     </path>
 
     <taskdef resource="genjar.properties" classpath="./GenJar/GenJar.jar"/>
@@ -31,10 +31,35 @@
 		<class name="org.apache.batik.css.parser.Parser" /> 
 	    
 		<classpath >
-			 <pathelement location="." />
 			 <pathelement location="build" />
-			<pathelement location="/usr/share/java/batik-all.jar" />
-			<pathelement location="/usr/share/java/xercesImpl.jar" />
+<!--  			<pathelement location="/usr/share/java/batik-all.jar" />  -->
+ 			<pathelement location="batik-1.7/batik.jar" /> 
+<pathelement location="batik-1.7/lib/batik-anim.jar" />
+<pathelement location="batik-1.7/lib/batik-awt-util.jar" />
+<pathelement location="batik-1.7/lib/batik-bridge.jar" />
+<pathelement location="batik-1.7/lib/batik-codec.jar" />
+<pathelement location="batik-1.7/lib/batik-css.jar" />
+<pathelement location="batik-1.7/lib/batik-dom.jar" />
+<pathelement location="batik-1.7/lib/batik-extension.jar" />
+<pathelement location="batik-1.7/lib/batik-ext.jar" />
+<pathelement location="batik-1.7/lib/batik-gui-util.jar" />
+<pathelement location="batik-1.7/lib/batik-gvt.jar" />
+<pathelement location="batik-1.7/lib/batik-parser.jar" />
+<pathelement location="batik-1.7/lib/batik-script.jar" />
+<pathelement location="batik-1.7/lib/batik-svg-dom.jar" />
+<pathelement location="batik-1.7/lib/batik-svggen.jar" />
+<pathelement location="batik-1.7/lib/batik-swing.jar" />
+<pathelement location="batik-1.7/lib/batik-transcoder.jar" />
+<pathelement location="batik-1.7/lib/batik-util.jar" />
+<pathelement location="batik-1.7/lib/batik-xml.jar" />
+<pathelement location="batik-1.7/lib/js.jar" />
+<pathelement location="batik-1.7/lib/pdf-transcoder.jar" />
+<pathelement location="batik-1.7/lib/xalan-2.6.0.jar" />
+<pathelement location="batik-1.7/lib/xerces_2_5_0.jar" />
+<pathelement location="batik-1.7/lib/xml-apis-ext.jar" />
+<pathelement location="batik-1.7/lib/xml-apis.jar" />
+
+
 		</classpath>
 		<manifest generateEntryAttributes="no">
 			<attribute name="Main-Class" 
