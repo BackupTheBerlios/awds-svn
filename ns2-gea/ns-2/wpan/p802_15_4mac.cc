@@ -1983,7 +1983,7 @@ void Mac802_15_4::set_trx_state_request(PHYenum state,const char *frFile,const c
 	phy->PLME_SET_TRX_STATE_request(state);
 }
 
-char *taskName[] = {"NONE",
+const char *taskName[] = {"NONE",
 		    "MCPS-DATA.request",
 		    "MLME-ASSOCIATE.request",
 		    "MLME-ASSOCIATE.response",

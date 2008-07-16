@@ -186,7 +186,7 @@ protected:
 
   void display_packet(Packet *pkt); // For debugging.
 
-  void trace_event(char *evType, nsaddr_t daddr, double evTime); 
+  void trace_event(const char *evType, nsaddr_t daddr, double evTime); 
 
   EventTrace * et_; 	//Trace Object for custom Event Traces
 
@@ -332,7 +332,7 @@ int PgmSender::command(int argc, const char*const* argv)
   return (Agent::command(argc, argv));
 }
 
-void PgmSender::trace_event(char *evType, nsaddr_t daddr, double evTime) {
+void PgmSender::trace_event(const char *evType, nsaddr_t daddr, double evTime) {
 
   if (et_ == NULL) return;
   char *wrk = et_->buffer();

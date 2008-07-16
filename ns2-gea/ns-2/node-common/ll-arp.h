@@ -43,8 +43,9 @@
 #ifndef LL_ARP_H
 #define LL_ARP_H
 
-#include "sgi-hashmap.h"
+//#include "sgi-hashmap.h"
 #include <list>
+#include <map>
 
 class NetInterface;
 class Packet;
@@ -78,8 +79,8 @@ private:
 	void sendArpReply (int macAddress, int32_t ipAddress);
 	void sendArpRequest (int32_t ipAddress);
 
-	typedef Sgi::hash_map<int32_t, ArpCacheEntry *> ArpCache;
-	typedef Sgi::hash_map<int32_t, ArpCacheEntry *>::iterator ArpCacheI;
+	typedef std::map<int32_t, ArpCacheEntry *> ArpCache;
+	typedef std::map<int32_t, ArpCacheEntry *>::iterator ArpCacheI;
 	typedef std::list<Packet *> LLPacketQueue;
 	typedef std::list<Packet *>::iterator LLPacketQueueI;
 

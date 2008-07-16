@@ -221,7 +221,7 @@ protected:
 	void PFTdump(const char* id);
 	void ERBdump(const char* id);
 	void LIBdump(const char* id);
-	void trace(char* ptype, int psize, int ilabel, char *op, 
+	void trace(const char* ptype, int psize, int ilabel, const char *op, 
 		   int oiface, int olabel, int ttl);
     
 	// Hash mapping between neighbors and LDP agents

@@ -259,7 +259,7 @@ void gea::ShadowUdpHandle::setup_event(gea::EventHandler::Event e,
     this->e = e;
     this->data = data;
     this->timeout = timeout;
-    this->timeout_timer.resched(static_cast<double>( timeout - AbsTime::now() ) );
+    this->timeout_timer.resched(( timeout - AbsTime::now() ).getSecondsD() );
     
 }
 

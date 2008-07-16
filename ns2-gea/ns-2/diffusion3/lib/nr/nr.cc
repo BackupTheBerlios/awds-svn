@@ -60,9 +60,9 @@ NRSimpleAttributeFactory<float> LatitudeAttr(NRAttribute::LATITUDE_KEY,
 					     NRAttribute::FLOAT32_TYPE);
 NRSimpleAttributeFactory<float> LongitudeAttr(NRAttribute::LONGITUDE_KEY,
 					      NRAttribute::FLOAT32_TYPE);
-NRSimpleAttributeFactory<char *> RouteAttr(NRAttribute::ROUTE_KEY,
+NRSimpleAttributeFactory<const char *> RouteAttr(NRAttribute::ROUTE_KEY,
 					   NRAttribute::STRING_TYPE);
-NRSimpleAttributeFactory<char *> SourceRouteAttr(NRAttribute::SOURCE_ROUTE_KEY,
+NRSimpleAttributeFactory<const char *> SourceRouteAttr(NRAttribute::SOURCE_ROUTE_KEY,
 						 NRAttribute::STRING_TYPE);
 NRSimpleAttributeFactory<void *> ReinforcementAttr(NRAttribute::REINFORCEMENT_KEY, NRAttribute::BLOB_TYPE);
 
@@ -79,8 +79,8 @@ NRSimpleAttributeFactory<int> RmstTsprtCtlAttr(NRAttribute::RMST_TSPRT_CTL_KEY,
 					       NRAttribute::INT32_TYPE);
 NRSimpleAttributeFactory<int> RmstPktsSentAttr(NRAttribute::RMST_PKTS_SENT_KEY,
 					       NRAttribute::INT32_TYPE);
-NRSimpleAttributeFactory<char *> RmstTargetAttr(NRAttribute::RMST_TARGET_KEY,
-						NRAttribute::STRING_TYPE);
+NRSimpleAttributeFactory<const char *> RmstTargetAttr(NRAttribute::RMST_TARGET_KEY,
+						      NRAttribute::STRING_TYPE);
 
 NRAttributeFactory *NRAttributeFactory::first_ = NULL;
 

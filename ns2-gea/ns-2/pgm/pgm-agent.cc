@@ -304,7 +304,7 @@ protected:
 
   void print_stats();
 
-  void trace_event(char *evType, double evTime);
+  void trace_event(const char *evType, double evTime);
 
 #ifdef PGM_DEBUG
   void display_packet(Packet *pkt);
@@ -476,7 +476,7 @@ int PgmAgent::command (int argc, const char*const* argv)
   return (Agent::command(argc, argv));
 }      
 
-void PgmAgent::trace_event(char *evType, double evTime) {
+void PgmAgent::trace_event(const char *evType, double evTime) {
 
   if (et_ == NULL) return;
   char *wrk = et_->buffer();

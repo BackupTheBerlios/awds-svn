@@ -161,7 +161,7 @@ class PushbackEvent {
     next_=event;
   }
 
-  static char * type(PushbackEvent * event) {
+  static const char * type(PushbackEvent * event) {
     switch (event->eventID_) {
     case PUSHBACK_CHECK_EVENT: return "CHECK";
     case PUSHBACK_REFRESH_EVENT: return "REFRESH";

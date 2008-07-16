@@ -86,7 +86,7 @@ void TagFilter::ProcessMessage(Message *msg)
   const char *original_route;
   char *new_route;
   int len, total_len;
-  NRSimpleAttribute<char *> *route = NULL;
+  NRSimpleAttribute<const char *> *route = NULL;
 
   // Can't do anything if node id unknown
   if (!id_)

@@ -107,7 +107,7 @@ namespace gea {
 	
 	{
 	    this->handler_ = eh;
-	    this->time_ = static_cast<double>(timeout - gea::AbsTime::t0());
+	    this->time_ = (timeout - gea::AbsTime::t0()).getSecondsD();
 	}
     
     };

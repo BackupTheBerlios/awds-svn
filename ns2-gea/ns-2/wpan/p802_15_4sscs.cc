@@ -87,7 +87,7 @@ void SSCS802_15_4Timer::handle(Event* e)
 		sscs->startDevice(sscs->t_isCT,sscs->t_isFFD,sscs->t_assoPermit,sscs->t_txBeacon,sscs->t_BO,sscs->t_SO,true);
 }
 
-char *statusName(MACenum status)
+const char *statusName(MACenum status)
 {
 	switch(status)
 	{
@@ -338,7 +338,7 @@ void SSCS802_15_4::MLME_POLL_confirm(MACenum status)
 
 //--------------------------------------------------------------------------
 
-char *sscsTaskName[] = {"NONE",
+const char *sscsTaskName[] = {"NONE",
 			"startPANCoord",
 			"startDevice"};
 void SSCS802_15_4::checkTaskOverflow(UINT_8 task)
@@ -352,7 +352,7 @@ void SSCS802_15_4::checkTaskOverflow(UINT_8 task)
 		sscsTaskP.taskStep(task) = 0;
 }
 
-void SSCS802_15_4::dispatch(MACenum status,char *frFunc)
+void SSCS802_15_4::dispatch(MACenum status,const char *frFunc)
 {
 	if (strcmp(frFunc,"MLME_SCAN_confirm") == 0)
 	{

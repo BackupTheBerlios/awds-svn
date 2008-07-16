@@ -52,7 +52,7 @@
 #define COUNTER_KEY 3601
 #define TIME_KEY    3602
 
-extern NRSimpleAttributeFactory<char *> GearTargetAttr;
+extern NRSimpleAttributeFactory<const char *> GearTargetAttr;
 extern NRSimpleAttributeFactory<int> GearCounterAttr;
 extern NRSimpleAttributeFactory<void *> GearTimeAttr;
 

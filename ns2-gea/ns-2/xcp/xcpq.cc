@@ -407,7 +407,7 @@ void XCPTimer::expire(Event *) {
 }
 
 
-void XCPQueue::trace_var(char * var_name, double var)
+void XCPQueue::trace_var(const char * var_name, double var)
 {
 	char wrk[500];
 	double now = Scheduler::instance().clock();

@@ -93,7 +93,7 @@ int RmstSource::command(int argc, const char*const* argv)
 
 void RmstSrcReceive::recv(NRAttrVec *data, NR::handle my_handle)
 {
-  NRSimpleAttribute<char*> *rmst_target_attr = NULL;
+  NRSimpleAttribute<const char*> *rmst_target_attr = NULL;
   NRSimpleAttribute<int> *nr_class = NULL;
   NRSimpleAttribute<int> *tsprt_ctl_attr = NULL;
 

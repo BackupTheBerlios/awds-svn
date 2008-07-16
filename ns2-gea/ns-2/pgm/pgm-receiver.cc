@@ -183,7 +183,7 @@ protected:
   void print_stats();
   void display_packet(Packet *pkt); // For debugging.
 
-  void trace_event(char *evType, double evTime);
+  void trace_event(const char *evType, double evTime);
 
   EventTrace * et_;  //Trace Object for Custom Event Trace
 
@@ -346,7 +346,7 @@ int PgmReceiver::command(int argc, const char*const* argv)
   return (Agent::command(argc, argv));
 }
 
-void PgmReceiver::trace_event(char *evType, double evTime) {
+void PgmReceiver::trace_event(const char *evType, double evTime) {
 
   if (et_ == NULL) return;
   char *wrk = et_->buffer();

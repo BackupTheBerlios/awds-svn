@@ -1115,8 +1115,8 @@ int MPLSAddressClassifier::aPathLookup(int FEC,int PHB, int &oIface,
 	return -1;
 }
 
-void MPLSAddressClassifier::trace(char *ptype, int psize, int ilabel, 
-				  char *op, int oiface, int olabel, int ttl)
+void MPLSAddressClassifier::trace(const char *ptype, int psize, int ilabel, 
+				  const char *op, int oiface, int olabel, int ttl)
 {
 	if (trace_mpls_ != 1)
 		return;

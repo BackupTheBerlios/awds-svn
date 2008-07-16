@@ -42,6 +42,6 @@
 
 #include "gear_common.hh"
 
-NRSimpleAttributeFactory<char *> GearTargetAttr(NRAttribute::TARGET_KEY, NRAttribute::STRING_TYPE);
+NRSimpleAttributeFactory<const char *> GearTargetAttr(NRAttribute::TARGET_KEY, NRAttribute::STRING_TYPE);
 NRSimpleAttributeFactory<int> GearCounterAttr(COUNTER_KEY, NRAttribute::INT32_TYPE);
 NRSimpleAttributeFactory<void *> GearTimeAttr(TIME_KEY, NRAttribute::BLOB_TYPE);

@@ -39,6 +39,7 @@
  *
  * Author: Mathieu Lacage <mathieu.lacage@sophia.inria.fr>
  */
+#include <cstdlib>
 
 #include "tcl-net-interface.h"
 #include "simple-net-interface.h"

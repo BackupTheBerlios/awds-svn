@@ -81,7 +81,7 @@ public:
 	}
 } lsRoutingInitializer;
 
-static void ls_error(char* msg) 
+static void ls_error(const char* msg) 
 { 
 	fprintf(stderr, "%s\n", msg);
 	abort();

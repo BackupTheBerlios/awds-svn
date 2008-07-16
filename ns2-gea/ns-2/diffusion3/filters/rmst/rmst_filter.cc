@@ -575,10 +575,10 @@ Rmst* RmstFilter::syncLocalCache (Message *msg)
     }
     // We need to capture the RmstTargetAttr for concantenation on sendMessage.
     if((rmst_ptr->local_source_)||(local_sink_)||(caching_mode_)){
-      NRSimpleAttribute<char *> *rmst_tgt_attr = NULL;
+      NRSimpleAttribute<const char *> *rmst_tgt_attr = NULL;
       rmst_tgt_attr = RmstTargetAttr.find(msg->msg_attr_vec_);
       if (rmst_tgt_attr){
-        char *tmp_str = rmst_tgt_attr->getVal();
+        const char *tmp_str = rmst_tgt_attr->getVal();
         rmst_ptr->target_str_ = new char[strlen(tmp_str)+1];
         strcpy (rmst_ptr->target_str_, tmp_str);
         DiffPrint(DEBUG_IMPORTANT, "  RmstTargetAttr = %s\n", rmst_ptr->target_str_);

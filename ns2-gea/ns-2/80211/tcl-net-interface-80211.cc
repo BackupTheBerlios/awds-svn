@@ -49,6 +49,7 @@
 #include "tcl-net-interface-80211.h"
 #include <iostream>
 #include <sstream>
+#include <cstdlib>
 
 TCL_CONSTRUCTOR (TclNetInterface80211, "TclNetInterface80211");
 TCL_CONSTRUCTOR (TclNetInterfaceConstructor80211, "TclNetInterfaceConstructor80211");
@@ -91,7 +92,7 @@ TclNetInterface80211::command(int argc, const char*const* argv)
 	} else {
 		if (argc == 3) {
 			if (std::string(argv[1]) == "effrate") {
-				int a(atoi(argv[2]));
+				int a=atoi(argv[2]);
 				Tcl &tcl(Tcl::instance());
 				double r(m_interface->getEffectiveRate(a));
 				tcl.resultf("%g",r);

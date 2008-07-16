@@ -42,6 +42,6 @@
 
 #include "ping.hh"
 
-NRSimpleAttributeFactory<char *> TargetAttr(NRAttribute::TARGET_KEY, NRAttribute::STRING_TYPE);
+NRSimpleAttributeFactory<const char *> TargetAttr(NRAttribute::TARGET_KEY, NRAttribute::STRING_TYPE);
 NRSimpleAttributeFactory<int> AppCounterAttr(COUNTER_KEY, NRAttribute::INT32_TYPE);
 NRSimpleAttributeFactory<void *> TimeAttr(TIME_KEY, NRAttribute::BLOB_TYPE);

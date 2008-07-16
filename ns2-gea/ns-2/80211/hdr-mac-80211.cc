@@ -627,10 +627,10 @@ getTypeString (Packet *packet)
 	}
 }
 
-char const *
+const char  *
 getAcString (Packet *packet)
 {
-	char *str;
+	const char *str;
        	switch (getAC (packet)) {
 	case AC_BK:
 		str = "AC_BK";

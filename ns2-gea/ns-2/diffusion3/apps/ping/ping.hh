@@ -52,7 +52,7 @@
 #define COUNTER_KEY 3601
 #define TIME_KEY    3602
 
-extern NRSimpleAttributeFactory<char *> TargetAttr;
+extern NRSimpleAttributeFactory<const char *> TargetAttr;
 extern NRSimpleAttributeFactory<int> AppCounterAttr;
 extern NRSimpleAttributeFactory<void *> TimeAttr;
 

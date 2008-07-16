@@ -333,8 +333,8 @@ extern NRSimpleAttributeFactory<int> NRSubscriptionAttr;
 extern NRSimpleAttributeFactory<void *> NRFlowAttr;
 extern NRSimpleAttributeFactory<float> LatitudeAttr;
 extern NRSimpleAttributeFactory<float> LongitudeAttr;
-extern NRSimpleAttributeFactory<char *> RouteAttr;
-extern NRSimpleAttributeFactory<char *> SourceRouteAttr;
+extern NRSimpleAttributeFactory<const char *> RouteAttr;
+extern NRSimpleAttributeFactory<const char *> SourceRouteAttr;
 extern NRSimpleAttributeFactory<void *> ReinforcementAttr;
 
 /*
@@ -348,7 +348,7 @@ extern NRSimpleAttributeFactory<int> RmstMaxFragAttr;
 extern NRSimpleAttributeFactory<void *> RmstDataAttr;
 extern NRSimpleAttributeFactory<int> RmstTsprtCtlAttr;
 extern NRSimpleAttributeFactory<int> RmstPktsSentAttr;
-extern NRSimpleAttributeFactory<char *> RmstTargetAttr;
+extern NRSimpleAttributeFactory<const char *> RmstTargetAttr;
 
 /* Defines for RmstTsprtCtlAttr */
 #define RMST_RESP 1   // Normal fragment message

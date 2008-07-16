@@ -91,10 +91,11 @@ void SrcRtFilter::recv(Message *msg, handle h)
 
 Message * SrcRtFilter::ProcessMessage(Message *msg)
 {
-  char *original_route, *new_route, *p;
+  const char *original_route;
+  char  *new_route, *p;
   int len;
   int32_t next_hop;
-  NRSimpleAttribute<char *> *route = NULL;
+  NRSimpleAttribute<const char *> *route = NULL;
 
   route = SourceRouteAttr.find(msg->msg_attr_vec_);
   if (!route){
