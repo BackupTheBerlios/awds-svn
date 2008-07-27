@@ -4,29 +4,21 @@
 # Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
 
-build: awds-topoviewer.jar
+build: lib/topoviewer.jar
 
-awds-topoviewer.jar:
+lib/topoviewer.jar:
+	ant
 
-	javac \
-	-source 1.4 -target 1.4 \
-	-classpath /usr/share/java/batik.jar:/usr/share/java/batik-libs.jar \
-	 -d . src/graphlayout/*.java src/graphlayout/*/*.java
-	jar cvmf Manifest.txt $@ graphlayout/
 
 clean:
-	dh_testdir
-	make mrproper
-	rm -f debian/files
-	find . -name "*.class" -exec rm -f {} \;
-	rm -f awds-topoviewer.jar 
+	rm -rf lib/
 
 install: build
 	dh_testdir
 	dh_testroot
 	dh_clean -k 
 	dh_installdirs
-	cp awds-topoviewer.jar debian/awds-topoviewer/usr/share/java
+	cp lib/topoviewer.jar debian/awds-topoviewer/usr/share/java/awds-topoviewer.jar
 	cp debian/awds-topoviewer.sh debian/awds-topoviewer/usr/bin/awds-topoviewer
 	chmod 755 debian/awds-topoviewer/usr/bin/awds-topoviewer
 
