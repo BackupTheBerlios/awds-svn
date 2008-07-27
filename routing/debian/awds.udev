@@ -1,3 +1,0 @@
-
-ACTION=="?*", SUBSYSTEM=="net", ENV{INTERFACE}=="?*", RUN+="/etc/init.d/awds hotplug"
-

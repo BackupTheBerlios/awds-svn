@@ -1,4 +1,0 @@
-
-ACTION=="add", SUBSYSTEM=="net", ENV{INTERFACE}=="awds0", RUN+="/usr/sbin/brctl addif br0 awds0"
-
-
