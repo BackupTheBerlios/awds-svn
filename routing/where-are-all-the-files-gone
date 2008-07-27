@@ -1,8 +1,7 @@
-
-The AWDS development has switched from using SVN for managing the source
-to an better alternative - git. We have deleted all files to avoid confusion.
+The AWDS developers do not use SVN anymore for the routing protocol.
+We use GIT instead. We have deleted all files from the SVN repository 
+to avoid confusion.
 
 If required, you can grab the old sources by digging in the SVN history. 
 
 For a list of git repositories, have a look in the corresponding file.
-
