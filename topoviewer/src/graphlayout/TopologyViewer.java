@@ -63,76 +63,47 @@ public class TopologyViewer extends JFrame{
 
     //--fictive panel--//
     JPanel below = new JPanel();
-    below.setFont(STD_FONT);
     below.setLayout(new BorderLayout(0, 0));
-    below.setBackground(BACKGROUND);
-    below.setForeground(FOREGROUND);
     frame.add(below, BorderLayout.SOUTH);
 
     //--build control panel--//
     JPanel control = new JPanel();
-    control.setFont(STD_FONT);
     control.setLayout(new GridLayout(1, 3, 15, 10));
-    control.setBackground(BACKGROUND);
-    control.setForeground(FOREGROUND);
     //frame.add(control, BorderLayout.SOUTH);
     below.add(control, BorderLayout.CENTER);
     
     JGroupBox gpb_rot = new JGroupBox();
-    gpb_rot.setFont(STD_FONT);
     gpb_rot.setLayout(new GridLayout(3, 1, 15, 10));
-    gpb_rot.setBackground(BACKGROUND);
-    gpb_rot.setForeground(FOREGROUND);
     control.add(gpb_rot);
     
     JLabel lbl_rot = new JLabel("Rotate", JLabel.CENTER);
     lbl_rot.setFont(new Font("Arial", Font.BOLD, 12));
-    lbl_rot.setBackground(BACKGROUND);
-    lbl_rot.setForeground(FOREGROUND);
     gpb_rot.add(lbl_rot); 
     
     final JSlider sld_rot = new JSlider(-180, 180);
-    sld_rot.setBackground(BACKGROUND);
-    sld_rot.setForeground(FOREGROUND);
     gpb_rot.add(sld_rot);
     final RotateScroll rotatebar = new RotateScroll(tg_panel, sld_rot, 0);
 
     final JLabel lbl_dis_rot = new JLabel("0", JLabel.CENTER);
-    lbl_dis_rot.setFont(STD_FONT);
-    lbl_dis_rot.setBackground(BACKGROUND);
-    lbl_dis_rot.setForeground(FOREGROUND);
     gpb_rot.add(lbl_dis_rot);
 
     JGroupBox gpb_zoom = new JGroupBox();
-    gpb_zoom.setFont(STD_FONT);
     gpb_zoom.setLayout(new GridLayout(3, 1, 15, 10));
-    gpb_zoom.setBackground(BACKGROUND);
-    gpb_zoom.setForeground(FOREGROUND);
     control.add(gpb_zoom);
 
     JLabel lbl_zoom = new JLabel("Zoom", JLabel.CENTER);
     lbl_zoom.setFont(new Font("Arial", Font.BOLD, 12));
-    lbl_zoom.setBackground(BACKGROUND);
-    lbl_zoom.setForeground(FOREGROUND);
     gpb_zoom.add(lbl_zoom);
 
     final JSlider sld_zoom = new JSlider(-31, 19);
-    sld_zoom.setBackground(BACKGROUND);
-    sld_zoom.setForeground(FOREGROUND);
     sld_zoom.setValue(0);
     gpb_zoom.add(sld_zoom);
     final ZoomScroll zoombar = new ZoomScroll(tg_panel, sld_zoom, 1.0);
 
     final JLabel lbl_dis_zoom = new JLabel("20.00 pxpm", JLabel.CENTER);
-    lbl_dis_zoom.setFont(STD_FONT);
-    lbl_dis_zoom.setBackground(BACKGROUND);
-    lbl_dis_zoom.setForeground(FOREGROUND);
     gpb_zoom.add(lbl_dis_zoom);
 
     JPanel fill = new JPanel();
-    fill.setFont(STD_FONT);
-    fill.setBackground(BACKGROUND);
-    fill.setForeground(FOREGROUND);
     control.add(fill);
 
     ChangeListener slideListener = new ChangeListener(){
@@ -167,9 +138,6 @@ public class TopologyViewer extends JFrame{
 
     //--build statusbar--//
     JTopoStatusBar statusBar = new JTopoStatusBar();
-    statusBar.setFont(STD_FONT);
-    statusBar.setBackground(BACKGROUND);
-    statusBar.setForeground(FOREGROUND);
     below.add(statusBar, BorderLayout.SOUTH);
 
     //--build main menu--//
@@ -269,47 +237,29 @@ public class TopologyViewer extends JFrame{
               setResizable(false);
               Container dialog = getContentPane();
               dialog.setLayout(null);
-              dialog.setBackground(BACKGROUND);
-              dialog.setForeground(FOREGROUND);
 
               JGroupBox groupbox = new JGroupBox();
-              groupbox.setFont(STD_FONT);
               groupbox.setLayout(null);
-              groupbox.setBackground(BACKGROUND);
-              groupbox.setForeground(FOREGROUND);
               groupbox.setBounds(15, 10, 270, 105);
               dialog.add(groupbox);
 
               JLabel label = new JLabel("Host:");
-              label.setFont(new Font("Arial", Font.BOLD, 12));
-              label.setBackground(BACKGROUND);
-              label.setForeground(FOREGROUND);
               label.setBounds(20, 15, 65, 15);
               groupbox.add(label);
 
               label = new JLabel("Port:");
-              label.setFont(new Font("Arial", Font.BOLD, 12));
-              label.setBackground(BACKGROUND);
-              label.setForeground(FOREGROUND);
               label.setBounds(20, 45, 65, 15);
               groupbox.add(label);
 
               label = new JLabel("Reconnect:");
-              label.setFont(new Font("Arial", Font.BOLD, 12));
-              label.setBackground(BACKGROUND);
-              label.setForeground(FOREGROUND);
               label.setBounds(20, 75, 65, 15);
               groupbox.add(label);
 
               reconnect_field = new JCheckBox("", reconnect);
-              reconnect_field.setFont(STD_FONT);
-              reconnect_field.setBackground(BACKGROUND);
-              reconnect_field.setForeground(FOREGROUND);
               reconnect_field.setBounds(90, 75, 20, 15);
               groupbox.add(reconnect_field);
 
               host_field = new JTextField(host);
-              host_field.setFont(STD_FONT);
               host_field.setBounds(95, 14, 155, 17);
 	      host_field.addActionListener(this);
 
@@ -321,18 +271,12 @@ public class TopologyViewer extends JFrame{
               groupbox.add(port_field);
 
               ok = new JButton("Ok");
-              ok.setFont(STD_FONT);
-              ok.setBackground(BACKGROUND);
-              ok.setForeground(FOREGROUND);
               ok.setBounds(50, 130, 75, 30);
               ok.setMnemonic('O');
               ok.addActionListener(this);
               dialog.add(ok);
 
               cancel = new JButton("Cancel");
-              cancel.setFont(STD_FONT);
-              cancel.setBackground(BACKGROUND);
-              cancel.setForeground(FOREGROUND);
               cancel.setBounds(175, 130, 75, 30);
               cancel.setMnemonic('C');
               cancel.addActionListener(this);
@@ -471,13 +415,9 @@ public class TopologyViewer extends JFrame{
               setResizable(false);
               Container dialog = getContentPane();
               dialog.setLayout(null);
-              dialog.setBackground(BACKGROUND);
-              dialog.setForeground(FOREGROUND);
 
               JLabel label = new JLabel("Topology-Viewer " + VERSION, JLabel.CENTER);
               label.setFont(new Font("Arial", Font.BOLD, 14));
-              label.setBackground(BACKGROUND);
-              label.setForeground(FOREGROUND);
               label.setBounds(20, 30, 360, 15);
               dialog.add(label);
               for(int i=0; i<info.length; i++){
@@ -490,10 +430,7 @@ public class TopologyViewer extends JFrame{
               } //of for
 
               button = new JButton("Exit");
-              button.setFont(STD_FONT);
-              button.setBackground(BACKGROUND);
-              button.setForeground(FOREGROUND);
-              button.setBounds(150, 230, 100, 30);
+	      button.setBounds(150, 230, 100, 30);
               button.setMnemonic('E');
               button.addActionListener(this);
               dialog.add(button);
@@ -517,81 +454,49 @@ public class TopologyViewer extends JFrame{
     
     //--construct the menu--//  
     JMenuBar menubar = new JMenuBar();
-    menubar.setBackground(BACKGROUND);
-    menubar.setForeground(FOREGROUND);
-    menubar.setOpaque(true);
+
+    //   menubar.setOpaque(true);
     
     JMenu menu = new JMenu("File");
-    menu.setFont(STD_FONT);
     menu.setMnemonic('F');
-    menu.setBackground(BACKGROUND);
-    menu.setForeground(FOREGROUND);
-    menu.setOpaque(true);
     
     JMenuItem item = new JMenuItem(menu_text[0]);
-    item.setFont(STD_FONT);
-    item.setBackground(BACKGROUND);
-    item.setForeground(FOREGROUND);
-    item.setOpaque(true);
     item.addActionListener(menuAction);
     item.setAccelerator(KeyStroke.getKeyStroke('S', Event.CTRL_MASK));
     menu.add(item);
 
     item = new JMenuItem(menu_text[1]);
-    item.setFont(STD_FONT);
-    item.setBackground(BACKGROUND);
-    item.setForeground(FOREGROUND);
-    item.setOpaque(true);
     item.addActionListener(menuAction);
     item.setAccelerator(KeyStroke.getKeyStroke('L', Event.CTRL_MASK));
     menu.add(item);
 
     item = new JMenuItem(menu_text[2]);
-    item.setFont(STD_FONT);
-    item.setBackground(BACKGROUND);
-    item.setForeground(FOREGROUND);
-    item.setOpaque(true);
     item.addActionListener(menuAction);
     item.setAccelerator(KeyStroke.getKeyStroke('H', Event.CTRL_MASK));
     menu.add(item);
 
     JSeparator separ = new JSeparator();
-    separ.setOpaque(true);
     menu.add(separ);
 
     item = new JMenuItem(menu_text[3]);
-    item.setFont(STD_FONT);
-    item.setBackground(BACKGROUND);
-    item.setForeground(FOREGROUND);
-    item.setOpaque(true);
     item.addActionListener(menuAction);
     item.setAccelerator(KeyStroke.getKeyStroke('P', Event.CTRL_MASK));
     menu.add(item);
 
     separ = new JSeparator();
-    separ.setOpaque(true);
     menu.add(separ);
 
     map_item = new JMenuItem(menu_text[4]);
-    map_item.setFont(STD_FONT);
     map_item.setEnabled(false);
-    map_item.setBackground(BACKGROUND);
-    map_item.setForeground(FOREGROUND);
-    map_item.setOpaque(true);
     map_item.addActionListener(menuAction);
     map_item.setAccelerator(KeyStroke.getKeyStroke('M', Event.CTRL_MASK));
     menu.add(map_item);
     
     separ = new JSeparator();
-    separ.setOpaque(true);
     menu.add(separ);
 
     exp_item = new JMenuItem(menu_text[5]);
-    exp_item.setFont(STD_FONT);
     exp_item.setEnabled(false);
-    exp_item.setBackground(BACKGROUND);
-    exp_item.setForeground(FOREGROUND);
-    exp_item.setOpaque(true);
     exp_item.addActionListener(menuAction);
     exp_item.setAccelerator(KeyStroke.getKeyStroke('E', Event.CTRL_MASK));
     menu.add(exp_item);    
@@ -601,10 +506,7 @@ public class TopologyViewer extends JFrame{
     menu.add(separ);
 
     item = new JMenuItem(menu_text[6]);
-    item.setFont(STD_FONT);
-    item.setBackground(BACKGROUND);
-    item.setForeground(FOREGROUND);
-    item.setOpaque(true);
+  
     item.addActionListener(menuAction);
     //item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, Event.ALT_MASK));
     item.setAccelerator(KeyStroke.getKeyStroke('Q', Event.CTRL_MASK));
@@ -613,26 +515,14 @@ public class TopologyViewer extends JFrame{
     menubar.add(menu);    
 
     menu = new JMenu("View");
-    menu.setFont(STD_FONT);
     menu.setMnemonic('V');
-    menu.setBackground(BACKGROUND);
-    menu.setForeground(FOREGROUND);
-    menu.setOpaque(true);
 
     item = new JMenuItem(menu_text[7]);
-    item.setFont(STD_FONT);
-    item.setBackground(BACKGROUND);
-    item.setForeground(FOREGROUND);
-    item.setOpaque(true);
     item.addActionListener(menuAction);
     item.setAccelerator(KeyStroke.getKeyStroke('V', Event.CTRL_MASK));
     menu.add(item);
 
     item = new JMenuItem(menu_text[8]);
-    item.setFont(STD_FONT);
-    item.setBackground(BACKGROUND);
-    item.setForeground(FOREGROUND);
-    item.setOpaque(true);
     item.addActionListener(menuAction);
     item.setAccelerator(KeyStroke.getKeyStroke('C', Event.CTRL_MASK));
     menu.add(item);
@@ -640,17 +530,9 @@ public class TopologyViewer extends JFrame{
     menubar.add(menu);
 
     menu = new JMenu("Info");
-    menu.setFont(STD_FONT);
     menu.setMnemonic('I');
-    menu.setBackground(BACKGROUND);
-    menu.setForeground(FOREGROUND);
-    menu.setOpaque(true);
 
     item = new JMenuItem(menu_text[9]);
-    item.setFont(STD_FONT);
-    item.setBackground(BACKGROUND);
-    item.setForeground(FOREGROUND);
-    item.setOpaque(true);
     item.addActionListener(menuAction);
     item.setAccelerator(KeyStroke.getKeyStroke('A', Event.CTRL_MASK));
     menu.add(item);

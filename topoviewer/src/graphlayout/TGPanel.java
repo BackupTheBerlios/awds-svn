@@ -1,3 +1,4 @@
+
 /*
  * TouchGraph LLC. Apache-Style Software License
  *
@@ -775,40 +776,6 @@ public class TGPanel extends JSVGCanvas{
             mousePos = e.getPoint();
             synchronized(this) {
                 findMouseOver();
-                //if((oldMouseOverE != mouseOverE)||(oldMouseOverN != mouseOverN)){
-                //    //System.out.println("DEBUG: TGPanel.mouseMoved");
-                //    if(mouseOverN != null)System.out.println("Partition-ID from Node " +
-                //      mouseOverN.getLabel() + " is " + mouseOverN.getPartID());
-                //    repaint();
-                //} //of if
-                // Replace the above lines with the commented portion below to prevent whole graph
-                // from being repainted simply to highlight a node On mouseOver.
-                // This causes some annoying flickering though.
-                /*
-                if(oldMouseOverE!=mouseOverE) {
-                    if (oldMouseOverE!=null) {
-                        synchronized(oldMouseOverE) {
-                            oldMouseOverE.paint(TGPanel.this.getGraphics(),TGPanel.this);
-                            oldMouseOverE.from.paint(TGPanel.this.getGraphics(),TGPanel.this);
-                            oldMouseOverE.to.paint(TGPanel.this.getGraphics(),TGPanel.this);
-
-                        }
-                    }
-
-                    if (mouseOverE!=null) {
-                        synchronized(mouseOverE) {
-                            mouseOverE.paint(TGPanel.this.getGraphics(),TGPanel.this);
-                            mouseOverE.from.paint(TGPanel.this.getGraphics(),TGPanel.this);
-                            mouseOverE.to.paint(TGPanel.this.getGraphics(),TGPanel.this);
-                        }
-                    }
-                }
-
-                if(oldMouseOverN!=mouseOverN) {
-                    if (oldMouseOverN!=null) oldMouseOverN.paint(TGPanel.this.getGraphics(),TGPanel.this);
-                    if (mouseOverN!=null) mouseOverN.paint(TGPanel.this.getGraphics(),TGPanel.this);
-                }
-                */
             }
         }
     }
@@ -956,21 +923,6 @@ public class TGPanel extends JSVGCanvas{
       setPaintingTransform(paintTrans);
       renderer.startWaiting(RENDER_TIME, renTrans);
 
-/*
-      AffineTransform affTrans = new AffineTransform();
-      //affTrans.rotate(alpha, 0.5 * getWidth(), 0.5 * getHeight());
-      affTrans.translate(dx, dy);
-      //affTrans.rotate(-alpha, 0.5 * getWidth(), 0.5 * getHeight());
-      affTrans.concatenate(paintTrans);
-
-      AffineTransform renTrans = new AffineTransform(affTrans);
-      renTrans.concatenate(invTrans);
-
-      paintTrans = affTrans;
-
-      setPaintingTransform(renTrans);
-      renderer.startWaiting(RENDER_TIME, paintTrans);
-*/
     } //of if
     repaint();
   } //of repaintAfterMoveBackground
@@ -998,27 +950,6 @@ public class TGPanel extends JSVGCanvas{
       setPaintingTransform(paintTrans);
       renderer.startWaiting(RENDER_TIME, renTrans);
 
-/*
-      AffineTransform affTrans = new AffineTransform();
-      affTrans.rotate(alpha, getWidth() / 2, getHeight() / 2);
-      affTrans.translate(delta * trans_x, delta * trans_y);
-      affTrans.translate(offset * map_w, offset * map_h);
-      affTrans.translate(-trans_x, -trans_y);
-      affTrans.rotate(-alpha, getWidth() / 2, getHeight() / 2);
-      affTrans.concatenate(paintTrans);
-      affTrans.scale(delta, delta);
-
-      AffineTransform renTrans = new AffineTransform(affTrans);
-      renTrans.concatenate(invTrans);
-
-      paintTrans = affTrans;
-
-      setPaintingTransform(renTrans);
-      renderer.startWaiting(RENDER_TIME, paintTrans);
-
-      trans_x *= delta;
-      trans_y *= delta;
-*/
     } //of if
     repaint();
   } //of repaintAfterZoomBackground
