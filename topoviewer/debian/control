@@ -2,12 +2,12 @@ Source: awds-topoviewer
 Section: net
 Priority: optional
 Maintainer: Andre Herms <aherms@ivs.cs.uni-magdeburg.de>
-Build-Depends: debhelper (>= 4.2.32), java2-compiler, ant
+Build-Depends: debhelper (>= 4.2.32), openjdk-6-jdk|sun-java5-jdk|sun-java6-jdk|java5-jdk|java6-jdk, ant
 Standards-Version: 3.7.2
 
 Package: awds-topoviewer
 Architecture: all
-Depends: lsb-base (>= 3.0-6), java2-runtime
+Depends: lsb-base (>= 3.0-6), sun-java5-jre|sun-java6-jre|java5-runtime|java6-runtime
 Description: A topology viewer for the AWDS mesh routing
  This package contains the topology viewer for the AWDS wireless
  mesh routing. It is a java application based on the Touchgraph library, 

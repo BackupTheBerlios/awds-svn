@@ -9,7 +9,6 @@ build: lib/topoviewer.jar
 lib/topoviewer.jar:
 	ant
 
-
 clean:
 	rm -rf lib/
 
@@ -24,6 +23,7 @@ install: build
 
 # Build architecture-independent files here.
 binary-indep: build install
+	rm debian/files
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs 
@@ -42,8 +42,8 @@ binary-indep: build install
 #	dh_installman doc/start_awds.8
 #	dh_link
 #	dh_strip
-#	dh_compress
-#	dh_fixperms
+	dh_compress
+	dh_fixperms
 #	dh_perl
 #	dh_python
 #	dh_makeshlibs

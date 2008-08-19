@@ -9,7 +9,7 @@ import javax.swing.event.*;
 import graphlayout.interaction.*;
 
 public class TopologyViewer extends JFrame{
-  public static String VERSION = "v0.7.5";                         //revision of this program
+  public static String VERSION = "v0.7.6";                         //revision of this program
   public static Font STD_FONT = new Font("Arial", Font.PLAIN, 12); //standard font
   public static Color BACKGROUND = Color.LIGHT_GRAY;               //standard backround
   public static Color FOREGROUND = Color.BLACK;                    //standard foreground
@@ -311,8 +311,10 @@ public class TopologyViewer extends JFrame{
               host_field = new JTextField(host);
               host_field.setFont(STD_FONT);
               host_field.setBounds(95, 14, 155, 17);
-              groupbox.add(host_field);
+	      host_field.addActionListener(this);
 
+	      groupbox.add(host_field);
+	      
               port_field = new JTextField("" + port);
               port_field.setFont(STD_FONT);
               port_field.setBounds(95, 44, 155, 17);
@@ -349,7 +351,7 @@ public class TopologyViewer extends JFrame{
             } //of isAccepted
 
             public void actionPerformed(ActionEvent e){
-              if(e.getSource() == ok){
+		if(e.getSource() == ok || e.getSource() == host_field){
                 reconnect = reconnect_field.isSelected();
                 host = host_field.getText();
                 try{
