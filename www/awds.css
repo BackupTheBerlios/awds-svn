@@ -1,16 +1,16 @@
 
 
-tt.cmdline {
-    background-color : #000000;
-    color : #EEEEEE;
+.cmdline {
+    background-color : #b0b0b0;
+    color : #000000;
+    padding: 4px;
+    font-family: monospace;
   }
 
-
-td.cmdline {
-    background-color : #000000;
-    color : #EEEEEE;
+pre.cmdline {
+    margin-left: 3%;
+    width: auto;
   }
-
 
 body {
     background-color : white;
@@ -50,28 +50,16 @@ div.news h4 {
 
 div.news p {
     background-color : #FFFFFF;
-    border-bottom-style : solid;
-    border-bottom-width : 4px;
-    border-left-style : solid;
-    border-left-width : 4px;
-    border-right-style : solid;
-    border-right-width : 4px;
-    border-top-style : solid;
-    border-top-width : 4px;
+    border-style : solid;
+    border-width : 4px;
     border-color:#888888;
     margin-top : 0px;
  padding:1ex;
   }
 div.newsentry {
     background-color : #FFFFFF;
-    border-bottom-style : solid;
-    border-bottom-width : 4px;
-    border-left-style : solid;
-    border-left-width : 4px;
-    border-right-style : solid;
-    border-right-width : 4px;
-    border-top-style : solid;
-    border-top-width : 4px;
+    border-style : solid;
+    border-width : 4px;
     border-color:#888888;
     margin-top : 0px;
  padding:1ex;
@@ -95,10 +83,7 @@ h1,h2 {
 
 h1 {
     background-color : #eeeeff;
-    border-bottom-color : #9090b0;
-    border-left-color : #9090b0;
-    border-right-color : #9090b0;
-    border-top-color : #9090b0;
+    border-color : #9090b0;
     padding-bottom : 0.2em;
     padding-left : 0.4em;
     padding-right : 0.2em;
@@ -145,7 +130,7 @@ a:active {
   }
 
 
-Worka:visited {
+a:visited {
     color: #0000ff;
   }
 
