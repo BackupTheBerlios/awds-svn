@@ -62,6 +62,20 @@ div.news p {
     margin-top : 0px;
  padding:1ex;
   }
+div.newsentry {
+    background-color : #FFFFFF;
+    border-bottom-style : solid;
+    border-bottom-width : 4px;
+    border-left-style : solid;
+    border-left-width : 4px;
+    border-right-style : solid;
+    border-right-width : 4px;
+    border-top-style : solid;
+    border-top-width : 4px;
+    border-color:#888888;
+    margin-top : 0px;
+ padding:1ex;
+  }
 
 div.about h4 {
     background-color : #8080a9;
