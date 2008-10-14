@@ -20,7 +20,8 @@ while read tmp file comment; do
     identify $d/thumb-$f | cut -d" " -f 3 | cut -dx -f1 | (read a; echo -n $a)
     echo -n '" height="' 
     identify $d/thumb-$f | cut -d" " -f 3 | cut -dx -f2 | (read a; echo -n $a)
-    echo '" alt="'$comment'" /><br /> '$comment'</a></p>'
+    alt=$(echo "$comment" | sed 's/<[^>]*>//g')
+    echo '" alt="'$alt'" /><br /> '$comment'</a></p>'
 
 done
 
